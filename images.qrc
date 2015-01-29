@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>openfile.png</file>
+        <file>openfolder.png</file>
+        <file>save.png</file>
+        <file>multipletagging.png</file>
+        <file>copytags.png</file>
+        <file>createalbum.png</file>
+        <file>info.png</file>
+    </qresource>
+</RCC>
