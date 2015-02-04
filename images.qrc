@@ -7,5 +7,6 @@
         <file>copytags.png</file>
         <file>createalbum.png</file>
         <file>info.png</file>
+        <file>settings.png</file>
     </qresource>
 </RCC>

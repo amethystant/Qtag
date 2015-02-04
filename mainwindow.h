@@ -2,6 +2,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QList>
+#include <QFileDialog>
+#include <QTableWidgetItem>
+#include <QTreeWidgetItem>
+#include <QStringList>
+#include <QDir>
+
+#include "audiofile.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +25,13 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QList<AudioFile*> listOfFiles;
+    void updateViews();
+    bool isFileOnList(QString path);
+
+public slots:
+    void openFile();
+    void openFolder();
 
 };
 
