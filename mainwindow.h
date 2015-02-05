@@ -8,6 +8,7 @@
 #include <QTreeWidgetItem>
 #include <QStringList>
 #include <QDir>
+#include <QResizeEvent>
 
 #include "audiofile.h"
 

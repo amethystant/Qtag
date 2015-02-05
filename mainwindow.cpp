@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     ui->treeWidget->setColumnCount(1);
+
     QObject::connect(ui->actionOpenFile, SIGNAL(triggered()), this, SLOT(openFile()));
     QObject::connect(ui->actionOpenFolder, SIGNAL(triggered()), this, SLOT(openFolder()));
 
