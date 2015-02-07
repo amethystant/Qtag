@@ -5,11 +5,14 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow) {
 
+    openedFile = NULL;
     ui->setupUi(this);
-    ui->treeWidget->setColumnCount(1);
+    ui->lineEdit_path->setReadOnly(true);
 
     QObject::connect(ui->actionOpenFile, SIGNAL(triggered()), this, SLOT(openFile()));
     QObject::connect(ui->actionOpenFolder, SIGNAL(triggered()), this, SLOT(openFolder()));
+    QObject::connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
+                     this, SLOT(openInEditor(QTreeWidgetItem*)));
 
 }
 
@@ -28,7 +31,7 @@ void MainWindow::openFile() {
     dialog.setDirectory("/home");
 #endif
     dialog.setNameFilter(
-                tr("Audio files (*.mp3 *.mp4 *.wav *.wave *.flac *.ogg *.wma *.asf *.wv)"));
+                tr("Audio files (*.mp3 *.wav *.wave *.flac *.ogg *.wma *.asf *.wv)"));
     dialog.setViewMode(QFileDialog::Detail);
     dialog.show();
     if(dialog.exec()) {
@@ -64,24 +67,9 @@ typedef struct {
 
 void MainWindow::updateViews() {
 
-    ui->tableWidget->clearContents();
-    ui->tableWidget->setRowCount(listOfFiles.length());
-    ui->tableWidget->setSortingEnabled(false);
-
-    int i;
-    for(i = 0; i < listOfFiles.length(); i++) {
-
-        AudioFile *f = listOfFiles.at(i);
-        QTableWidgetItem *item_path = new QTableWidgetItem(f->getPath().split("/").last());
-        QTableWidgetItem *item_name = new QTableWidgetItem(f->getName());
-        QTableWidgetItem *item_artist = new QTableWidgetItem(f->getArtist());
-        ui->tableWidget->setItem(i, 0, item_path);
-        ui->tableWidget->setItem(i, 1, item_name);
-        ui->tableWidget->setItem(i, 2, item_artist);
-    }
-
     ui->treeWidget->clear();
     QList<Artist> listOfArtists;
+    int i;
     for(i = 0; i < listOfFiles.length(); i++) {
 
         AudioFile *f = listOfFiles.at(i);
@@ -155,6 +143,7 @@ void MainWindow::updateViews() {
                 AudioFile *f = album.listOfFiles.at(i2);
                 QTreeWidgetItem *fileItem = new QTreeWidgetItem();
                 fileItem->setText(0, f->getName());
+                fileItem->setText(1, f->getPath());
 
                 albumItem->addChild(fileItem);
             }
@@ -189,7 +178,6 @@ void MainWindow::openFolder() {
             if((s.endsWith(".mp3", Qt::CaseInsensitive) ||
                           s.endsWith(".flac", Qt::CaseInsensitive) ||
                           s.endsWith(".wav", Qt::CaseInsensitive) ||
-                          s.endsWith(".mp4", Qt::CaseInsensitive) ||
                           s.endsWith(".wv", Qt::CaseInsensitive) ||
                           s.endsWith(".ogg", Qt::CaseInsensitive) ||
                           s.endsWith(".wma", Qt::CaseInsensitive) ||
@@ -215,4 +203,29 @@ bool MainWindow::isFileOnList(QString path) {
     }
 
     return false;
+}
+
+
+void MainWindow::openInEditor(QTreeWidgetItem *file) {
+
+    int i = 0;
+    while(i < listOfFiles.length()) {
+
+        if(file->text(1).compare(listOfFiles.at(i)->getPath()) == 0) {
+            openedFile = listOfFiles.at(i);
+            i = listOfFiles.length();
+        } else {
+            i++;
+        }
+
+    }
+
+    updateEditor();
+
+}
+
+void MainWindow::updateEditor() {
+
+    ui->lineEdit_path->setText(openedFile->getPath());
+
 }

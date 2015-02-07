@@ -3,18 +3,33 @@
 AudioFile::AudioFile(QString path, QObject *parent) : QObject(parent) {
 
     this->path = path;
-    hasApeTag = false;
-    hasAsfTag = false;
-    hasId3v1 = false;
-    hasId3v2 = false;
-    hasXiphComment = false;
-    hasInfoTag = false;
-    hasMp4Tag = false;
+
+    hasFileApeTag = false;
+    hasFileAsfTag = false;
+    hasFileId3v1 = false;
+    hasFileId3v2 = false;
+    hasFileXiphComment = false;
+    hasFileInfoTag = false;
+
+    xiphComment = NULL;
+    id3v1 = NULL;
+    id3v2 = NULL;
+    apeTag = NULL;
+    asfTag = NULL;
+    infoTag = NULL;
+
     open(path);
 
 }
 
 AudioFile::~AudioFile() {
+
+    delete apeTag;
+    delete asfTag;
+    delete infoTag;
+    delete xiphComment;
+    delete id3v1;
+    delete id3v2;
 
 }
 
@@ -24,48 +39,67 @@ void AudioFile::open(QString path) {
     if(path.endsWith(".mp3", Qt::CaseInsensitive)) {
         format = MPEG;
         TagLib::MPEG::File f(fileName);
-        hasId3v1 = f.hasID3v1Tag();
-        hasId3v2 = f.hasID3v2Tag();
-        hasApeTag = f.hasAPETag();
+        hasFileId3v1 = f.hasID3v1Tag();
+        hasFileId3v2 = f.hasID3v2Tag();
+        hasFileApeTag = f.hasAPETag();
+        if(hasFileId3v1)
+            id3v1 = f.ID3v1Tag();
+        if(hasFileId3v2)
+            id3v2 = f.ID3v2Tag();
+        if(hasFileApeTag)
+            apeTag = f.APETag();
 
     } else if(path.endsWith(".flac", Qt::CaseInsensitive)) {
 
         format = FLAC;
         TagLib::FLAC::File f(fileName);
-        hasId3v1 = f.hasID3v1Tag();
-        hasId3v2 = f.hasID3v2Tag();
-        hasXiphComment = f.hasXiphComment();
+        hasFileId3v1 = f.hasID3v1Tag();
+        hasFileId3v2 = f.hasID3v2Tag();
+        hasFileXiphComment = f.hasXiphComment();
+        if(hasFileId3v1)
+            id3v1 = f.ID3v1Tag();
+        if(hasFileId3v2)
+            id3v2 = f.ID3v2Tag();
+        if(hasFileXiphComment)
+            xiphComment = f.xiphComment();
 
     } else if(path.endsWith(".wav", Qt::CaseInsensitive) ||
               path.endsWith(".wave"), Qt::CaseInsensitive) {
 
         format = WAV;
         TagLib::RIFF::WAV::File f(fileName);
-        hasId3v2 = f.hasID3v2Tag();
-        hasInfoTag = f.hasInfoTag();
-
-    } else if(path.endsWith(".mp4", Qt::CaseInsensitive)) {
-
-        format = MP4;
-        hasMp4Tag = true;
+        hasFileId3v2 = f.hasID3v2Tag();
+        hasFileInfoTag = f.hasInfoTag();
+        if(hasFileId3v2)
+            id3v2 = f.ID3v2Tag();
+        if(hasFileInfoTag)
+            infoTag = f.InfoTag();
 
     } else if(path.endsWith(".asf", Qt::CaseInsensitive) ||
               path.endsWith(".wma", Qt::CaseInsensitive)) {
 
         format = ASF;
-        hasAsfTag = true;
+        hasFileAsfTag = true;
+        TagLib::ASF::File f(fileName);
+        asfTag = f.tag();
 
     } else if(path.endsWith(".wv", Qt::CaseInsensitive)) {
 
         format = WavPack;
         TagLib::WavPack::File f(fileName);
-        hasApeTag = f.hasAPETag();
-        hasId3v1 = f.hasID3v1Tag();
+        hasFileApeTag = f.hasAPETag();
+        hasFileId3v1 = f.hasID3v1Tag();
+        if(hasFileApeTag)
+            apeTag = f.APETag();
+        if(hasFileId3v1)
+            id3v1 = f.ID3v1Tag();
 
     } else if(path.endsWith(".ogg", Qt::CaseInsensitive)) {
 
         format = OggVorbis;
-        hasXiphComment = true;
+        hasFileXiphComment = true;
+        TagLib::Ogg::Vorbis::File f(fileName);
+        xiphComment = f.tag();
 
     }
 
@@ -100,4 +134,64 @@ QString AudioFile::getAlbum() {
 
 QString AudioFile::getArtist() {
     return artist;
+}
+
+bool AudioFile::hasApeTag() {
+    return hasFileApeTag;
+}
+
+bool AudioFile::hasAsfTag() {
+    return hasFileAsfTag;
+}
+
+bool AudioFile::hasId3v1() {
+    return hasFileId3v1;
+}
+
+bool AudioFile::hasId3v2() {
+    return hasFileId3v2;
+}
+
+bool AudioFile::hasInfoTag() {
+    return hasFileInfoTag;
+}
+
+bool AudioFile::hasXiphComment() {
+    return hasFileXiphComment;
+}
+
+TagLib::Ogg::XiphComment* AudioFile::getXiphComment() {
+    if(hasFileXiphComment)
+        return xiphComment;
+    return NULL;
+}
+
+TagLib::RIFF::Info::Tag* AudioFile::getInfoTag() {
+    if(hasFileInfoTag)
+        return infoTag;
+    return NULL;
+}
+
+TagLib::ID3v2::Tag* AudioFile::getId3v2() {
+    if(hasFileId3v2)
+        return id3v2;
+    return NULL;
+}
+
+TagLib::ID3v1::Tag* AudioFile::getId3v1() {
+    if(hasFileId3v1)
+        return id3v1;
+    return NULL;
+}
+
+TagLib::ASF::Tag* AudioFile::getAsfTag() {
+    if(hasFileAsfTag)
+        return asfTag;
+    return NULL;
+}
+
+TagLib::APE::Tag* AudioFile::getApeTag() {
+    if(hasFileApeTag)
+        return apeTag;
+    return NULL;
 }

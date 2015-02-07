@@ -8,7 +8,6 @@
 #include <QTreeWidgetItem>
 #include <QStringList>
 #include <QDir>
-#include <QResizeEvent>
 
 #include "audiofile.h"
 
@@ -28,11 +27,14 @@ private:
     Ui::MainWindow *ui;
     QList<AudioFile*> listOfFiles;
     void updateViews();
+    void updateEditor();
     bool isFileOnList(QString path);
+    AudioFile* openedFile;
 
 public slots:
     void openFile();
     void openFolder();
+    void openInEditor(QTreeWidgetItem* file);
 
 };
 

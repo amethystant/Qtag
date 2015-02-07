@@ -8,7 +8,6 @@
 #include <flacfile.h>
 #include <wavfile.h>
 #include <vorbisfile.h>
-#include <mp4file.h>
 #include <asffile.h>
 #include <wavpackfile.h>
 #include <fileref.h>
@@ -19,7 +18,7 @@
 #include <apetag.h>
 
 enum AudioFormat {
-    MPEG, MP4, OggVorbis, FLAC, WAV, ASF, WavPack
+    MPEG, OggVorbis, FLAC, WAV, ASF, WavPack
 };
 
 class AudioFile : public QObject {
@@ -33,25 +32,42 @@ public:
     int getTrack();
     QString getAlbum();
     QString getArtist();
+    bool hasApeTag();
+    bool hasAsfTag();
+    bool hasId3v1();
+    bool hasId3v2();
+    bool hasInfoTag();
+    bool hasXiphComment();
+    TagLib::Ogg::XiphComment* getXiphComment();
+    TagLib::RIFF::Info::Tag* getInfoTag();
+    TagLib::ID3v2::Tag* getId3v2();
+    TagLib::ID3v1::Tag* getId3v1();
+    TagLib::ASF::Tag* getAsfTag();
+    TagLib::APE::Tag* getApeTag();
 
 private:
+    TagLib::Ogg::XiphComment *xiphComment;
+    TagLib::RIFF::Info::Tag *infoTag;
+    TagLib::ID3v2::Tag *id3v2;
+    TagLib::ID3v1::Tag *id3v1;
+    TagLib::ASF::Tag *asfTag;
+    TagLib::APE::Tag *apeTag;
     QString path;
-    bool hasXiphComment;
-    bool hasId3v1;
-    bool hasId3v2;
-    bool hasApeTag;
-    bool hasAsfTag;
-    bool hasInfoTag;
-    bool hasMp4Tag;
+    bool hasFileXiphComment;
+    bool hasFileId3v1;
+    bool hasFileId3v2;
+    bool hasFileApeTag;
+    bool hasFileAsfTag;
+    bool hasFileInfoTag;
     AudioFormat format;
     QString name;
     int track;
     QString album;
     QString artist;
 
-
 public slots:
     void save();
+
 };
 
 #endif // AUDIOFILE_H
