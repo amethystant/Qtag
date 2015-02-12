@@ -1,9 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2015-01-28T17:03:12
-#
-#-------------------------------------------------
-
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -14,10 +8,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    audiofile.cpp
+    audiofile.cpp \
+    tageditorlayout.cpp \
+    tageditor.cpp
 
 HEADERS  += mainwindow.h \
-    audiofile.h
+    audiofile.h \
+    tageditorlayout.h \
+    tageditor.h \
+    main.h
 
 FORMS    += mainwindow.ui
 

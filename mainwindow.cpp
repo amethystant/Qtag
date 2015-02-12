@@ -183,7 +183,7 @@ void MainWindow::openFolder() {
                           s.endsWith(".wma", Qt::CaseInsensitive) ||
                           s.endsWith(".asf", Qt::CaseInsensitive) ||
                           s.endsWith(".wave", Qt::CaseInsensitive) ) && !isFileOnList(s)) {
-                AudioFile *newFile = new AudioFile(s);
+                AudioFile *newFile = new AudioFile(s, this);
                 listOfFiles.append(newFile);
             }
         }
@@ -225,7 +225,6 @@ void MainWindow::openInEditor(QTreeWidgetItem *file) {
 }
 
 void MainWindow::updateEditor() {
-
     ui->lineEdit_path->setText(openedFile->getPath());
-
+    ui->dockWidget_tags->setLayout(openedFile->getEditorLayout());
 }

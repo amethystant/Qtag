@@ -1,13 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QList>
-#include <QFileDialog>
-#include <QTableWidgetItem>
-#include <QTreeWidgetItem>
-#include <QStringList>
-#include <QDir>
+#include <QtWidgets>
+#include <QtCore>
 
 #include "audiofile.h"
 

@@ -16,6 +16,8 @@
 #include <xiphcomment.h>
 #include <asftag.h>
 #include <apetag.h>
+#include "tageditorlayout.h"
+#include "mainwindow.h"
 
 enum AudioFormat {
     MPEG, OggVorbis, FLAC, WAV, ASF, WavPack
@@ -24,7 +26,7 @@ enum AudioFormat {
 class AudioFile : public QObject {
     Q_OBJECT
 public:
-    explicit AudioFile(QString path, QObject *parent = 0);
+    explicit AudioFile(QString path, MainWindow* window);
     ~AudioFile();
     void open(QString path);
     QString getPath();
@@ -44,6 +46,8 @@ public:
     TagLib::ID3v1::Tag* getId3v1();
     TagLib::ASF::Tag* getAsfTag();
     TagLib::APE::Tag* getApeTag();
+    AudioFormat getFormat();
+    TagEditorLayout* getEditorLayout();
 
 private:
     TagLib::Ogg::XiphComment *xiphComment;
@@ -64,6 +68,8 @@ private:
     int track;
     QString album;
     QString artist;
+    TagEditorLayout* editorLayout;
+    MainWindow* window;
 
 public slots:
     void save();

@@ -1,8 +1,9 @@
 #include "audiofile.h"
 
-AudioFile::AudioFile(QString path, QObject *parent) : QObject(parent) {
+AudioFile::AudioFile(QString path, MainWindow *window) : QObject(window) {
 
     this->path = path;
+    this->window = window;
 
     hasFileApeTag = false;
     hasFileAsfTag = false;
@@ -19,6 +20,7 @@ AudioFile::AudioFile(QString path, QObject *parent) : QObject(parent) {
     infoTag = NULL;
 
     open(path);
+    editorLayout = new TagEditorLayout(window, this);
 
 }
 
@@ -194,4 +196,13 @@ TagLib::APE::Tag* AudioFile::getApeTag() {
     if(hasFileApeTag)
         return apeTag;
     return NULL;
+}
+
+AudioFormat AudioFile::getFormat() {
+    return format;
+}
+
+
+TagEditorLayout *AudioFile::getEditorLayout() {
+    return editorLayout;
 }
