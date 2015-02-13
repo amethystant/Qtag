@@ -1,10 +1,11 @@
 #include "tageditor.h"
 
-TagEditor::TagEditor(TagLib::Tag* tag, QString nameOfTag, QWidget *parent) {
+TagEditor::TagEditor(TagLib::FileRef* file, QString nameOfTag, QWidget *parent) {
 
-    this->tag = tag;
+    this->tag = file->tag();
     editorBox = new QGroupBox(parent);
-    nameLabel = new QLabel(nameOfTag, editorBox);
+    editorBox->setTitle(nameOfTag);
+    layout = new QGridLayout(editorBox);
 
     titleLabel = new QLabel("Title:", editorBox);
     titleEdit = new QLineEdit(editorBox);
@@ -34,6 +35,7 @@ TagEditor::TagEditor(TagLib::Tag* tag, QString nameOfTag, QWidget *parent) {
 
     saveButton = new QPushButton("Save tags", editorBox);
     QObject::connect(saveButton, SIGNAL(clicked()), this, SLOT(saveTags()));
+    createLayout();
 
 }
 
@@ -42,5 +44,39 @@ TagEditor::~TagEditor() {
 }
 
 void TagEditor::saveTags() {
+
+    tag->setTitle(titleEdit->text().toStdString());
+    tag->setTrack(trackEdit->text().toInt());
+    tag->setAlbum(albumEdit->text().toStdString());
+    tag->setYear(yearEdit->text().toInt());
+    tag->setArtist(artistEdit->text().toStdString());
+    tag->setComment(commentEdit->text().toStdString());
+    file->save();
+
+}
+
+void TagEditor::createLayout() {
+
+    int i = 0;
+    layout->addWidget(titleLabel, i, 0);
+    layout->addWidget(titleEdit, i, 1);
+    i++;
+    layout->addWidget(trackLabel, i, 0);
+    layout->addWidget(trackEdit, i, 1);
+    i++;
+    layout->addWidget(albumLabel, i, 0);
+    layout->addWidget(albumEdit, i, 1);
+    i++;
+    layout->addWidget(yearLabel, i, 0);
+    layout->addWidget(yearEdit, i, 1);
+    i++;
+    layout->addWidget(artistLabel, i, 0);
+    layout->addWidget(artistEdit, i, 1);
+    i++;
+    layout->addWidget(commentLabel, i, 0);
+    layout->addWidget(commentEdit, i, 1);
+    i++;
+    layout->addWidget(saveButton, i, 3);
+    editorBox->setLayout(layout);
 
 }

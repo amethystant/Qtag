@@ -4,19 +4,21 @@
 #include <QtWidgets>
 #include <tag.h>
 #include "main.h"
+#include <fileref.h>
 
 class TagEditor : public QObject {
 
     Q_OBJECT
 
 public:
-    TagEditor(TagLib::Tag* tag, QString nameOfTag, QWidget* parent);
+    TagEditor(TagLib::FileRef* file, QString nameOfTag, QWidget* parent);
     ~TagEditor();
 
-private:
+protected:
+    TagLib::FileRef* file;
     TagLib::Tag* tag;
     QGroupBox* editorBox;
-    QLabel* nameLabel;
+    QGridLayout* layout;
     QLabel* titleLabel;
     QLabel* trackLabel;
     QLabel* albumLabel;
@@ -30,9 +32,10 @@ private:
     QLineEdit* commentEdit;
     QLineEdit* yearEdit;
     QPushButton* saveButton;
+    virtual void createLayout();
 
-private slots:
-    void saveTags();
+protected slots:
+    virtual void saveTags();
 
 };
 

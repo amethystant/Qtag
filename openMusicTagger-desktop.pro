@@ -10,13 +10,17 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     audiofile.cpp \
     tageditorlayout.cpp \
-    tageditor.cpp
+    tageditor.cpp \
+    id3v1editor.cpp \
+    id3genreselection.cpp
 
 HEADERS  += mainwindow.h \
     audiofile.h \
     tageditorlayout.h \
     tageditor.h \
-    main.h
+    main.h \
+    id3v1editor.h \
+    id3genreselection.h
 
 FORMS    += mainwindow.ui
 
