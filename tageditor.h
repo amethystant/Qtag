@@ -6,6 +6,11 @@
 #include "main.h"
 #include <fileref.h>
 
+/*
+The base class for all tag editors (e.g. ID3v1 editor, XiphComment Editor,...).
+Contains all the common widgets and a method to save the tags
+*/
+
 class TagEditor : public QObject {
 
     Q_OBJECT

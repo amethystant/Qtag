@@ -13,6 +13,10 @@ int main(int argc, char *argv[]) {
     return a.exec();
 }
 
+
+/*
+Sets the application appearence to the Qt Dark style by Collin Duquesnoy
+*/
 void setDarkTheme(QApplication &a) {
 
     QFile f(":qdarkstyle/style.qss");
@@ -24,7 +28,6 @@ void setDarkTheme(QApplication &a) {
     }
 
 }
-
 
 QString intToString(int i) {
 

@@ -3,6 +3,10 @@
 
 #include <QComboBox>
 
+
+/*
+A class derived from QComboBox, which contains the list of ID3 genres
+*/
 class Id3GenreSelection : public QComboBox
 {
 public:

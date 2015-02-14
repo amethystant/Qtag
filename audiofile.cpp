@@ -35,6 +35,9 @@ AudioFile::~AudioFile() {
 
 }
 
+/*
+This method initializes the tags
+*/
 void AudioFile::open(QString path) {
 
     TagLib::FileName fileName = path.toStdString().c_str();

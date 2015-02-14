@@ -20,11 +20,11 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QList<AudioFile*> listOfFiles;
+    QList<AudioFile*> listOfFiles; //list of all opened files
     void updateViews();
     void updateEditor();
     bool isFileOnList(QString path);
-    AudioFile* openedFile;
+    AudioFile* openedFile; //the file that is viewed in the tag editor
 
 public slots:
     void openFile();

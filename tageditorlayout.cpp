@@ -22,6 +22,9 @@ TagEditorLayout::~TagEditorLayout() {
     delete tagBoxes;
 }
 
+/*
+Determines what method should be called to load the right tag editors to the layout.
+*/
 void TagEditorLayout::loadTags() {
 
     if(file->getFormat() == MPEG)

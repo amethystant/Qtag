@@ -20,6 +20,9 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+/*
+Opens the file dialog and then calls a method to update the tree widget
+*/
 void MainWindow::openFile() {
 
     QFileDialog dialog(this);
@@ -55,6 +58,11 @@ void MainWindow::openFile() {
 
 }
 
+/*
+This two structs are used only in the method above.
+They do not have any special meaning, but they are necessary to sort
+ the files and add them to the tree widget.
+*/
 typedef struct {
     QList<AudioFile*> listOfFiles;
     QString name;
@@ -65,6 +73,9 @@ typedef struct {
     QString name;
 } Artist;
 
+/*
+Updates the tree widget.
+*/
 void MainWindow::updateViews() {
 
     ui->treeWidget->clear();
@@ -155,7 +166,9 @@ void MainWindow::updateViews() {
     }
 }
 
-
+/*
+Opens the "folder dialog", which allows user to select a whole folder to open.
+*/
 void MainWindow::openFolder() {
 
     QFileDialog dialog(this);
@@ -205,7 +218,6 @@ bool MainWindow::isFileOnList(QString path) {
     return false;
 }
 
-
 void MainWindow::openInEditor(QTreeWidgetItem *file) {
 
     int i = 0;
@@ -224,6 +236,10 @@ void MainWindow::openInEditor(QTreeWidgetItem *file) {
 
 }
 
+/*
+Updates the dock widget. Sets the selected file's "editorLayout" member
+as the layout of the widget.
+*/
 void MainWindow::updateEditor() {
     ui->lineEdit_path->setText(openedFile->getPath());
     ui->dockWidget_tags->setLayout(openedFile->getEditorLayout());

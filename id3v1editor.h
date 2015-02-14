@@ -5,6 +5,10 @@
 #include "id3v1tag.h"
 #include "id3genreselection.h"
 
+
+/*
+The Id3v1 implementation of TagEditor class
+*/
 class Id3v1Editor : public TagEditor {
 
     Q_OBJECT

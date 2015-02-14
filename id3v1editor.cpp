@@ -13,6 +13,10 @@ Id3v1Editor::~Id3v1Editor() {
 
 }
 
+/*
+Overrides TagEditor::createLayout() and adds some ID3v1 specific
+widgets to the layout
+*/
 void Id3v1Editor::createLayout() {
 
     TagEditor::createLayout();
@@ -23,6 +27,9 @@ void Id3v1Editor::createLayout() {
 
 }
 
+/*
+Overrides TagEditor::saveTags() and saves some ID3v1 specific tags
+*/
 void Id3v1Editor::saveTags() {
 
     TagEditor::saveTags();

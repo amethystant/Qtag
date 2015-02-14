@@ -23,6 +23,11 @@ enum AudioFormat {
     MPEG, OggVorbis, FLAC, WAV, ASF, WavPack
 };
 
+
+/*
+A class that represents an opened audio file.
+Contains all tags and an editor layout (see TagEditorLayout)
+*/
 class AudioFile : public QObject {
     Q_OBJECT
 public:

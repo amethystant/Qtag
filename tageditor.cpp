@@ -43,6 +43,9 @@ TagEditor::~TagEditor() {
 
 }
 
+/*
+A virtual method which saves the tags entered by the user
+*/
 void TagEditor::saveTags() {
 
     tag->setTitle(titleEdit->text().toStdString());
@@ -55,6 +58,9 @@ void TagEditor::saveTags() {
 
 }
 
+/*
+A virtual method which adds all widgets to a layout
+*/
 void TagEditor::createLayout() {
 
     int i = 0;
