@@ -12,7 +12,8 @@ SOURCES += main.cpp\
     tageditorlayout.cpp \
     tageditor.cpp \
     id3v1editor.cpp \
-    id3genreselection.cpp
+    id3genreselection.cpp \
+    id3v2editor.cpp
 
 HEADERS  += mainwindow.h \
     audiofile.h \
@@ -20,7 +21,8 @@ HEADERS  += mainwindow.h \
     tageditor.h \
     main.h \
     id3v1editor.h \
-    id3genreselection.h
+    id3genreselection.h \
+    id3v2editor.h
 
 FORMS    += mainwindow.ui
 
@@ -32,5 +34,5 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/lib/releas
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/lib/debug/ -ltag
 else:unix: LIBS += -L$$PWD/../../../../usr/lib/ -ltag
 
-INCLUDEPATH += $$PWD/../../../../usr/include
-DEPENDPATH += $$PWD/../../../../usr/include
+INCLUDEPATH += $$PWD/../../../../usr/include/taglib
+DEPENDPATH += $$PWD/../../../../usr/include/taglib
