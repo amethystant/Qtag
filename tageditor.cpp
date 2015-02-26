@@ -1,8 +1,8 @@
 #include "tageditor.h"
 
-TagEditor::TagEditor(TagLib::FileRef* file, QString nameOfTag, QWidget *parent) {
+TagEditor::TagEditor(TagLib::Tag* tag, QString nameOfTag, QWidget *parent) {
 
-    this->tag = file->tag();
+    this->tag = tag;
     editorBox = new QGroupBox(parent);
     editorBox->setTitle(nameOfTag);
     layout = new QGridLayout(editorBox);
@@ -39,12 +39,8 @@ TagEditor::TagEditor(TagLib::FileRef* file, QString nameOfTag, QWidget *parent) 
 
 }
 
-TagEditor::~TagEditor() {
-
-}
-
 /*
-A virtual method which saves the tags entered by the user
+A virtual method which saves (NOT THE FILE) the tags entered by the user
 */
 void TagEditor::saveTags() {
 
@@ -54,7 +50,6 @@ void TagEditor::saveTags() {
     tag->setYear(yearEdit->text().toInt());
     tag->setArtist(artistEdit->text().toStdString());
     tag->setComment(commentEdit->text().toStdString());
-    file->save();
 
 }
 
@@ -63,7 +58,7 @@ A virtual method which adds all widgets to a layout
 */
 void TagEditor::createLayout() {
 
-    int i = 0;
+    int i = layout->rowCount();
     layout->addWidget(titleLabel, i, 0);
     layout->addWidget(titleEdit, i, 1);
     i++;

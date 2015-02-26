@@ -117,6 +117,7 @@ void AudioFile::open(QString path) {
 
 }
 
+/*Saves the tags in the file*/
 void AudioFile::save() {
 
 }

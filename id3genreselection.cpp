@@ -85,8 +85,3 @@ Id3GenreSelection::Id3GenreSelection(QWidget* parent) : QComboBox(parent) {
     addItem("Vocal");
 
 }
-
-Id3GenreSelection::~Id3GenreSelection() {
-
-}
-
