@@ -33,7 +33,7 @@ FORMS    += mainwindow.ui
 
 RESOURCES += \
     qdarkstyle/style.qrc \
-    images.qrc
+    images/images.qrc
 
 win32:CONFIG(release, debug|release): LIBS += -ltag
 else:win32:CONFIG(debug, debug|release): LIBS += -ltag
