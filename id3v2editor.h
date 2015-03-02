@@ -23,6 +23,7 @@ private:
     PictureSelectionButton* pictureSelection;
     QPushButton* removeCoverButton;
     QLabel* picturePreview;
+    QLabel* pictureLabel;
     void extractPictureFromTag();
 
 

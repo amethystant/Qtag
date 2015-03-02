@@ -8,6 +8,7 @@ Id3v2Editor::Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent) :
     int i = genreEdit->findText(QString::fromLocal8Bit(id3v2Tag->genre().toCString()));
     genreEdit->setCurrentIndex(i);
     genreLabel = new QLabel("Genre:", this);
+    pictureLabel = new QLabel("Cover:", this);
     picturePath = new QString();
     picturePreview = new QLabel();
     picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
@@ -25,6 +26,7 @@ widgets to the layout
 void Id3v2Editor::createLayout() {
 
     int i = layout->rowCount();
+    layout->addWidget(pictureLabel, i, 0);
     layout->addWidget(picturePreview, i, 1);
     i++;
 
