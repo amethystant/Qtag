@@ -1,5 +1,5 @@
-#ifndef TAGEDITOR_H
-#define TAGEDITOR_H
+#ifndef TAGEDITORLAYOUT_H
+#define TAGEDITORLAYOUT_H
 
 #include <QtWidgets>
 #include <asftag.h>
@@ -23,18 +23,17 @@ editors (objects of classes derived from the TagEditor class).
 Once a file is selected to be edited, the dockable widget on the left is updated
 and it sets the file's TagEditorLayout as the layout.
 */
-class TagEditorLayout : public QGridLayout {
+class TagEditorLayout : public QVBoxLayout {
     Q_OBJECT
 
 public:
     explicit TagEditorLayout(MainWindow* window, AudioFile *file);
-    ~TagEditorLayout();
     AudioFile* getFile();
 
 private:
     MainWindow* window;
     AudioFile* file;
-    void loadTags();
+    void loadTagEditors();
     void loadAsfTags();
     void loadWavPackTags();
     void loadMpegTags();
@@ -47,11 +46,10 @@ private:
     TagLib::ID3v2::Tag *id3v2Tag;
     TagLib::RIFF::Info::Tag *infoTag;
     TagLib::Ogg::XiphComment *xiphComment;
-    QList<QGroupBox*> *tagBoxes;
 
 public slots:
     void saveTags();
 
 };
 
-#endif // TAGEDITOR_H
+#endif // TAGEDITORLAYOUT_H

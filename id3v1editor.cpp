@@ -4,10 +4,10 @@ Id3v1Editor::Id3v1Editor(TagLib::ID3v1::Tag *tag, QWidget *parent) :
     TagEditor(tag, "ID3v1 tag", parent) {
 
     id3v1Tag = tag;
-    genreEdit = new Id3GenreSelection(editorBox);
+    genreEdit = new Id3GenreSelection(this);
     int i = genreEdit->findText(QString::fromLocal8Bit(id3v1Tag->genre().toCString()));
     genreEdit->setCurrentIndex(i);
-    genreLabel = new QLabel("Genre:", editorBox);
+    genreLabel = new QLabel("Genre:", this);
     createLayout();
 
 }
@@ -20,9 +20,11 @@ void Id3v1Editor::createLayout() {
 
     TagEditor::createLayout();
     layout->removeWidget(saveButton);
-    layout->addWidget(genreLabel, layout->rowCount()+1, 0);
-    layout->addWidget(genreEdit, layout->rowCount(), 1);
-    layout->addWidget(saveButton, layout->rowCount()+1, 0);
+    int i = layout->rowCount();
+    layout->addWidget(genreLabel, i, 0);
+    layout->addWidget(genreEdit, i, 1);
+    i++;
+    layout->addWidget(saveButton,i, 0);
 
 }
 

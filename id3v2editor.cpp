@@ -4,13 +4,14 @@ Id3v2Editor::Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent) :
     TagEditor(tag, "ID3v2 tag", parent) {
 
     id3v2Tag = tag;
-    genreEdit = new Id3GenreSelection(editorBox);
+    genreEdit = new Id3GenreSelection(this);
     int i = genreEdit->findText(QString::fromLocal8Bit(id3v2Tag->genre().toCString()));
     genreEdit->setCurrentIndex(i);
-    genreLabel = new QLabel("Genre:", editorBox);
-    pictureSelection = new PictureSelectionButton(editorBox);
-    picturePreview = new QLabel(QString::fromStdString(NO_PICTURE), editorBox);
-    picturePath = pictureSelection->getPicturePath();
+    genreLabel = new QLabel("Genre:", this);
+    picturePath = new QString();
+    picturePreview = new QLabel();
+    picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
+    pictureSelection = new PictureSelectionButton(this, picturePath, picturePreview);
     removeCoverButton = new QPushButton("Remove cover");
     QObject::connect(removeCoverButton, SIGNAL(clicked()), this, SLOT(removeCover()));
     createLayout();
@@ -26,14 +27,20 @@ void Id3v2Editor::createLayout() {
     int i = layout->rowCount();
     layout->addWidget(picturePreview, i, 1);
     i++;
-    layout->addWidget(removeCoverButton, i, 1);
-    layout->addWidget(pictureSelection, i, 3);
+
+    QHBoxLayout* l = new QHBoxLayout(this);
+    l->addWidget(pictureSelection);
+    l->addWidget(removeCoverButton);
+    layout->addLayout(l, i, 0, 2, 0);
     i++;
+
     TagEditor::createLayout();
     layout->removeWidget(saveButton);
-    layout->addWidget(genreLabel, layout->rowCount()+1, 0);
-    layout->addWidget(genreEdit, layout->rowCount(), 1);
-    layout->addWidget(saveButton, layout->rowCount()+1, 0);
+    i = layout->rowCount();
+    layout->addWidget(genreLabel, i, 0);
+    layout->addWidget(genreEdit, i, 1);
+    i++;
+    layout->addWidget(saveButton, i, 0);
 
 }
 
@@ -77,7 +84,7 @@ void Id3v2Editor::extractPictureFromTag() {
 void Id3v2Editor::removeCover() {
 
     picturePath->clear();
-    picturePreview->setText(QString::fromStdString(NO_PICTURE));
+    picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
     id3v2Tag->removeFrames("APIC");
 
 }

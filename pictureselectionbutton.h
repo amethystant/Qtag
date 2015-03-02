@@ -4,18 +4,19 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QStringList>
+#include <QLabel>
 
 class PictureSelectionButton : public QPushButton {
 
     Q_OBJECT
 
 public:
-    PictureSelectionButton(QWidget *parent);
+    PictureSelectionButton(QWidget *parent, QString* path, QLabel* preview);
     ~PictureSelectionButton();
-    QString* getPicturePath();
 
 private:
     QString *picturePath;
+    QLabel *picturePreview;
 
 public slots:
     void selectPicture();

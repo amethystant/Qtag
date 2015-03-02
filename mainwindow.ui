@@ -52,7 +52,7 @@
      <x>0</x>
      <y>0</y>
      <width>987</width>
-     <height>23</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuOpenMusicTagge">
@@ -61,7 +61,7 @@
     </property>
     <widget class="QMenu" name="menuOpen">
      <property name="title">
-      <string>Open...</string>
+      <string>&amp;Open...</string>
      </property>
      <addaction name="actionOpenFile"/>
      <addaction name="actionOpenFolder"/>
@@ -87,7 +87,7 @@
    </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
-     <string>Options</string>
+     <string>Optio&amp;ns</string>
     </property>
     <addaction name="actionSettings"/>
    </widget>
@@ -124,14 +124,14 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>299</width>
-     <height>128</height>
+     <width>0</width>
+     <height>0</height>
     </size>
    </property>
    <property name="baseSize">
     <size>
-     <width>299</width>
-     <height>570</height>
+     <width>0</width>
+     <height>0</height>
     </size>
    </property>
    <property name="features">
@@ -141,7 +141,7 @@
     <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
-    <string>Selected file</string>
+    <string>Se&amp;lected file</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
@@ -192,14 +192,12 @@
     <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
-    <string>Tags</string>
+    <string>Ta&amp;gs</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents_tags">
-    <layout class="QGridLayout" name="gridLayout"/>
-   </widget>
+   <widget class="QWidget" name="dockWidgetContents_tags"/>
   </widget>
   <action name="actionSave">
    <property name="icon">
@@ -207,7 +205,7 @@
      <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
    </property>
    <property name="text">
-    <string>Save all</string>
+    <string>&amp;Save all</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -220,7 +218,7 @@
     </iconset>
    </property>
    <property name="text">
-    <string>Open file(s)</string>
+    <string>&amp;Open file(s)</string>
    </property>
    <property name="toolTip">
     <string>Open file(s)</string>
@@ -235,7 +233,7 @@
      <normaloff>:/images/openfolder.png</normaloff>:/images/openfolder.png</iconset>
    </property>
    <property name="text">
-    <string>Open folder</string>
+    <string>Open &amp;folder</string>
    </property>
    <property name="toolTip">
     <string>Open folder</string>
@@ -250,7 +248,7 @@
      <normaloff>:/images/multipletagging.png</normaloff>:/images/multipletagging.png</iconset>
    </property>
    <property name="text">
-    <string>Multiple tagging...</string>
+    <string>&amp;Multiple tagging...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+M</string>
@@ -262,7 +260,7 @@
      <normaloff>:/images/copytags.png</normaloff>:/images/copytags.png</iconset>
    </property>
    <property name="text">
-    <string>Copy tags...</string>
+    <string>&amp;Copy tags...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+C</string>
@@ -274,7 +272,7 @@
      <normaloff>:/images/createalbum.png</normaloff>:/images/createalbum.png</iconset>
    </property>
    <property name="text">
-    <string>Create album from folder...</string>
+    <string>Create album &amp;from folder...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
@@ -286,7 +284,7 @@
      <normaloff>:/images/info.png</normaloff>:/images/info.png</iconset>
    </property>
    <property name="text">
-    <string>About</string>
+    <string>&amp;About</string>
    </property>
   </action>
   <action name="actionLicense">
@@ -295,7 +293,7 @@
      <normaloff>:/images/info.png</normaloff>:/images/info.png</iconset>
    </property>
    <property name="text">
-    <string>License</string>
+    <string>&amp;License</string>
    </property>
   </action>
   <action name="actionHow_to_contribute">
@@ -304,7 +302,7 @@
      <normaloff>:/images/info.png</normaloff>:/images/info.png</iconset>
    </property>
    <property name="text">
-    <string>How to contribute?</string>
+    <string>&amp;How to contribute?</string>
    </property>
   </action>
   <action name="actionSettings">
@@ -313,7 +311,7 @@
      <normaloff>:/images/settings.png</normaloff>:/images/settings.png</iconset>
    </property>
    <property name="text">
-    <string>Settings</string>
+    <string>&amp;Settings</string>
    </property>
   </action>
  </widget>

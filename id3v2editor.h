@@ -1,20 +1,19 @@
 #ifndef ID3V2EDITOR_H
 #define ID3V2EDITOR_H
 
-#include <id3genreselection.h>
 #include <id3v2tag.h>
 #include <attachedpictureframe.h>
 #include "pictureselectionbutton.h"
-#include "tageditor.h"
-#include "main.h"
 #include "picturefile.h"
+#include "tageditor.h"
+#include "id3genreselection.h"
 
 class Id3v2Editor : public TagEditor {
 
     Q_OBJECT
 
 public:
-    Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget* parent);
+    Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent);
 
 private:
     TagLib::ID3v2::Tag* id3v2Tag;

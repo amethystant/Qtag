@@ -8,5 +8,6 @@
         <file>createalbum.png</file>
         <file>info.png</file>
         <file>settings.png</file>
+        <file>nofile.png</file>
     </qresource>
 </RCC>

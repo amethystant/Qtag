@@ -7,7 +7,7 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
+    mainwindow.cpp \
     audiofile.cpp \
     tageditorlayout.cpp \
     tageditor.cpp \
@@ -17,16 +17,17 @@ SOURCES += main.cpp\
     pictureselectionbutton.cpp \
     picturefile.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += picturefile.h \
+    id3v2editor.h \
+    id3v1editor.h \
+    mainwindow.h \
     audiofile.h \
     tageditorlayout.h \
     tageditor.h \
     main.h \
-    id3v1editor.h \
     id3genreselection.h \
-    id3v2editor.h \
-    pictureselectionbutton.h \
-    picturefile.h
+    pictureselectionbutton.h
+
 
 FORMS    += mainwindow.ui
 

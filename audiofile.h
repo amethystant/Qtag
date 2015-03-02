@@ -55,6 +55,7 @@ public:
     TagEditorLayout* getEditorLayout();
 
 private:
+    TagLib::File* file;
     TagLib::Ogg::XiphComment *xiphComment;
     TagLib::RIFF::Info::Tag *infoTag;
     TagLib::ID3v2::Tag *id3v2;
