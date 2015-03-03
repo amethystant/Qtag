@@ -221,6 +221,8 @@ bool MainWindow::isFileOnList(QString path) {
 void MainWindow::openInEditor(QTreeWidgetItem *file) {
 
     int i = 0;
+    if(file->childCount()>0)
+        return;
     while(i < listOfFiles.length()) {
 
         if(file->text(1).compare(listOfFiles.at(i)->getPath()) == 0) {
@@ -242,5 +244,16 @@ as the layout of the widget.
 */
 void MainWindow::updateEditor() {
     ui->lineEdit_path->setText(openedFile->getPath());
-    ui->dockWidget_tags->setLayout(openedFile->getEditorLayout());
+    QWidget* w = new QWidget(ui->dockWidget_tags);
+    w->setLayout(openedFile->getEditorLayout());
+    QScrollArea* scrollArea = new QScrollArea(ui->dockWidget_tags);
+    scrollArea->setWidget(w);
+    scrollArea->setWidgetResizable(true);
+    ui->dockWidget_tags->setWidget(scrollArea);
+    ui->dockWidget_tags->show();
+
+}
+
+Ui::MainWindow* MainWindow::getUI() {
+    return ui;
 }

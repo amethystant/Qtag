@@ -55,6 +55,7 @@ public:
     TagEditorLayout* getEditorLayout();
 
 private:
+    TagLib::File* file; //this is a pointer to a specific TagLib::File derived object which holds all the TagLib::Tag derived objects
 
     /*
     Pointers to all possible tags, the value is NULL if the

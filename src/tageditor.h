@@ -7,22 +7,19 @@
 #include <fileref.h>
 
 /*
-The base class for all tag editors (e.g. ID3v1 editor, XiphComment Editor,...).
+The base class for all tag editors (e.g. ID3v1 editor, XiphComment editor,...).
 Contains all the common widgets and a method to save the tags
 */
 
-class TagEditor : public QObject {
+class TagEditor : public QGroupBox {
 
     Q_OBJECT
 
 public:
-    TagEditor(TagLib::FileRef* file, QString nameOfTag, QWidget* parent);
-    ~TagEditor();
+    TagEditor(TagLib::Tag* tag, QString nameOfTag, QWidget *parent);
 
 protected:
-    TagLib::FileRef* file;
     TagLib::Tag* tag;
-    QGroupBox* editorBox;
     QGridLayout* layout;
     QLabel* titleLabel;
     QLabel* trackLabel;
