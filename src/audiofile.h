@@ -16,17 +16,16 @@
 #include <xiphcomment.h>
 #include <asftag.h>
 #include <apetag.h>
-#include "tageditorlayout.h"
-#include "mainwindow.h"
 
 enum AudioFormat {
     MPEG, OggVorbis, FLAC, WAV, ASF, WavPack
 };
 
+class MainWindow;
 
 /*
-A class that represents an opened audio file.
-Contains all tags and an editor layout (see TagEditorLayout)
+ * A class that represents an opened audio file.
+ * Contains all tags.
 */
 class AudioFile : public QObject {
     Q_OBJECT
@@ -52,7 +51,6 @@ public:
     TagLib::ASF::Tag* getAsfTag();
     TagLib::APE::Tag* getApeTag();
     AudioFormat getFormat();
-    TagEditorLayout* getEditorLayout();
 
 private:
     TagLib::File* file; //this is a pointer to a specific TagLib::File derived object which holds all the TagLib::Tag derived objects
@@ -86,9 +84,6 @@ private:
     int track;
     QString album;
     QString artist;
-    
-    //The layout of the tag editors 
-    TagEditorLayout* editorLayout;
     
     //Pointer to the main window
     MainWindow* window;

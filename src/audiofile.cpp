@@ -1,4 +1,5 @@
 #include "audiofile.h"
+#include "mainwindow.h"
 
 AudioFile::AudioFile(QString path, MainWindow *window) : QObject(window) {
 
@@ -20,7 +21,6 @@ AudioFile::AudioFile(QString path, MainWindow *window) : QObject(window) {
     infoTag = NULL;
 
     open(path);
-    editorLayout = new TagEditorLayout(window, this);
 
 }
 
@@ -211,9 +211,4 @@ TagLib::APE::Tag* AudioFile::getApeTag() {
 
 AudioFormat AudioFile::getFormat() {
     return format;
-}
-
-
-TagEditorLayout *AudioFile::getEditorLayout() {
-    return editorLayout;
 }

@@ -243,14 +243,41 @@ Updates the dock widget. Sets the selected file's "editorLayout" member
 as the layout of the widget.
 */
 void MainWindow::updateEditor() {
+
     ui->lineEdit_path->setText(openedFile->getPath());
+    TagEditorLayout* editorLayout = findLayout(openedFile);
     QWidget* w = new QWidget(ui->dockWidget_tags);
-    w->setLayout(openedFile->getEditorLayout());
+    w->setLayout(editorLayout);
     QScrollArea* scrollArea = new QScrollArea(ui->dockWidget_tags);
     scrollArea->setWidget(w);
     scrollArea->setWidgetResizable(true);
     ui->dockWidget_tags->setWidget(scrollArea);
     ui->dockWidget_tags->show();
+
+}
+
+/*
+ * Returns the TagEditorLayout for a specific AudioFile object.
+ * If there is not the right TagEditorLayout on the list, it returns NULL or it creates
+ *  a new TagEditorLayout and adds it to the list (depending on the value of the second parameter)
+*/
+TagEditorLayout* MainWindow::findLayout(AudioFile *file, bool create) {
+
+    int i;
+    for(i = 0; i < listOfLayouts.length(); i++) {
+        TagEditorLayout* l = listOfLayouts.at(i);
+        if(l->getFile() == file) {
+            return l;
+        }
+    }
+
+    if(!create) {
+        return NULL;
+    } else {
+        TagEditorLayout* l = new TagEditorLayout(this, file);
+        listOfLayouts.append(l);
+        return l;
+    }
 
 }
 

@@ -5,6 +5,7 @@
 #include <QtCore>
 
 #include "audiofile.h"
+#include "tageditorlayout.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +23,14 @@ public:
 private:
     Ui::MainWindow *ui;
     QList<AudioFile*> listOfFiles; //list of all opened files
+
+    /*
+     * List of all tag editor layouts. When the user clicks to open a file in the editor,
+     *  a TagEditorLayout pointer is created and added to this list.
+    */
+    QList<TagEditorLayout*> listOfLayouts;
+
+    TagEditorLayout* findLayout(AudioFile* file, bool create = true);
     void updateViews();
     void updateEditor();
     bool isFileOnList(QString path);
