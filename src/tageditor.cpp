@@ -31,8 +31,6 @@ TagEditor::TagEditor(TagLib::Tag* tag, QString nameOfTag, QWidget *parent) : QGr
     commentEdit = new QLineEdit(this);
     commentEdit->setText(QString::fromStdString(tag->comment().to8Bit(true)));
 
-    saveButton = new QPushButton("Save tags", this);
-    QObject::connect(saveButton, SIGNAL(clicked()), this, SLOT(saveTags()));
     createLayout();
 
 }
@@ -74,8 +72,6 @@ void TagEditor::createLayout() {
     i++;
     layout->addWidget(commentLabel, i, 0);
     layout->addWidget(commentEdit, i, 1);
-    i++;
-    layout->addWidget(saveButton, i, 3);
     setLayout(layout);
 
 }

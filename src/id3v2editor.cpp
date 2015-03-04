@@ -37,12 +37,9 @@ void Id3v2Editor::createLayout() {
     i++;
 
     TagEditor::createLayout();
-    layout->removeWidget(saveButton);
     i = layout->rowCount();
     layout->addWidget(genreLabel, i, 0);
     layout->addWidget(genreEdit, i, 1);
-    i++;
-    layout->addWidget(saveButton, i, 0);
 
 }
 

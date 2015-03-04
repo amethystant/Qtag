@@ -19,12 +19,9 @@ widgets to the layout
 void Id3v1Editor::createLayout() {
 
     TagEditor::createLayout();
-    layout->removeWidget(saveButton);
     int i = layout->rowCount();
     layout->addWidget(genreLabel, i, 0);
     layout->addWidget(genreEdit, i, 1);
-    i++;
-    layout->addWidget(saveButton,i, 0);
 
 }
 

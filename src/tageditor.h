@@ -33,7 +33,6 @@ protected:
     QLineEdit* artistEdit;
     QLineEdit* commentEdit;
     QLineEdit* yearEdit;
-    QPushButton* saveButton;
     virtual void createLayout();
 
 protected slots:
