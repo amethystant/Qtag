@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionOpenFolder, SIGNAL(triggered()), this, SLOT(openFolder()));
     QObject::connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
                      this, SLOT(openInEditor(QTreeWidgetItem*)));
+    QObject::connect(ui->actionSaveAll, SIGNAL(triggered()), this, SLOT(saveAll()));
 
 }
 
@@ -283,4 +284,15 @@ TagEditorLayout* MainWindow::findLayout(AudioFile *file, bool create) {
 
 Ui::MainWindow* MainWindow::getUI() {
     return ui;
+}
+
+/*
+ * This slot saves all files which has been opened in the editor
+*/
+void MainWindow::saveAll() {
+    int i;
+    for( i = 0; i < listOfLayouts.length(); i++ ) {
+        TagEditorLayout* l = listOfLayouts.at(i);
+        l->getFile()->save();
+    }
 }

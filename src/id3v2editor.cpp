@@ -54,15 +54,19 @@ void Id3v2Editor::updateTags() {
     TagEditor::updateTags();
     id3v2Tag->setGenre(genreEdit->currentText().toStdString());
 
-    TagLib::ID3v2::AttachedPictureFrame* frame = new TagLib::ID3v2::AttachedPictureFrame();
-    if(picturePath->endsWith(".jpeg", Qt::CaseInsensitive) || picturePath->endsWith(".jpg"), Qt::CaseInsensitive)
-        frame->setMimeType("image/jpeg");
-    else if(picturePath->endsWith(".png"), Qt::CaseInsensitive)
-        frame->setMimeType("image/png");
-    id3v2Tag->removeFrames("APIC");
-    PictureFile pictureFile(picturePath->toStdString().c_str());
-    frame->setPicture(pictureFile.getData());
-    id3v2Tag->addFrame(frame);
+    if(!picturePath->isEmpty()) {
+
+        TagLib::ID3v2::AttachedPictureFrame* frame = new TagLib::ID3v2::AttachedPictureFrame();
+        if(picturePath->endsWith(".jpeg", Qt::CaseInsensitive) || picturePath->endsWith(".jpg"), Qt::CaseInsensitive)
+            frame->setMimeType("image/jpeg");
+        else if(picturePath->endsWith(".png"), Qt::CaseInsensitive)
+            frame->setMimeType("image/png");
+        id3v2Tag->removeFrames("APIC");
+        PictureFile pictureFile(picturePath->toStdString().c_str());
+        frame->setPicture(pictureFile.getData());
+        id3v2Tag->addFrame(frame);
+
+    }
 
 }
 
@@ -71,8 +75,10 @@ void Id3v2Editor::extractPictureFromTag() {
 
     QImage image;
     TagLib::ID3v2::FrameList frameList = id3v2Tag->frameList("APIC");
-    if(frameList.isEmpty())
+    if(frameList.isEmpty()) {
+        picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
         return;
+     }
     TagLib::ID3v2::AttachedPictureFrame *pictureFrame =
         static_cast<TagLib::ID3v2::AttachedPictureFrame *>(frameList.front());
     image.loadFromData((const uchar *) pictureFrame->picture().data(), pictureFrame->picture().size());

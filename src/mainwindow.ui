@@ -67,7 +67,7 @@
      <addaction name="actionOpenFolder"/>
     </widget>
     <addaction name="menuOpen"/>
-    <addaction name="actionSave"/>
+    <addaction name="actionSaveAll"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -83,6 +83,7 @@
     </property>
     <addaction name="actionAbout"/>
     <addaction name="actionLicense"/>
+    <addaction name="separator"/>
     <addaction name="actionHow_to_contribute"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
@@ -108,7 +109,7 @@
    </attribute>
    <addaction name="actionOpenFile"/>
    <addaction name="actionOpenFolder"/>
-   <addaction name="actionSave"/>
+   <addaction name="actionSaveAll"/>
    <addaction name="separator"/>
    <addaction name="actionMultipleTagging"/>
    <addaction name="actionCopy_tags"/>
@@ -124,8 +125,8 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>0</width>
-     <height>0</height>
+     <width>110</width>
+     <height>114</height>
     </size>
    </property>
    <property name="baseSize">
@@ -199,9 +200,9 @@
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_tags"/>
   </widget>
-  <action name="actionSave">
+  <action name="actionSaveAll">
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset resource="images/images.qrc">
      <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
    </property>
    <property name="text">
@@ -229,7 +230,7 @@
   </action>
   <action name="actionOpenFolder">
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset resource="images/images.qrc">
      <normaloff>:/images/openfolder.png</normaloff>:/images/openfolder.png</iconset>
    </property>
    <property name="text">
@@ -244,7 +245,7 @@
   </action>
   <action name="actionMultipleTagging">
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset resource="images/images.qrc">
      <normaloff>:/images/multipletagging.png</normaloff>:/images/multipletagging.png</iconset>
    </property>
    <property name="text">
@@ -256,7 +257,7 @@
   </action>
   <action name="actionCopy_tags">
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset resource="images/images.qrc">
      <normaloff>:/images/copytags.png</normaloff>:/images/copytags.png</iconset>
    </property>
    <property name="text">
@@ -268,7 +269,7 @@
   </action>
   <action name="actionCreate_album_from_folder">
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset resource="images/images.qrc">
      <normaloff>:/images/createalbum.png</normaloff>:/images/createalbum.png</iconset>
    </property>
    <property name="text">
@@ -280,7 +281,7 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset resource="images/images.qrc">
      <normaloff>:/images/info.png</normaloff>:/images/info.png</iconset>
    </property>
    <property name="text">
@@ -289,7 +290,7 @@
   </action>
   <action name="actionLicense">
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset resource="images/images.qrc">
      <normaloff>:/images/info.png</normaloff>:/images/info.png</iconset>
    </property>
    <property name="text">
@@ -298,7 +299,7 @@
   </action>
   <action name="actionHow_to_contribute">
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset resource="images/images.qrc">
      <normaloff>:/images/info.png</normaloff>:/images/info.png</iconset>
    </property>
    <property name="text">
@@ -307,7 +308,7 @@
   </action>
   <action name="actionSettings">
    <property name="icon">
-    <iconset resource="images.qrc">
+    <iconset resource="images/images.qrc">
      <normaloff>:/images/settings.png</normaloff>:/images/settings.png</iconset>
    </property>
    <property name="text">
@@ -317,7 +318,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="images.qrc"/>
+  <include location="images/images.qrc"/>
  </resources>
  <connections/>
 </ui>
