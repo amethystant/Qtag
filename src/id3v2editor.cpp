@@ -12,6 +12,7 @@ Id3v2Editor::Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent) :
     picturePath = new QString();
     picturePreview = new QLabel();
     picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
+    extractPictureFromTag();
     pictureSelection = new PictureSelectionButton(this, picturePath, picturePreview);
     removeCoverButton = new QPushButton("Remove cover");
     QObject::connect(removeCoverButton, SIGNAL(clicked()), this, SLOT(removeCover()));
