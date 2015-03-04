@@ -24,7 +24,7 @@ protected:
     virtual void createLayout();
 
 protected slots:
-    virtual void saveTags();
+    virtual void updateTags();
 };
 
 #endif // ID3V1EDITOR_H

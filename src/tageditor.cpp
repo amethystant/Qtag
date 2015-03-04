@@ -31,14 +31,22 @@ TagEditor::TagEditor(TagLib::Tag* tag, QString nameOfTag, QWidget *parent) : QGr
     commentEdit = new QLineEdit(this);
     commentEdit->setText(QString::fromStdString(tag->comment().to8Bit(true)));
 
+    QObject::connect(titleEdit, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
+    QObject::connect(trackEdit, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
+    QObject::connect(albumEdit, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
+    QObject::connect(yearEdit, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
+    QObject::connect(artistEdit, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
+    QObject::connect(commentEdit, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
+
     createLayout();
 
 }
 
 /*
-A virtual method which saves (NOT THE FILE) the tags entered by the user
+ * A virtual method which updates the tags in the opened file (it does not save them)
+ * Called when the user writes something into the editor
 */
-void TagEditor::saveTags() {
+void TagEditor::updateTags() {
 
     tag->setTitle(titleEdit->text().toStdString());
     tag->setTrack(trackEdit->text().toInt());

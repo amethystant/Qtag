@@ -16,6 +16,8 @@ Id3v2Editor::Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent) :
     pictureSelection = new PictureSelectionButton(this, picturePath, picturePreview);
     removeCoverButton = new QPushButton("Remove cover");
     QObject::connect(removeCoverButton, SIGNAL(clicked()), this, SLOT(removeCover()));
+    QObject::connect(genreEdit, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTags()));
+    QObject::connect(pictureSelection, SIGNAL(pictureChanged()), this, SLOT(updateTags()));
     createLayout();
 
 }
@@ -45,11 +47,11 @@ void Id3v2Editor::createLayout() {
 }
 
 /*
-Overrides TagEditor::saveTags() and saves some ID3v2 specific tags
+Overrides TagEditor::saveTags() and updates some ID3v2 specific tags
 */
-void Id3v2Editor::saveTags() {
+void Id3v2Editor::updateTags() {
 
-    TagEditor::saveTags();
+    TagEditor::updateTags();
     id3v2Tag->setGenre(genreEdit->currentText().toStdString());
 
     TagLib::ID3v2::AttachedPictureFrame* frame = new TagLib::ID3v2::AttachedPictureFrame();

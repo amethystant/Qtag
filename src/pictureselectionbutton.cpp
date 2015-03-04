@@ -33,7 +33,9 @@ void PictureSelectionButton::selectPicture() {
         picturePath->clear();
         picturePath->append(name);
         picturePreview->setPixmap(QPixmap::fromImage(image));
+        emit pictureChanged();
 
     }
 
 }
+

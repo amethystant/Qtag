@@ -18,6 +18,9 @@ private:
     QString *picturePath;
     QLabel *picturePreview;
 
+signals:
+    void pictureChanged();
+
 public slots:
     void selectPicture();
 

@@ -36,7 +36,7 @@ protected:
     virtual void createLayout();
 
 protected slots:
-    virtual void saveTags();
+    virtual void updateTags();
 
 };
 

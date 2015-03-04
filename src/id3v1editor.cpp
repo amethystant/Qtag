@@ -8,6 +8,7 @@ Id3v1Editor::Id3v1Editor(TagLib::ID3v1::Tag *tag, QWidget *parent) :
     int i = genreEdit->findText(QString::fromLocal8Bit(id3v1Tag->genre().toCString()));
     genreEdit->setCurrentIndex(i);
     genreLabel = new QLabel("Genre:", this);
+    QObject::connect(genreEdit, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTags()));
     createLayout();
 
 }
@@ -26,11 +27,11 @@ void Id3v1Editor::createLayout() {
 }
 
 /*
-Overrides TagEditor::saveTags() and saves some ID3v1 specific tags
+Overrides TagEditor::saveTags() and updates some ID3v1 specific tags
 */
-void Id3v1Editor::saveTags() {
+void Id3v1Editor::updateTags() {
 
-    TagEditor::saveTags();
+    TagEditor::updateTags();
     id3v1Tag->setGenre(genreEdit->currentText().toStdString());
 
 }
