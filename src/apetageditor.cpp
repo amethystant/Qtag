@@ -24,7 +24,7 @@ void ApeTagEditor::updateTags() {
 }
 
 /*
- *Overrides TagEditor::createLayout() and adds some ID3v1 specific
+ *Overrides TagEditor::createLayout() and adds some APE specific
  *widgets to the layout
 */
 void ApeTagEditor::createLayout() {
