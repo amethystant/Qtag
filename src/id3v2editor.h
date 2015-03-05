@@ -26,7 +26,6 @@ private:
     QLabel* pictureLabel;
     void extractPictureFromTag();
 
-
 protected:
     virtual void createLayout();
 

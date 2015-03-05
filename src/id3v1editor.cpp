@@ -14,8 +14,8 @@ Id3v1Editor::Id3v1Editor(TagLib::ID3v1::Tag *tag, QWidget *parent) :
 }
 
 /*
-Overrides TagEditor::createLayout() and adds some ID3v1 specific
-widgets to the layout
+ *Overrides TagEditor::createLayout() and adds some ID3v1 specific
+ *widgets to the layout
 */
 void Id3v1Editor::createLayout() {
 
@@ -27,7 +27,7 @@ void Id3v1Editor::createLayout() {
 }
 
 /*
-Overrides TagEditor::saveTags() and updates some ID3v1 specific tags
+ *Overrides TagEditor::saveTags() and updates some ID3v1 specific tags
 */
 void Id3v1Editor::updateTags() {
 

@@ -4,6 +4,7 @@
 #include "audiofile.h"
 #include "id3v1editor.h"
 #include "id3v2editor.h"
+#include "apetageditor.h"
 #include "ui_mainwindow.h"
 
 TagEditorLayout::TagEditorLayout(MainWindow *window, AudioFile* file) : QVBoxLayout() {
@@ -62,6 +63,13 @@ void TagEditorLayout::loadMpegTags() {
         id3v2Tag = file->getId3v2();
         Id3v2Editor* id3v2Edit = new Id3v2Editor(id3v2Tag, window->getUI()->dockWidget_tags);
         addWidget(id3v2Edit);
+        i++;
+    }
+
+    if(file->hasApeTag()) {
+        apeTag = file->getApeTag();
+        ApeTagEditor* apeEdit = new ApeTagEditor(apeTag, window->getUI()->dockWidget_tags);
+        addWidget(apeEdit);
         i++;
     }
 
