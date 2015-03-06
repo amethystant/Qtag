@@ -5,6 +5,7 @@
 #include "id3v1editor.h"
 #include "id3v2editor.h"
 #include "apetageditor.h"
+#include "commontageditor.h"
 #include "ui_mainwindow.h"
 
 TagEditorLayout::TagEditorLayout(MainWindow *window, AudioFile* file) : QVBoxLayout() {
@@ -17,6 +18,7 @@ TagEditorLayout::TagEditorLayout(MainWindow *window, AudioFile* file) : QVBoxLay
     infoTag = NULL;
     this->window = window;
     this->file = file;
+    parent = window->getUI()->dockWidget_tags;
     loadTagEditors();
 
 }
@@ -42,55 +44,79 @@ void TagEditorLayout::loadTagEditors() {
 }
 
 void TagEditorLayout::loadAsfTags() {
-
+    asfTag = file->getAsfTag();
+    CommonTagEditor* asfEdit = new CommonTagEditor(asfTag, "ASF tag", parent);
+    addWidget(asfEdit);
 }
 
 void TagEditorLayout::loadFlacTags() {
-
+    addId3v1Editor();
+    addId3v2Editor();
+    addXiphCommentEditor();
 }
 
 void TagEditorLayout::loadMpegTags() {
-
-    int i = 0;
-    if(file->hasId3v1()) {
-        id3v1Tag = file->getId3v1();
-        Id3v1Editor* id3v1Edit = new Id3v1Editor(id3v1Tag, window->getUI()->dockWidget_tags);
-        addWidget(id3v1Edit);
-        i++;
-    }
-
-    if(file->hasId3v2()) {
-        id3v2Tag = file->getId3v2();
-        Id3v2Editor* id3v2Edit = new Id3v2Editor(id3v2Tag, window->getUI()->dockWidget_tags);
-        addWidget(id3v2Edit);
-        i++;
-    }
-
-    if(file->hasApeTag()) {
-        apeTag = file->getApeTag();
-        ApeTagEditor* apeEdit = new ApeTagEditor(apeTag, window->getUI()->dockWidget_tags);
-        addWidget(apeEdit);
-        i++;
-    }
-
+    addId3v1Editor();
+    addId3v2Editor();
+    addApeTagEditor();
 }
 
 void TagEditorLayout::loadOggVorbisTags() {
-
+    addXiphCommentEditor();
 }
 
 void TagEditorLayout::loadWavPackTags() {
-
+    addApeTagEditor();
+    addId3v1Editor();
 }
 
 void TagEditorLayout::loadWavTags() {
 
+    if(file->hasInfoTag()) {
+        infoTag = file->getInfoTag();
+        CommonTagEditor* infoTagEdit = new CommonTagEditor(infoTag, "Info tag", parent);
+        addWidget(infoTagEdit);
+    }
+
+    addId3v2Editor();
+
+}
+
+void TagEditorLayout::addId3v1Editor() {
+    if(file->hasId3v1()) {
+        id3v1Tag = file->getId3v1();
+        Id3v1Editor* id3v1Edit = new Id3v1Editor(id3v1Tag, parent);
+        addWidget(id3v1Edit);
+    }
+}
+
+void TagEditorLayout::addId3v2Editor() {
+        if(file->hasId3v2()) {
+            id3v2Tag = file->getId3v2();
+            Id3v2Editor* id3v2Edit = new Id3v2Editor(id3v2Tag, parent);
+            addWidget(id3v2Edit);
+        }
+}
+
+void TagEditorLayout::addApeTagEditor() {
+    if(file->hasApeTag()) {
+        apeTag = file->getApeTag();
+        ApeTagEditor* apeEdit = new ApeTagEditor(apeTag, parent);
+        addWidget(apeEdit);
+    }
+}
+
+void TagEditorLayout::addXiphCommentEditor() {
+    if(file->hasXiphComment()) {
+        xiphComment = file->getXiphComment();
+        CommonTagEditor* xiphEdit = new CommonTagEditor(xiphComment, "Xiph comment", parent);
+        addWidget(xiphEdit);
+    }
 }
 
 void TagEditorLayout::saveTags() {
 
 }
-
 
 AudioFile* TagEditorLayout::getFile() {
     return file;

@@ -16,7 +16,8 @@ SOURCES += main.cpp\
     id3v2editor.cpp \
     pictureselectionbutton.cpp \
     picturefile.cpp \
-    apetageditor.cpp
+    apetageditor.cpp \
+    commontageditor.cpp
 
 HEADERS  += picturefile.h \
     id3v2editor.h \
@@ -28,7 +29,8 @@ HEADERS  += picturefile.h \
     main.h \
     id3genreselection.h \
     pictureselectionbutton.h \
-    apetageditor.h
+    apetageditor.h \
+    commontageditor.h
 
 
 FORMS    += mainwindow.ui

@@ -32,6 +32,7 @@ public:
 private:
     MainWindow* window;
     AudioFile* file;
+    QWidget* parent; //this widget is the parent of all the widgets in this layout
     void loadTagEditors();
     void loadAsfTags();
     void loadWavPackTags();
@@ -39,6 +40,10 @@ private:
     void loadFlacTags();
     void loadWavTags();
     void loadOggVorbisTags();
+    void addId3v1Editor();
+    void addId3v2Editor();
+    void addApeTagEditor();
+    void addXiphCommentEditor();
     TagLib::APE::Tag *apeTag;
     TagLib::ASF::Tag *asfTag;
     TagLib::ID3v1::Tag *id3v1Tag;

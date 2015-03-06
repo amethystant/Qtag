@@ -12,7 +12,6 @@ ApeTagEditor::ApeTagEditor(TagLib::APE::Tag *tag, QWidget *parent) : TagEditor(t
 
 }
 
-
 /*
  *Overrides TagEditor::saveTags() and updates some APE specific tags
 */
