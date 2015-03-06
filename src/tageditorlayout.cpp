@@ -114,10 +114,6 @@ void TagEditorLayout::addXiphCommentEditor() {
     }
 }
 
-void TagEditorLayout::saveTags() {
-
-}
-
 AudioFile* TagEditorLayout::getFile() {
     return file;
 }

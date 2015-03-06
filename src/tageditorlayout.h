@@ -51,9 +51,6 @@ private:
     TagLib::RIFF::Info::Tag *infoTag;
     TagLib::Ogg::XiphComment *xiphComment;
 
-public slots:
-    void saveTags();
-
 };
 
 #endif // TAGEDITORLAYOUT_H
