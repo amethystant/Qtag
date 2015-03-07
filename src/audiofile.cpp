@@ -46,30 +46,24 @@ void AudioFile::open(QString path) {
         format = MPEG;
         TagLib::MPEG::File* f = new TagLib::MPEG::File(fileName);
         file = f;
-        hasFileId3v1 = f->hasID3v1Tag();
-        hasFileId3v2 = f->hasID3v2Tag();
-        hasFileApeTag = f->hasAPETag();
-        if(hasFileId3v1)
-            id3v1 = f->ID3v1Tag();
-        if(hasFileId3v2)
-            id3v2 = f->ID3v2Tag();
-        if(hasFileApeTag)
-            apeTag = f->APETag();
+        hasFileId3v1 = true;
+        hasFileId3v2 = true;
+        hasFileApeTag = true;
+        id3v1 = f->ID3v1Tag(true);
+        id3v2 = f->ID3v2Tag(true);
+        apeTag = f->APETag(true);
 
     } else if(path.endsWith(".flac", Qt::CaseInsensitive)) {
 
         format = FLAC;
         TagLib::FLAC::File *f = new TagLib::FLAC::File(fileName);
         file = f;
-        hasFileId3v1 = f->hasID3v1Tag();
-        hasFileId3v2 = f->hasID3v2Tag();
-        hasFileXiphComment = f->hasXiphComment();
-        if(hasFileId3v1)
-            id3v1 = f->ID3v1Tag();
-        if(hasFileId3v2)
-            id3v2 = f->ID3v2Tag();
-        if(hasFileXiphComment)
-            xiphComment = f->xiphComment();
+        hasFileId3v1 = true;
+        hasFileId3v2 = true;
+        hasFileXiphComment = true;
+        id3v1 = f->ID3v1Tag(true);
+        id3v2 = f->ID3v2Tag(true);
+        xiphComment = f->xiphComment(true);
 
     } else if(path.endsWith(".wav", Qt::CaseInsensitive) ||
               path.endsWith(".wave"), Qt::CaseInsensitive) {
@@ -98,12 +92,10 @@ void AudioFile::open(QString path) {
         format = WavPack;
         TagLib::WavPack::File *f = new TagLib::WavPack::File(fileName);
         file = f;
-        hasFileApeTag = f->hasAPETag();
-        hasFileId3v1 = f->hasID3v1Tag();
-        if(hasFileApeTag)
-            apeTag = f->APETag();
-        if(hasFileId3v1)
-            id3v1 = f->ID3v1Tag();
+        hasFileApeTag = true;
+        hasFileId3v1 = true;
+        apeTag = f->APETag(true);
+        id3v1 = f->ID3v1Tag(true);
 
     } else if(path.endsWith(".ogg", Qt::CaseInsensitive)) {
 
