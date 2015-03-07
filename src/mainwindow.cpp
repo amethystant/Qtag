@@ -295,4 +295,17 @@ void MainWindow::saveAll() {
         TagEditorLayout* l = listOfLayouts.at(i);
         l->getFile()->save();
     }
+
+    QDialog* dialog = new QDialog(this);
+    dialog->setWindowTitle("Saving...");
+    QLabel* label = new QLabel("Saved.", dialog);
+    QPushButton* button = new QPushButton("OK", dialog);
+    QObject::connect(button, SIGNAL(clicked()), dialog, SLOT(close()));
+    QVBoxLayout* layout = new QVBoxLayout(dialog);
+    layout->addWidget(label);
+    layout->addWidget(button);
+    dialog->setLayout(layout);
+    dialog->setFixedSize(200, 100);
+    dialog->show();
+
 }
