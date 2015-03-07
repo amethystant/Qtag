@@ -4,8 +4,8 @@
 #include "tageditor.h"
 #include "apetag.h"
 #include "commontageditor.h"
-#include "QLabel"
-#include "QLineEdit"
+#include <QLabel>
+#include <QLineEdit>
 
 class ApeTagEditor : public CommonTagEditor {
 
