@@ -3,10 +3,11 @@
 
 #include "tageditor.h"
 #include "apetag.h"
+#include "commontageditor.h"
 #include "QLabel"
 #include "QLineEdit"
 
-class ApeTagEditor : public TagEditor {
+class ApeTagEditor : public CommonTagEditor {
 
     Q_OBJECT
 
@@ -15,8 +16,6 @@ public:
 
 private:
     TagLib::APE::Tag* apeTag;
-    QLabel* genreLabel;
-    QLineEdit* genreEdit;
 
 protected:
     virtual void createLayout();
