@@ -141,20 +141,29 @@ void MainWindow::updateViews() {
 
         QTreeWidgetItem *artistItem = new QTreeWidgetItem();
         Artist artist = listOfArtists.at(i);
-        artistItem->setText(0, artist.name);
+        if(artist.name.isEmpty())
+            artistItem->setText(0, "<unknown artist>");
+        else
+            artistItem->setText(0, artist.name);
 
         int i1;
         for(i1 = 0; i1 < artist.listOfAlbums.length(); i1++) {
             Album album = artist.listOfAlbums.at(i1);
             QTreeWidgetItem *albumItem = new QTreeWidgetItem();
-            albumItem->setText(0, album.name);
+            if(album.name.isEmpty())
+                albumItem->setText(0, "<unknown album>");
+            else
+                albumItem->setText(0, album.name);
 
             int i2;
             for(i2 = 0; i2 < album.listOfFiles.length(); i2++) {
 
                 AudioFile *f = album.listOfFiles.at(i2);
                 QTreeWidgetItem *fileItem = new QTreeWidgetItem();
-                fileItem->setText(0, f->getName());
+                if(f->getName().isEmpty())
+                    fileItem->setText(0, "<unknown track>");
+                else
+                    fileItem->setText(0, f->getName());
                 fileItem->setText(1, f->getPath());
 
                 albumItem->addChild(fileItem);
