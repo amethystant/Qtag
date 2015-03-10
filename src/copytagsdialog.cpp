@@ -130,6 +130,51 @@ void CopyTagsDialog::updateComboBoxes() {
 
 }
 
+void CopyTagsDialog::copyTags(TagLib::Tag* sourceTag, TagLib::Tag* targetTag) {
+
+    targetTag->setTitle(sourceTag->title());
+    targetTag->setTrack(sourceTag->track());
+    targetTag->setGenre(sourceTag->genre());
+    targetTag->setComment(sourceTag->comment());
+    targetTag->setAlbum(sourceTag->album());
+    targetTag->setArtist(sourceTag->artist());
+    targetTag->setYear(sourceTag->year());
+
+}
+
 void CopyTagsDialog::startCopying() {
+
+    QDialog* dialog = new QDialog(this, 0);
+    dialog->setWindowTitle("Copying...");
+    QLabel* label = new QLabel("Please wait...", dialog);
+    dialog->setBaseSize(300, 200);
+    QGridLayout* layout = new QGridLayout(dialog);
+    layout->addWidget(label);
+    dialog->show();
+
+    AudioFile* sourceFile;
+    AudioFile* targetFile;
+    int i;
+    for(i = 0; i < listOfFiles->length(); i++) {
+        AudioFile* f = listOfFiles->at(i);
+        if(f->getPath().compare(sourceFileSelection->currentText()) == 0) {
+            sourceFile = f;
+        }
+        if(f->getPath().compare(targetFileSelection->currentText()) == 0) {
+            targetFile = f;
+        }
+    }
+
+    copyTags(sourceFile->getTagByName(sourceTagSelection->currentText()),
+             targetFile->getTagByName(targetTagSelection->currentText()));
+
+    layout->removeWidget(label);
+    label->clear();
+    label->setText("Done");
+    QPushButton* button = new QPushButton("OK", dialog);
+    layout->addWidget(button,1, 1);
+    QObject::connect(button, SIGNAL(clicked()), dialog, SLOT(close()));
+    QObject::connect(button, SIGNAL(clicked()), this, SLOT(close()));
+    dialog->update();
 
 }

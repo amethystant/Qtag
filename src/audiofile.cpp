@@ -212,3 +212,25 @@ TagLib::APE::Tag* AudioFile::getApeTag() {
 AudioFormat AudioFile::getFormat() {
     return format;
 }
+
+/*
+ * Returns a pointer to the tag specified by the parameter "name",
+ * which must be one of the values in the NamesOfTags namespace
+ * (returns NULL if it isn't)
+*/
+TagLib::Tag* AudioFile::getTagByName(QString name) {
+    if(name.compare(QString::fromStdString(NamesOfTags::APE)) == 0)
+        return apeTag;
+    else if(name.compare(QString::fromStdString(NamesOfTags::ASF)) == 0)
+        return asfTag;
+    else if(name.compare(QString::fromStdString(NamesOfTags::ID3V1)) == 0)
+        return id3v1;
+    else if(name.compare(QString::fromStdString(NamesOfTags::ID3V2)) == 0)
+        return id3v2;
+    else if(name.compare(QString::fromStdString(NamesOfTags::INFO)) == 0)
+        return infoTag;
+    else if(name.compare(QString::fromStdString(NamesOfTags::XIPH)) == 0)
+        return xiphComment;
+
+        return NULL;
+}

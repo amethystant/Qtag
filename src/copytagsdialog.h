@@ -12,7 +12,7 @@ class CopyTagsDialog : public QDialog {
     Q_OBJECT
 
 public:
-    CopyTagsDialog(QWidget* parent, QList<AudioFile *> *listOfFiles);
+    CopyTagsDialog(QWidget *parent, QList<AudioFile *> *listOfFiles);
 
 private:
     QList<AudioFile*> *listOfFiles;
@@ -27,6 +27,7 @@ private:
     QPushButton* okButton;
     void createLayout();
     void initComboBoxes();
+    void copyTags(TagLib::Tag* sourceTag, TagLib::Tag* targetTag);
 
 private slots:
     void startCopying();
