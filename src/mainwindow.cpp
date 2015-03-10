@@ -316,5 +316,6 @@ void MainWindow::saveAll() {
     dialog->setLayout(layout);
     dialog->setFixedSize(200, 100);
     dialog->show();
+    updateViews();
 
 }
