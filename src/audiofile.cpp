@@ -25,15 +25,7 @@ AudioFile::AudioFile(QString path, MainWindow *window) : QObject(window) {
 }
 
 AudioFile::~AudioFile() {
-
-    delete apeTag;
-    delete asfTag;
-    delete infoTag;
-    delete xiphComment;
-    delete id3v1;
-    delete id3v2;
     delete file;
-
 }
 
 /*
