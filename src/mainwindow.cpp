@@ -348,6 +348,21 @@ void MainWindow::closeCurrentFile() {
 }
 
 void MainWindow::saveCurrentFile() {
+    QDialog* dialog = new QDialog(this);
+    QLabel* label = new QLabel("Saving...", dialog);
+    QGridLayout* layout = new QGridLayout(dialog);
+    layout->addWidget(label);
+    dialog->setLayout(layout);
+    dialog->setBaseSize(300, 200);
+    dialog->setWindowTitle("Saving...");
+    dialog->show();
+
     openedFile->save();
     updateViews();
+
+    label->setText("Saved.");
+    QPushButton* button = new QPushButton("OK", dialog);
+    QObject::connect(button, SIGNAL(clicked()),dialog, SLOT(close()));
+    layout->addWidget(button, 1, 1);
+    dialog->update();
 }
