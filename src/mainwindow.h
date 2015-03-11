@@ -43,6 +43,7 @@ public slots:
     void saveAll();
     void openCopyTagsDialog();
     void closeCurrentFile();
+    void saveCurrentFile();
 
 };
 

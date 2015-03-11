@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionSaveAll, SIGNAL(triggered()), this, SLOT(saveAll()));
     QObject::connect(ui->actionCopy_tags, SIGNAL(triggered()), this, SLOT(openCopyTagsDialog()));
     QObject::connect(ui->pushButton_closeFile, SIGNAL(clicked()), this, SLOT(closeCurrentFile()));
+    QObject::connect(ui->pushButton_saveFile, SIGNAL(clicked()), this, SLOT(saveCurrentFile()));
 
 }
 
@@ -342,5 +343,10 @@ void MainWindow::closeCurrentFile() {
         if(f->getPath().compare(path) == 0)
             listOfFiles.removeAt(i);
     }
+    updateViews();
+}
+
+void MainWindow::saveCurrentFile() {
+    openedFile->save();
     updateViews();
 }
