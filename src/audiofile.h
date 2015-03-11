@@ -51,6 +51,7 @@ public:
     TagLib::ASF::Tag* getAsfTag();
     TagLib::APE::Tag* getApeTag();
     AudioFormat getFormat();
+    TagLib::Tag* getTagByName(QString name);
 
 private:
     TagLib::File* file; //this is a pointer to a specific TagLib::File derived object which holds all the TagLib::Tag derived objects

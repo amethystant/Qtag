@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "copytagsdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
                      this, SLOT(openInEditor(QTreeWidgetItem*)));
     QObject::connect(ui->actionSaveAll, SIGNAL(triggered()), this, SLOT(saveAll()));
+    QObject::connect(ui->actionCopy_tags, SIGNAL(triggered()), this, SLOT(openCopyTagsDialog()));
 
 }
 
@@ -318,4 +320,9 @@ void MainWindow::saveAll() {
     dialog->show();
     updateViews();
 
+}
+
+void MainWindow::openCopyTagsDialog() {
+    CopyTagsDialog* dialog = new CopyTagsDialog(this, &listOfFiles);
+    dialog->exec();
 }
