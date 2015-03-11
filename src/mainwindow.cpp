@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
                      this, SLOT(openInEditor(QTreeWidgetItem*)));
     QObject::connect(ui->actionSaveAll, SIGNAL(triggered()), this, SLOT(saveAll()));
     QObject::connect(ui->actionCopy_tags, SIGNAL(triggered()), this, SLOT(openCopyTagsDialog()));
+    QObject::connect(ui->pushButton_closeFile, SIGNAL(clicked()), this, SLOT(closeCurrentFile()));
 
 }
 
@@ -325,4 +326,19 @@ void MainWindow::saveAll() {
 void MainWindow::openCopyTagsDialog() {
     CopyTagsDialog* dialog = new CopyTagsDialog(this, &listOfFiles);
     dialog->exec();
+}
+
+void MainWindow::closeCurrentFile() {
+    QString path = ui->lineEdit_path->text();
+    ui->lineEdit_path->clear();
+    QWidget* widget = new QWidget();
+    ui->dockWidget_tags->setWidget(widget);
+    ui->dockWidget_tags->show();
+    int i;
+    for(i = 0; i < listOfFiles.length(); i++) {
+        AudioFile* f = listOfFiles.at(i);
+        if(f->getPath().compare(path) == 0)
+            listOfFiles.removeAt(i);
+    }
+    updateViews();
 }

@@ -42,6 +42,7 @@ public slots:
     void openInEditor(QTreeWidgetItem* file);
     void saveAll();
     void openCopyTagsDialog();
+    void closeCurrentFile();
 
 };
 
