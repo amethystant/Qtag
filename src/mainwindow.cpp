@@ -329,6 +329,8 @@ void MainWindow::openCopyTagsDialog() {
 }
 
 void MainWindow::closeCurrentFile() {
+    if(ui->lineEdit_path->text().isEmpty())
+        return;
     QString path = ui->lineEdit_path->text();
     ui->lineEdit_path->clear();
     QWidget* widget = new QWidget();
