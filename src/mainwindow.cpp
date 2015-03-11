@@ -334,6 +334,7 @@ void MainWindow::closeCurrentFile() {
         return;
     QString path = ui->lineEdit_path->text();
     ui->lineEdit_path->clear();
+    openedFile = NULL;
     QWidget* widget = new QWidget();
     ui->dockWidget_tags->setWidget(widget);
     ui->dockWidget_tags->show();
