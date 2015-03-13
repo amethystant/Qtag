@@ -178,6 +178,9 @@ void MainWindow::updateViews() {
 
         ui->treeWidget->addTopLevelItem(artistItem);
     }
+
+    ui->treeWidget->expandAll();
+
 }
 
 /*
