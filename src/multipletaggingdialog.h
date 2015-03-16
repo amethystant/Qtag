@@ -6,8 +6,9 @@
 #include <QLineEdit>
 #include <QGroupBox>
 #include <QCheckBox>
+#include "id3genreselection.h"
 
-class MultipleTaggingDialog {
+class MultipleTaggingDialog : public QDialog {
 
     Q_OBJECT
 
@@ -39,13 +40,18 @@ private:
     QLineEdit* trackEdit;
     QLineEdit* albumEdit;
     QLineEdit* artistEdit;
-    QLineEdit* genreEdit;
+    Id3GenreSelection* genreEdit;
     QLineEdit* yearEdit;
     QLineEdit* commentEdit;
     QGroupBox* editorGroup;
 
     QPushButton* okButton;
     QPushButton* cancelButton;
+
+    void createLayout();
+
+private slots:
+    void startTagging();
 
 };
 
