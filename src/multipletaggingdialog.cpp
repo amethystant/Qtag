@@ -16,20 +16,33 @@ MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent) :
     filesGroup = new QGroupBox("Files", this);
 
     apeCheck = new QCheckBox("APE tags", this);
+    apeCheck->setChecked(true);
     asfCheck = new QCheckBox("ASF tags", this);
+    asfCheck->setChecked(true);
     id3v1Check = new QCheckBox("ID3v1 tags", this);
+    id3v1Check->setChecked(true);
     id3v2Check = new QCheckBox("ID3v2 tags", this);
+    id3v2Check->setChecked(true);
     infoTagCheck = new QCheckBox("RIFF Info tags", this);
+    infoTagCheck->setChecked(true);
     xiphCommentCheck = new QCheckBox("Xiph Comment", this);
+    xiphCommentCheck->setChecked(true);
     tagsGroup = new QGroupBox("Include:", this);
 
     titleCheck = new QCheckBox("Title:", this);
+    titleCheck->setChecked(true);
     trackCheck = new QCheckBox("Track:", this);
+    trackCheck->setChecked(true);
     albumCheck = new QCheckBox("Album:", this);
+    albumCheck->setChecked(true);
     artistCheck = new QCheckBox("Artist:", this);
+    artistCheck->setChecked(true);
     genreCheck = new QCheckBox("Genre:", this);
+    genreCheck->setChecked(true);
     yearCheck = new QCheckBox("Year:", this);
+    yearCheck->setChecked(true);
     commentCheck = new QCheckBox("Comment:", this);
+    commentCheck->setChecked(true);
     titleEdit = new QLineEdit(this);
     trackEdit = new QLineEdit(this);
     albumEdit = new QLineEdit(this);
