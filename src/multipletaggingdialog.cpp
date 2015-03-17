@@ -7,6 +7,8 @@
 MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent) :
     QDialog(parent) {
 
+    setWindowTitle("Multiple tagging");
+
     filesLabel = new QLabel("Files:", this);
     filesEdit = new QLineEdit(this);
     filesEdit->setReadOnly(true);
