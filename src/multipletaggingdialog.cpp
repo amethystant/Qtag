@@ -1,5 +1,7 @@
 #include "multipletaggingdialog.h"
+#include "main.h"
 #include <QPushButton>
+#include <QFileDialog>
 #include <QGridLayout>
 
 MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent) :
@@ -47,6 +49,7 @@ MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent) :
      QObject::connect(yearCheck, SIGNAL(clicked(bool)), yearEdit, SLOT(setEnabled(bool)));
      QObject::connect(commentCheck, SIGNAL(clicked(bool)), commentEdit, SLOT(setEnabled(bool)));
 
+     QObject::connect(selectFilesButton, SIGNAL(clicked()), this, SLOT(openFiles()));
      QObject::connect(okButton, SIGNAL(clicked()), this, SLOT(startTagging()));
      QObject::connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
 
@@ -109,6 +112,30 @@ void MultipleTaggingDialog::createLayout() {
     layout->addWidget(editorGroup, i, 0);
     i++;
     layout->addLayout(layout4, i, 0);
+
+}
+
+void MultipleTaggingDialog::openFiles() {
+
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+    dialog.setOption(QFileDialog::DontUseNativeDialog);
+#ifdef WIN32
+    dialog.setDirectory("C:/");
+#else
+    dialog.setDirectory("/home");
+#endif
+    dialog.setNameFilter(
+                tr(NAME_FILTER.c_str()));
+    dialog.setViewMode(QFileDialog::Detail);
+    dialog.show();
+    if(dialog.exec()) {
+
+        listOfFiles = dialog.selectedFiles();
+        filesEdit->clear();
+        filesEdit->insert(listOfFiles.join("; "));
+
+    }
 
 }
 

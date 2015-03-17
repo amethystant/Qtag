@@ -12,6 +12,7 @@ This file declares some simple non-objected functions and variables
 void setDarkTheme(QApplication &a);
 QString intToString(int i);
 
+const std::string NAME_FILTER = "Audio files (*.mp3 *.wav *.wave *.flac *.ogg *.wma *.asf *.wv)";
 
 namespace NamesOfTags {
 

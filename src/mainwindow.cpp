@@ -41,7 +41,7 @@ void MainWindow::openFile() {
     dialog.setDirectory("/home");
 #endif
     dialog.setNameFilter(
-                tr("Audio files (*.mp3 *.wav *.wave *.flac *.ogg *.wma *.asf *.wv)"));
+                tr(NAME_FILTER.c_str()));
     dialog.setViewMode(QFileDialog::Detail);
     dialog.show();
     if(dialog.exec()) {

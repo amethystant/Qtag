@@ -48,10 +48,13 @@ private:
     QPushButton* okButton;
     QPushButton* cancelButton;
 
+    QStringList listOfFiles;
+
     void createLayout();
 
 private slots:
     void startTagging();
+    void openFiles();
 
 };
 
