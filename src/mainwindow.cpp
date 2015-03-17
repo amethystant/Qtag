@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "copytagsdialog.h"
+#include "multipletaggingdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
                      this, SLOT(openInEditor(QTreeWidgetItem*)));
     QObject::connect(ui->actionSaveAll, SIGNAL(triggered()), this, SLOT(saveAll()));
     QObject::connect(ui->actionCopy_tags, SIGNAL(triggered()), this, SLOT(openCopyTagsDialog()));
+    QObject::connect(ui->actionMultipleTagging, SIGNAL(triggered()), this, SLOT(openMultipleTaggingDialog()));
     QObject::connect(ui->pushButton_closeFile, SIGNAL(clicked()), this, SLOT(closeCurrentFile()));
     QObject::connect(ui->pushButton_saveFile, SIGNAL(clicked()), this, SLOT(saveCurrentFile()));
 
@@ -368,4 +370,11 @@ void MainWindow::saveCurrentFile() {
     QObject::connect(button, SIGNAL(clicked()),dialog, SLOT(close()));
     layout->addWidget(button, 1, 1);
     dialog->update();
+}
+
+void MainWindow::openMultipleTaggingDialog() {
+
+    MultipleTaggingDialog* dialog = new MultipleTaggingDialog(this);
+    dialog->show();
+
 }

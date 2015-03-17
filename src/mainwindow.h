@@ -44,6 +44,7 @@ public slots:
     void openCopyTagsDialog();
     void closeCurrentFile();
     void saveCurrentFile();
+    void openMultipleTaggingDialog();
 
 };
 
