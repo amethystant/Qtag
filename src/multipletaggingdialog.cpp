@@ -8,7 +8,7 @@ MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent) :
     filesLabel = new QLabel("Files:", this);
     filesEdit = new QLineEdit(this);
     filesEdit->setReadOnly(true);
-    selectFilesButton  = new QPushButton("Select files:", this);
+    selectFilesButton  = new QPushButton("Select files", this);
     filesGroup = new QGroupBox("Files", this);
 
     apeCheck = new QCheckBox("APE tags", this);
