@@ -19,6 +19,7 @@ CopyTagsDialog::CopyTagsDialog(QWidget *parent, QList<AudioFile*> *listOfFiles) 
     targetTagSelection = new QComboBox(this);
 
     okButton = new QPushButton("OK", this);
+    cancelButton = new QPushButton("Cancel", this);
 
     sourceTagSelection->setEnabled(false);
     targetTagSelection->setEnabled(false);
@@ -27,6 +28,7 @@ CopyTagsDialog::CopyTagsDialog(QWidget *parent, QList<AudioFile*> *listOfFiles) 
     QObject::connect(sourceFileSelection, SIGNAL(currentIndexChanged(int)), this, SLOT(updateComboBoxes()));
     QObject::connect(targetFileSelection, SIGNAL(currentIndexChanged(int)), this, SLOT(updateComboBoxes()));
     QObject::connect(okButton, SIGNAL(clicked()), this, SLOT(startCopying()));
+    QObject::connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
     initComboBoxes();
     createLayout();
 
@@ -59,6 +61,7 @@ void CopyTagsDialog::createLayout() {
     layout->addWidget(targetTagLabel, i, 0);
     layout->addWidget(targetTagSelection, i, 1);
     i++;
+    layout->addWidget(cancelButton, i, 0);
     layout->addWidget(okButton, i, 3);
 
 }

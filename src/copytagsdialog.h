@@ -25,6 +25,7 @@ private:
     QComboBox* targetFileSelection;
     QComboBox* targetTagSelection;
     QPushButton* okButton;
+    QPushButton* cancelButton;
     void createLayout();
     void initComboBoxes();
     void copyTags(TagLib::Tag* sourceTag, TagLib::Tag* targetTag);
