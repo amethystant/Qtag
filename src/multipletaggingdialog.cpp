@@ -1,5 +1,6 @@
 #include "multipletaggingdialog.h"
 #include "main.h"
+#include "audiofile.h"
 #include <QPushButton>
 #include <QFileDialog>
 #include <QGridLayout>
@@ -151,6 +152,32 @@ void MultipleTaggingDialog::openFiles() {
         filesEdit->insert(listOfFiles.join("; "));
 
     }
+
+}
+
+void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
+
+    AudioFile file(path, NULL);
+    TagLib::Tag* tag = file.getTagByName(nameOfTag);
+    if(tag == NULL)
+        return;
+
+    if(titleCheck->isChecked())
+        tag->setTitle(titleEdit->text().toStdString());
+    if(trackCheck->isChecked())
+        tag->setTrack(trackEdit->text().toInt());
+    if(albumCheck->isChecked())
+        tag->setAlbum(albumEdit->text().toStdString());
+    if(artistCheck->isChecked())
+        tag->setArtist(artistEdit->text().toStdString());
+    if(commentCheck->isChecked())
+        tag->setComment(commentEdit->text().toStdString());
+    if(genreCheck->isChecked())
+        tag->setGenre(genreEdit->currentText().toStdString());
+    if(yearCheck->isChecked())
+        tag->setYear(yearEdit->text().toInt());
+
+    file.save();
 
 }
 

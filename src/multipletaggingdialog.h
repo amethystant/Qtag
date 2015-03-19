@@ -51,6 +51,7 @@ private:
     QStringList listOfFiles;
 
     void createLayout();
+    void saveTagsTo(QString nameOfTag, QString path);
 
 private slots:
     void startTagging();
