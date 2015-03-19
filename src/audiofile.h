@@ -30,7 +30,7 @@ class MainWindow;
 class AudioFile : public QObject {
     Q_OBJECT
 public:
-    explicit AudioFile(QString path, MainWindow* window);
+    explicit AudioFile(QString path, QObject *parent);
     ~AudioFile();
     void open(QString path);
     QString getPath();
@@ -85,9 +85,6 @@ private:
     int track;
     QString album;
     QString artist;
-    
-    //Pointer to the main window
-    MainWindow* window;
 
 public slots:
     void save();

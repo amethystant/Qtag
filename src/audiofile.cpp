@@ -1,10 +1,9 @@
 #include "audiofile.h"
-#include "mainwindow.h"
+#include "main.h"
 
-AudioFile::AudioFile(QString path, MainWindow *window) : QObject(window) {
+AudioFile::AudioFile(QString path, QObject* parent) : QObject(parent) {
 
     this->path = path;
-    this->window = window;
 
     hasFileApeTag = false;
     hasFileAsfTag = false;
