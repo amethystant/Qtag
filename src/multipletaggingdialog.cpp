@@ -156,4 +156,24 @@ void MultipleTaggingDialog::openFiles() {
 
 void MultipleTaggingDialog::startTagging() {
 
+    QDialog* dialog = new QDialog(this);
+    dialog->setWindowTitle(this->windowTitle());
+    QLabel* label = new QLabel("Please wait...", dialog);
+    QPushButton *button = new QPushButton("OK", dialog);
+    button->setEnabled(false);
+    QObject::connect(button, SIGNAL(clicked()), dialog, SLOT(close()));
+    QObject::connect(button, SIGNAL(clicked()), this, SLOT(close()));
+    QGridLayout* layout = new QGridLayout(dialog);
+    layout->addWidget(label, 0, 0);
+    layout->addWidget(button, 1, 1);
+    dialog->setLayout(layout);
+    dialog->show();
+
+
+
+    label->clear();
+    label->setText("Done.");
+    dialog->update();
+    button->setEnabled(true);
+
 }
