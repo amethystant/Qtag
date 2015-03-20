@@ -1,5 +1,6 @@
 #include "audiofile.h"
 #include "main.h"
+#include <QFile>
 
 AudioFile::AudioFile(QString path, QObject* parent) : QObject(parent) {
 
@@ -32,7 +33,9 @@ This method initializes the tags
 */
 void AudioFile::open(QString path) {
 
-    TagLib::FileName fileName = path.toStdString().c_str();
+    QByteArray encodedFileName = QFile::encodeName(path);
+    TagLib::FileName fileName =encodedFileName.constData();
+
     if(path.endsWith(".mp3", Qt::CaseInsensitive)) {
         format = MPEG;
         TagLib::MPEG::File* f = new TagLib::MPEG::File(fileName);
