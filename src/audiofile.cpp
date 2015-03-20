@@ -34,7 +34,8 @@ This method initializes the tags
 void AudioFile::open(QString path) {
 
     QByteArray encodedFileName = QFile::encodeName(path);
-    TagLib::FileName fileName =encodedFileName.constData();
+    const char* char_path = encodedFileName.constData();
+    TagLib::FileName fileName = char_path;
 
     if(path.endsWith(".mp3", Qt::CaseInsensitive)) {
         format = MPEG;
@@ -101,7 +102,7 @@ void AudioFile::open(QString path) {
 
     }
 
-    TagLib::FileRef f(path.toStdString().c_str());
+    TagLib::FileRef f(fileName);
     TagLib::Tag *tag = f.tag();
     name = QString::fromStdString(tag->title().to8Bit(true));
     track = tag->track();
