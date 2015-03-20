@@ -171,6 +171,8 @@ void CopyTagsDialog::startCopying() {
     copyTags(sourceFile->getTagByName(sourceTagSelection->currentText()),
              targetFile->getTagByName(targetTagSelection->currentText()));
 
+    targetFile->save();
+
     layout->removeWidget(label);
     label->clear();
     label->setText("Done");

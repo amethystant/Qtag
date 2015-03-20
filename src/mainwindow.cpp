@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "copytagsdialog.h"
 #include "multipletaggingdialog.h"
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -263,6 +264,12 @@ as the layout of the widget.
 */
 void MainWindow::updateEditor() {
 
+    if(openedFile == NULL) {
+        ui->lineEdit_path->clear();
+        QWidget* w = new QWidget(this);
+        ui->dockWidget_tags->setWidget(w);
+        return;
+    }
     ui->lineEdit_path->setText(openedFile->getPath());
     TagEditorLayout* editorLayout = findLayout(openedFile);
     QWidget* w = new QWidget(ui->dockWidget_tags);
@@ -330,8 +337,17 @@ void MainWindow::saveAll() {
 }
 
 void MainWindow::openCopyTagsDialog() {
+    if(QMessageBox::question(this, "Copying tags",
+                             "Do you want to save all files before copying tags?") != QMessageBox::Yes)
+        return;
+    saveAll();
+    openedFile = NULL;
+    listOfLayouts.clear();
+    updateEditor();
     CopyTagsDialog* dialog = new CopyTagsDialog(this, &listOfFiles);
     dialog->exec();
+    updateViews();
+
 }
 
 void MainWindow::closeCurrentFile() {
