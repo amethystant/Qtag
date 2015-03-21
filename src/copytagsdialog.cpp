@@ -2,6 +2,7 @@
 #include "main.h"
 #include <QPushButton>
 #include <QGridLayout>
+#include <QMessageBox>
 
 CopyTagsDialog::CopyTagsDialog(QWidget *parent, QList<AudioFile*> *listOfFiles) : QDialog(parent) {
 
@@ -147,13 +148,11 @@ void CopyTagsDialog::copyTags(TagLib::Tag* sourceTag, TagLib::Tag* targetTag) {
 
 void CopyTagsDialog::startCopying() {
 
-    QDialog* dialog = new QDialog(this, 0);
-    dialog->setWindowTitle("Copying...");
-    QLabel* label = new QLabel("Please wait...", dialog);
-    dialog->setBaseSize(300, 200);
-    QGridLayout* layout = new QGridLayout(dialog);
-    layout->addWidget(label);
-    dialog->show();
+    QMessageBox* message = new QMessageBox(this);
+    message->setStandardButtons(QMessageBox::NoButton);
+    message->setText("Please wait...");
+    message->setWindowTitle("Copying...");
+    message->show();
 
     AudioFile* sourceFile;
     AudioFile* targetFile;
@@ -173,13 +172,9 @@ void CopyTagsDialog::startCopying() {
 
     targetFile->save();
 
-    layout->removeWidget(label);
-    label->clear();
-    label->setText("Done");
-    QPushButton* button = new QPushButton("OK", dialog);
-    layout->addWidget(button,1, 1);
-    QObject::connect(button, SIGNAL(clicked()), dialog, SLOT(close()));
-    QObject::connect(button, SIGNAL(clicked()), this, SLOT(close()));
-    dialog->update();
+    message->setText("Done.");
+    message->setStandardButtons(QMessageBox::Ok);
+    message->update();
+    close();
 
 }
