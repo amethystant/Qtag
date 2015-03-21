@@ -315,24 +315,24 @@ Ui::MainWindow* MainWindow::getUI() {
  * This slot saves all files which has been opened in the editor
 */
 void MainWindow::saveAll() {
+
+    QMessageBox* message = new QMessageBox(this);
+    message->setWindowTitle("Saving...");
+    message->setText("Please wait...");
+    message->setStandardButtons(QMessageBox::NoButton);
+    message->show();
+
     int i;
     for( i = 0; i < listOfLayouts.length(); i++ ) {
         TagEditorLayout* l = listOfLayouts.at(i);
         l->getFile()->save();
     }
 
-    QDialog* dialog = new QDialog(this);
-    dialog->setWindowTitle("Saving...");
-    QLabel* label = new QLabel("Saved.", dialog);
-    QPushButton* button = new QPushButton("OK", dialog);
-    QObject::connect(button, SIGNAL(clicked()), dialog, SLOT(close()));
-    QVBoxLayout* layout = new QVBoxLayout(dialog);
-    layout->addWidget(label);
-    layout->addWidget(button);
-    dialog->setLayout(layout);
-    dialog->setFixedSize(200, 100);
-    dialog->show();
     updateViews();
+
+    message->setText("Done.");
+    message->setStandardButtons(QMessageBox::Ok);
+    message->update();
 
 }
 
