@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QGridLayout>
+#include <QMessageBox>
 
 MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent) :
     QDialog(parent) {
@@ -183,18 +184,11 @@ void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
 
 void MultipleTaggingDialog::startTagging() {
 
-    QDialog* dialog = new QDialog(this);
-    dialog->setWindowTitle(this->windowTitle());
-    QLabel* label = new QLabel("Please wait...", dialog);
-    QPushButton *button = new QPushButton("OK", dialog);
-    button->setEnabled(false);
-    QObject::connect(button, SIGNAL(clicked()), dialog, SLOT(close()));
-    QObject::connect(button, SIGNAL(clicked()), this, SLOT(close()));
-    QGridLayout* layout = new QGridLayout(dialog);
-    layout->addWidget(label, 0, 0);
-    layout->addWidget(button, 1, 1);
-    dialog->setLayout(layout);
-    dialog->show();
+    QMessageBox* message = new QMessageBox(this);
+    message->setWindowTitle(windowTitle());
+    message->setText("Please wait...");
+    message->setStandardButtons(QMessageBox::NoButton);
+    message->show();
 
     for(int i = 0; i < listOfFiles.length(); i++) {
 
@@ -214,9 +208,9 @@ void MultipleTaggingDialog::startTagging() {
 
     }
 
-    label->clear();
-    label->setText("Done.");
-    dialog->update();
-    button->setEnabled(true);
+    message->setText("Done.");
+    message->setStandardButtons(QMessageBox::Ok);
+    message->update();
+    close();
 
 }
