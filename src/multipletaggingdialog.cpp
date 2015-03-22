@@ -157,8 +157,8 @@ void MultipleTaggingDialog::openFiles() {
 
 void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
 
-    AudioFile file(path, NULL);
-    TagLib::Tag* tag = file.getTagByName(nameOfTag);
+    AudioFile* file = new AudioFile(path, this);
+    TagLib::Tag* tag = file->getTagByName(nameOfTag);
     if(tag == NULL)
         return;
 
@@ -177,7 +177,7 @@ void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
     if(yearCheck->isChecked())
         tag->setYear(yearEdit->text().toInt());
 
-    file.save();
+    file->save();
 
 }
 
@@ -196,7 +196,23 @@ void MultipleTaggingDialog::startTagging() {
     dialog->setLayout(layout);
     dialog->show();
 
+    for(int i = 0; i < listOfFiles.length(); i++) {
 
+        QString path = listOfFiles.at(i);
+        if(apeCheck->isChecked())
+            saveTagsTo(QString::fromStdString(NamesOfTags::APE), path);
+        if(asfCheck->isChecked())
+            saveTagsTo(QString::fromStdString(NamesOfTags::ASF), path);
+        if(id3v1Check->isChecked())
+            saveTagsTo(QString::fromStdString(NamesOfTags::ID3V1), path);
+        if(id3v2Check->isChecked())
+            saveTagsTo(QString::fromStdString(NamesOfTags::ID3V2), path);
+        if(infoTagCheck->isChecked())
+            saveTagsTo(QString::fromStdString(NamesOfTags::INFO), path);
+        if(xiphCommentCheck->isChecked())
+            saveTagsTo(QString::fromStdString(NamesOfTags::XIPH), path);
+
+    }
 
     label->clear();
     label->setText("Done.");
