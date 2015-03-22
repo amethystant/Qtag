@@ -390,7 +390,15 @@ void MainWindow::saveCurrentFile() {
 
 void MainWindow::openMultipleTaggingDialog() {
 
+    if(QMessageBox::question(this, "Copying tags",
+                             "Do you want to save all files before copying tags?") != QMessageBox::Yes)
+        return;
+    saveAll();
+    openedFile = NULL;
+    listOfLayouts.clear();
+    updateEditor();
     MultipleTaggingDialog* dialog = new MultipleTaggingDialog(this);
     dialog->show();
+    updateViews();
 
 }
