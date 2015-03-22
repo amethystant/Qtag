@@ -125,8 +125,8 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>0</width>
-     <height>0</height>
+     <width>188</width>
+     <height>206</height>
     </size>
    </property>
    <property name="baseSize">
@@ -157,6 +157,27 @@
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="0" column="1">
       <layout class="QGridLayout" name="gridLayout_3">
+       <item row="4" column="1">
+        <widget class="QLabel" name="label_channels_value">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_length">
+         <property name="text">
+          <string>Legth:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_bitrate">
+         <property name="text">
+          <string>Bitrate:</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label_file">
          <property name="text">
@@ -167,6 +188,34 @@
        <item row="0" column="1">
         <widget class="QLineEdit" name="lineEdit_path"/>
        </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="pushButton_saveFile">
+         <property name="text">
+          <string>Save file</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_bitrate_value">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_channels">
+         <property name="text">
+          <string>Channels:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="label_length_value">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="0">
         <widget class="QPushButton" name="pushButton_closeFile">
          <property name="text">
@@ -174,10 +223,17 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="pushButton_saveFile">
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_sampleRate">
          <property name="text">
-          <string>Save file</string>
+          <string>Sample Rate:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLabel" name="label_sampleRate_value">
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </item>

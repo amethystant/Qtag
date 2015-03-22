@@ -1,6 +1,7 @@
 #include "audiofile.h"
 #include "main.h"
 #include <QFile>
+#include <audioproperties.h>
 
 AudioFile::AudioFile(QString path, QObject* parent) : QObject(parent) {
 
@@ -103,11 +104,18 @@ void AudioFile::open(QString path) {
     }
 
     TagLib::FileRef f(fileName);
+
     TagLib::Tag *tag = f.tag();
     name = QString::fromStdString(tag->title().to8Bit(true));
     track = tag->track();
     album = QString::fromStdString(tag->album().to8Bit(true));
     artist = QString::fromStdString(tag->artist().to8Bit(true));
+
+    TagLib::AudioProperties* properties = f.audioProperties();
+    bitrate = properties->bitrate();
+    channels = properties->channels();
+    length = properties->length();
+    sampleRate = properties->sampleRate();
 
 }
 
@@ -220,4 +228,20 @@ TagLib::Tag* AudioFile::getTagByName(QString name) {
         return xiphComment;
 
         return NULL;
+}
+
+int AudioFile::getBitrate() {
+    return bitrate;
+}
+
+int AudioFile::getLength() {
+    return length;
+}
+
+int AudioFile::getChannels() {
+    return channels;
+}
+
+int AudioFile::getSampleRate() {
+    return sampleRate;
 }

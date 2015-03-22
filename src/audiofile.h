@@ -52,6 +52,10 @@ public:
     TagLib::APE::Tag* getApeTag();
     AudioFormat getFormat();
     TagLib::Tag* getTagByName(QString name);
+    int getBitrate();
+    int getChannels();
+    int getSampleRate();
+    int getLength();
 
 private:
     TagLib::File* file; //this is a pointer to a specific TagLib::File derived object which holds all the TagLib::Tag derived objects
@@ -85,6 +89,10 @@ private:
     int track;
     QString album;
     QString artist;
+    int bitrate;
+    int channels;
+    int length;
+    int sampleRate;
 
 public slots:
     void save();

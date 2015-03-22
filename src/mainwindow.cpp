@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "copytagsdialog.h"
 #include "multipletaggingdialog.h"
+#include "main.h"
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -266,11 +267,30 @@ void MainWindow::updateEditor() {
 
     if(openedFile == NULL) {
         ui->lineEdit_path->clear();
+        ui->label_bitrate_value->clear();
+        ui->label_channels_value->clear();
+        ui->label_length_value->clear();
+        ui->label_sampleRate_value->clear();
         QWidget* w = new QWidget(this);
         ui->dockWidget_tags->setWidget(w);
         return;
     }
     ui->lineEdit_path->setText(openedFile->getPath());
+
+    QString bitrate = intToString(openedFile->getBitrate());
+    bitrate.append(" kb/s");
+    QString channels = intToString(openedFile->getChannels());
+    QString length = intToString(openedFile->getLength()/60);
+    length.append(":");
+    length.append(intToString(openedFile->getLength()%60));
+    length.append(" min");
+    QString sampleRate = intToString(openedFile->getSampleRate());
+    sampleRate.append(" Hz");
+    ui->label_bitrate_value->setText(bitrate);
+    ui->label_channels_value->setText(channels);
+    ui->label_length_value->setText(length);
+    ui->label_sampleRate_value->setText(sampleRate);
+
     TagEditorLayout* editorLayout = findLayout(openedFile);
     QWidget* w = new QWidget(ui->dockWidget_tags);
     w->setLayout(editorLayout);
@@ -351,14 +371,9 @@ void MainWindow::openCopyTagsDialog() {
 }
 
 void MainWindow::closeCurrentFile() {
-    if(ui->lineEdit_path->text().isEmpty())
-        return;
-    QString path = ui->lineEdit_path->text();
-    ui->lineEdit_path->clear();
     openedFile = NULL;
-    QWidget* widget = new QWidget();
-    ui->dockWidget_tags->setWidget(widget);
-    ui->dockWidget_tags->show();
+    QString path = ui->lineEdit_path->text();
+    updateEditor();
     int i;
     for(i = 0; i < listOfFiles.length(); i++) {
         AudioFile* f = listOfFiles.at(i);
