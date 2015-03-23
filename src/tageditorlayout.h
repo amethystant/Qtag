@@ -51,6 +51,9 @@ private:
     TagLib::RIFF::Info::Tag *infoTag;
     TagLib::Ogg::XiphComment *xiphComment;
 
+signals:
+    void fileEdited();
+
 };
 
 #endif // TAGEDITORLAYOUT_H

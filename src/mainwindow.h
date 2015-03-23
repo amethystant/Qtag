@@ -34,6 +34,7 @@ private:
     void updateViews();
     void updateEditor();
     bool isFileOnList(QString path);
+    bool unsavedChanges;
     AudioFile* openedFile; //the file that is viewed in the tag editor
 
 public slots:
@@ -45,6 +46,7 @@ public slots:
     void closeCurrentFile();
     void saveCurrentFile();
     void openMultipleTaggingDialog();
+    void fileEdited();
 
 };
 

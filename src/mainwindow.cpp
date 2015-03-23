@@ -321,6 +321,7 @@ TagEditorLayout* MainWindow::findLayout(AudioFile *file, bool create) {
         return NULL;
     } else {
         TagEditorLayout* l = new TagEditorLayout(this, file);
+        QObject::connect(l, SIGNAL(fileEdited()), this, SLOT(fileEdited()));
         listOfLayouts.append(l);
         return l;
     }
@@ -348,6 +349,7 @@ void MainWindow::saveAll() {
         l->getFile()->save();
     }
 
+    unsavedChanges = false;
     updateViews();
 
     message->setText("Done.");
@@ -357,10 +359,12 @@ void MainWindow::saveAll() {
 }
 
 void MainWindow::openCopyTagsDialog() {
-    if(QMessageBox::question(this, "Copying tags",
-                             "Do you want to save all files before copying tags?") != QMessageBox::Yes)
-        return;
-    saveAll();
+    if(unsavedChanges) {
+        if(QMessageBox::question(this, "Copying tags",
+                                 "Do you want to save all files before copying tags?") != QMessageBox::Yes)
+            return;
+        saveAll();
+    }
     openedFile = NULL;
     listOfLayouts.clear();
     updateEditor();
@@ -405,10 +409,12 @@ void MainWindow::saveCurrentFile() {
 
 void MainWindow::openMultipleTaggingDialog() {
 
-    if(QMessageBox::question(this, "Copying tags",
-                             "Do you want to save all files before copying tags?") != QMessageBox::Yes)
-        return;
-    saveAll();
+    if(unsavedChanges) {
+        if(QMessageBox::question(this, "Copying tags",
+                                 "Do you want to save all files before copying tags?") != QMessageBox::Yes)
+            return;
+        saveAll();
+    }
     openedFile = NULL;
     listOfLayouts.clear();
     updateEditor();
@@ -416,4 +422,8 @@ void MainWindow::openMultipleTaggingDialog() {
     dialog->show();
     updateViews();
 
+}
+
+void MainWindow::fileEdited() {
+    unsavedChanges = true;
 }

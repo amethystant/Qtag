@@ -46,6 +46,7 @@ void TagEditorLayout::loadTagEditors() {
 void TagEditorLayout::loadAsfTags() {
     asfTag = file->getAsfTag();
     CommonTagEditor* asfEdit = new CommonTagEditor(asfTag, "ASF tag", parent);
+    QObject::connect(asfEdit, SIGNAL(fileEdited()), this, SIGNAL(fileEdited()));
     addWidget(asfEdit);
 }
 
@@ -75,6 +76,7 @@ void TagEditorLayout::loadWavTags() {
     if(file->hasInfoTag()) {
         infoTag = file->getInfoTag();
         CommonTagEditor* infoTagEdit = new CommonTagEditor(infoTag, "Info tag", parent);
+        QObject::connect(infoTagEdit, SIGNAL(fileEdited()), this, SIGNAL(fileEdited()));
         addWidget(infoTagEdit);
     }
 
@@ -86,6 +88,7 @@ void TagEditorLayout::addId3v1Editor() {
     if(file->hasId3v1()) {
         id3v1Tag = file->getId3v1();
         Id3v1Editor* id3v1Edit = new Id3v1Editor(id3v1Tag, parent);
+        QObject::connect(id3v1Edit, SIGNAL(fileEdited()), this, SIGNAL(fileEdited()));
         addWidget(id3v1Edit);
     }
 }
@@ -94,6 +97,7 @@ void TagEditorLayout::addId3v2Editor() {
         if(file->hasId3v2()) {
             id3v2Tag = file->getId3v2();
             Id3v2Editor* id3v2Edit = new Id3v2Editor(id3v2Tag, parent);
+            QObject::connect(id3v2Edit, SIGNAL(fileEdited()), this, SIGNAL(fileEdited()));
             addWidget(id3v2Edit);
         }
 }
@@ -102,6 +106,7 @@ void TagEditorLayout::addApeTagEditor() {
     if(file->hasApeTag()) {
         apeTag = file->getApeTag();
         ApeTagEditor* apeEdit = new ApeTagEditor(apeTag, parent);
+        QObject::connect(apeEdit, SIGNAL(fileEdited()), this, SIGNAL(fileEdited()));
         addWidget(apeEdit);
     }
 }
@@ -110,6 +115,7 @@ void TagEditorLayout::addXiphCommentEditor() {
     if(file->hasXiphComment()) {
         xiphComment = file->getXiphComment();
         CommonTagEditor* xiphEdit = new CommonTagEditor(xiphComment, "Xiph comment", parent);
+        QObject::connect(xiphEdit, SIGNAL(fileEdited()), this, SIGNAL(fileEdited()));
         addWidget(xiphEdit);
     }
 }
