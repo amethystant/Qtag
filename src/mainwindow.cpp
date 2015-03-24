@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     openedFile = NULL;
     ui->setupUi(this);
     ui->lineEdit_path->setReadOnly(true);
+    unsavedChanges = false;
 
     QObject::connect(ui->actionOpenFile, SIGNAL(triggered()), this, SLOT(openFile()));
     QObject::connect(ui->actionOpenFolder, SIGNAL(triggered()), this, SLOT(openFolder()));
