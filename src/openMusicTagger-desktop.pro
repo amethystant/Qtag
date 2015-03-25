@@ -43,9 +43,10 @@ RESOURCES += \
     qdarkstyle/style.qrc \
     images/images.qrc
 
-win32:CONFIG(release, debug|release): LIBS += -ltag
-else:win32:CONFIG(debug, debug|release): LIBS += -ltag
-else:unix: LIBS += -L/usr/lib/ -ltag
+unix: LIBS += -L/usr/lib/ -ltag
+win32: LIBS += -L"C:\Libraries\taglib\lib" -ltag
 
-INCLUDEPATH +=/usr/include/taglib
-DEPENDPATH += /usr/include/taglib
+unix:INCLUDEPATH +=/usr/include/taglib
+unix:DEPENDPATH += /usr/include/taglib
+win32:INCLUDEPATH += C:/Libraries/taglib/include/taglib
+win32:DEPENDPATH += C:/Libraries/taglib/include/taglib
