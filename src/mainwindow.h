@@ -39,7 +39,7 @@ private:
 
 public slots:
     void openFile();
-    void openFolder();
+    void openDirectory();
     void openInEditor(QTreeWidgetItem* file);
     void saveAll();
     void openCopyTagsDialog();

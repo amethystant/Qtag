@@ -64,7 +64,7 @@
       <string>&amp;Open...</string>
      </property>
      <addaction name="actionOpenFile"/>
-     <addaction name="actionOpenFolder"/>
+     <addaction name="actionOpenDirectory"/>
     </widget>
     <addaction name="menuOpen"/>
     <addaction name="actionSaveAll"/>
@@ -110,7 +110,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionOpenFile"/>
-   <addaction name="actionOpenFolder"/>
+   <addaction name="actionOpenDirectory"/>
    <addaction name="actionSaveAll"/>
    <addaction name="separator"/>
    <addaction name="actionMultipleTagging"/>
@@ -293,19 +293,19 @@
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="actionOpenFolder">
+  <action name="actionOpenDirectory">
    <property name="icon">
     <iconset resource="images/images.qrc">
      <normaloff>:/images/openfolder.png</normaloff>:/images/openfolder.png</iconset>
    </property>
    <property name="text">
-    <string>Open &amp;folder</string>
+    <string>Open &amp;directory</string>
    </property>
    <property name="toolTip">
     <string>Open folder</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+F</string>
+    <string>Ctrl+D</string>
    </property>
   </action>
   <action name="actionMultipleTagging">
@@ -382,7 +382,7 @@
   </action>
   <action name="actionQuit">
    <property name="text">
-    <string>Quit</string>
+    <string>&amp;Quit</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>

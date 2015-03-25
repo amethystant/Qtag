@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     unsavedChanges = false;
 
     QObject::connect(ui->actionOpenFile, SIGNAL(triggered()), this, SLOT(openFile()));
-    QObject::connect(ui->actionOpenFolder, SIGNAL(triggered()), this, SLOT(openFolder()));
+    QObject::connect(ui->actionOpenDirectory, SIGNAL(triggered()), this, SLOT(openDirectory()));
     QObject::connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
                      this, SLOT(openInEditor(QTreeWidgetItem*)));
     QObject::connect(ui->actionSaveAll, SIGNAL(triggered()), this, SLOT(saveAll()));
@@ -190,9 +190,9 @@ void MainWindow::updateViews() {
 }
 
 /*
-Opens the "folder dialog", which allows user to select a whole folder to open.
+Opens the "folder dialog", which allows user to select a whole directory to open.
 */
-void MainWindow::openFolder() {
+void MainWindow::openDirectory() {
 
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::DirectoryOnly);
