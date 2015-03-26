@@ -269,6 +269,7 @@ void MainWindow::updateEditor() {
 
     if(openedFile == NULL) {
         ui->lineEdit_path->clear();
+        ui->label_type_value->clear();
         ui->label_bitrate_value->clear();
         ui->label_channels_value->clear();
         ui->label_length_value->clear();
@@ -279,6 +280,7 @@ void MainWindow::updateEditor() {
     }
     ui->lineEdit_path->setText(openedFile->getPath());
 
+    QString type = openedFile->getType();
     QString bitrate = intToString(openedFile->getBitrate());
     bitrate.append(" kb/s");
     QString channels = intToString(openedFile->getChannels());
@@ -288,6 +290,7 @@ void MainWindow::updateEditor() {
     length.append(" min");
     QString sampleRate = intToString(openedFile->getSampleRate());
     sampleRate.append(" Hz");
+    ui->label_type_value->setText(type);
     ui->label_bitrate_value->setText(bitrate);
     ui->label_channels_value->setText(channels);
     ui->label_length_value->setText(length);

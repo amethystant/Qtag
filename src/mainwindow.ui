@@ -127,8 +127,8 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>188</width>
-     <height>206</height>
+     <width>252</width>
+     <height>229</height>
     </size>
    </property>
    <property name="baseSize">
@@ -159,21 +159,21 @@
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="0" column="1">
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="4" column="1">
+       <item row="5" column="1">
         <widget class="QLabel" name="label_channels_value">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="4" column="0">
         <widget class="QLabel" name="label_length">
          <property name="text">
           <string>Legth:</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="label_bitrate">
          <property name="text">
           <string>Bitrate:</string>
@@ -197,21 +197,21 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="3" column="1">
         <widget class="QLabel" name="label_bitrate_value">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="label_channels">
          <property name="text">
           <string>Channels:</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="4" column="1">
         <widget class="QLabel" name="label_length_value">
          <property name="text">
           <string/>
@@ -225,15 +225,29 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="6" column="0">
         <widget class="QLabel" name="label_sampleRate">
          <property name="text">
           <string>Sample Rate:</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="6" column="1">
         <widget class="QLabel" name="label_sampleRate_value">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_type">
+         <property name="text">
+          <string>Type:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_type_value">
          <property name="text">
           <string/>
          </property>

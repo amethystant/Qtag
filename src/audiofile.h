@@ -52,6 +52,7 @@ public:
     TagLib::APE::Tag* getApeTag();
     AudioFormat getFormat();
     TagLib::Tag* getTagByName(QString name);
+    QString getType();
     int getBitrate();
     int getChannels();
     int getSampleRate();

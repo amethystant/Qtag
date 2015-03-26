@@ -230,6 +230,27 @@ TagLib::Tag* AudioFile::getTagByName(QString name) {
         return NULL;
 }
 
+QString AudioFile::getType() {
+
+    QString returnValue;
+    if(format == ASF) {
+        returnValue = "ASF";
+    } else if(format == WavPack) {
+        returnValue = "Wav Pack";
+    } else if(format == WAV) {
+        returnValue = "WAV";
+    } else if(format == OggVorbis) {
+        returnValue = "Ogg Vorbis";
+    } else if(format == FLAC) {
+        returnValue = "FLAC";
+    } else if(format == MPEG) {
+        returnValue = "MPEG";
+    }
+
+    return returnValue;
+
+}
+
 int AudioFile::getBitrate() {
     return bitrate;
 }
