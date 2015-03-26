@@ -62,7 +62,7 @@ void AudioFile::open(QString path) {
         xiphComment = f->xiphComment(true);
 
     } else if(path.endsWith(".wav", Qt::CaseInsensitive) ||
-              path.endsWith(".wave"), Qt::CaseInsensitive) {
+              path.endsWith(".wave", Qt::CaseInsensitive)) {
 
         format = WAV;
         TagLib::RIFF::WAV::File *f = new TagLib::RIFF::WAV::File(fileName);
