@@ -137,7 +137,7 @@ void MainWindow::updateViews() {
                 artist.listOfAlbums.append(newAlbum);
             } else {
                 int index1 = i1;
-                Album al = artist.listOfAlbums.at(index);
+                Album al = artist.listOfAlbums.at(index1);
                 al.listOfFiles.append(f);
                 artist.listOfAlbums.replace(index1, al);
             }
