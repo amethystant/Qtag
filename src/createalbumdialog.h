@@ -39,11 +39,15 @@ private:
     QCheckBox* xiphCommentCheck;
     QGroupBox* tagsGroup;
 
+    QPushButton* startTaggingButton;
+    QPushButton* cancelButton;
+
     void createLayout();
 
 private slots:
+    void openDirectorySelection();
+    void showHint();
     void startTagging();
-    void openFiles();
 
 };
 
