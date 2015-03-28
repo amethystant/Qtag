@@ -102,7 +102,7 @@ void CreateAlbumDialog::createLayout() {
 
 void CreateAlbumDialog::openDirectorySelection() {
 
-    QFileDialog d();
+    QFileDialog d(this);
     d.setFileMode(QFileDialog::DirectoryOnly);
     d.setOption(QFileDialog::DontUseNativeDialog);
 #ifdef WIN32
