@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = openMusicTagger-desktop
+TARGET = Qtag
 TEMPLATE = app
 
 
