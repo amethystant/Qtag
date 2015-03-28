@@ -31,6 +31,7 @@ private:
     QList<TagEditorLayout*> listOfLayouts;
 
     TagEditorLayout* findLayout(AudioFile* file, bool create = true);
+    void setIcons();
     void updateViews();
     void updateEditor();
     bool isFileOnList(QString path);

@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->lineEdit_path->setReadOnly(true);
     unsavedChanges = false;
+    setIcons();
 
     QObject::connect(ui->actionOpenFile, SIGNAL(triggered()), this, SLOT(openFile()));
     QObject::connect(ui->actionOpenDirectory, SIGNAL(triggered()), this, SLOT(openDirectory()));
@@ -33,6 +34,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+void MainWindow::setIcons() {
+
+    ui->actionQuit->setIcon(QIcon::fromTheme("application-exit", QIcon(":/application-exit.png")));
+    ui->actionCopy_tags->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/copytags.png")));
+    ui->actionCreate_album_from_folder->setIcon(QIcon::fromTheme("media-optical", QIcon(":/createalbum.png")));
+    ui->actionAbout->setIcon(QIcon::fromTheme("help-about", QIcon(":/info.png")));
+    ui->actionOpenDirectory->setIcon(QIcon::fromTheme("folder-open", QIcon(":/opendirectory.png")));
+    ui->actionOpenFile->setIcon(QIcon::fromTheme("document-open", QIcon(":/openfile.png")));
+    ui->actionHow_to_contribute->setIcon(QIcon::fromTheme("help-about", QIcon(":/info.png")));
+    ui->actionLicense->setIcon(QIcon::fromTheme("help-about", QIcon(":/info.png")));
+    ui->actionMultipleTagging->setIcon(QIcon::fromTheme("format-justify-fill",
+                                                        QIcon(":/multipletagging.png")));
+    ui->actionSaveAll->setIcon(QIcon::fromTheme("document-save", QIcon(":/save.png")));
+    ui->actionSettings->setIcon(QIcon::fromTheme("preferences-system", QIcon(":/settings.png")));
+
 }
 
 /*

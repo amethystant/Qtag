@@ -280,10 +280,6 @@
    <widget class="QWidget" name="dockWidgetContents_tags"/>
   </widget>
   <action name="actionSaveAll">
-   <property name="icon">
-    <iconset resource="images/images.qrc">
-     <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
-   </property>
    <property name="text">
     <string>&amp;Save all</string>
    </property>
@@ -292,11 +288,6 @@
    </property>
   </action>
   <action name="actionOpenFile">
-   <property name="icon">
-    <iconset>
-     <normalon>:/images/openfile.png</normalon>
-    </iconset>
-   </property>
    <property name="text">
     <string>&amp;Open file(s)</string>
    </property>
@@ -308,10 +299,6 @@
    </property>
   </action>
   <action name="actionOpenDirectory">
-   <property name="icon">
-    <iconset resource="images/images.qrc">
-     <normaloff>:/images/openfolder.png</normaloff>:/images/openfolder.png</iconset>
-   </property>
    <property name="text">
     <string>Open &amp;directory</string>
    </property>
@@ -323,10 +310,6 @@
    </property>
   </action>
   <action name="actionMultipleTagging">
-   <property name="icon">
-    <iconset resource="images/images.qrc">
-     <normaloff>:/images/multipletagging.png</normaloff>:/images/multipletagging.png</iconset>
-   </property>
    <property name="text">
     <string>&amp;Multiple tagging...</string>
    </property>
@@ -335,10 +318,6 @@
    </property>
   </action>
   <action name="actionCopy_tags">
-   <property name="icon">
-    <iconset resource="images/images.qrc">
-     <normaloff>:/images/copytags.png</normaloff>:/images/copytags.png</iconset>
-   </property>
    <property name="text">
     <string>&amp;Copy tags...</string>
    </property>
@@ -347,10 +326,6 @@
    </property>
   </action>
   <action name="actionCreate_album_from_folder">
-   <property name="icon">
-    <iconset resource="images/images.qrc">
-     <normaloff>:/images/createalbum.png</normaloff>:/images/createalbum.png</iconset>
-   </property>
    <property name="text">
     <string>Create album &amp;from folder...</string>
    </property>
