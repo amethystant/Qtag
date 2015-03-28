@@ -3,6 +3,8 @@
 #include "copytagsdialog.h"
 #include "multipletaggingdialog.h"
 #include "main.h"
+#include "createalbumdialog.h"
+
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -21,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionSaveAll, SIGNAL(triggered()), this, SLOT(saveAll()));
     QObject::connect(ui->actionCopy_tags, SIGNAL(triggered()), this, SLOT(openCopyTagsDialog()));
     QObject::connect(ui->actionMultipleTagging, SIGNAL(triggered()), this, SLOT(openMultipleTaggingDialog()));
+    QObject::connect(ui->actionCreate_album_from_folder, SIGNAL(triggered()),
+                     this, SLOT(openCreateAlbumDialog()));
     QObject::connect(ui->pushButton_closeFile, SIGNAL(clicked()), this, SLOT(closeCurrentFile()));
     QObject::connect(ui->pushButton_saveFile, SIGNAL(clicked()), this, SLOT(saveCurrentFile()));
     QObject::connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
@@ -431,4 +435,22 @@ void MainWindow::openMultipleTaggingDialog() {
 
 void MainWindow::fileEdited() {
     unsavedChanges = true;
+}
+
+
+void MainWindow::openCreateAlbumDialog() {
+
+    if(unsavedChanges) {
+        if(QMessageBox::question(this, "Copying tags",
+                                 "Do you want to save all files before copying tags?") != QMessageBox::Yes)
+            return;
+        saveAll();
+    }
+    openedFile = NULL;
+    listOfLayouts.clear();
+    updateEditor();
+    CreateAlbumDialog* dialog = new CreateAlbumDialog(this);
+    dialog->show();
+    updateViews();
+
 }

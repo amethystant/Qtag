@@ -47,6 +47,7 @@ public slots:
     void saveCurrentFile();
     void openMultipleTaggingDialog();
     void fileEdited();
+    void openCreateAlbumDialog();
 
 };
 
