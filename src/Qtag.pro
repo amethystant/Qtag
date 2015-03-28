@@ -41,9 +41,7 @@ HEADERS  += picturefile.h \
 
 FORMS    += mainwindow.ui
 
-RESOURCES += \
-    qdarkstyle/style.qrc \
-    images/images.qrc
+RESOURCES += images/images.qrc
 
 unix: LIBS += -L/usr/lib/ -ltag
 win32: LIBS += -L"C:\Libraries\taglib\lib" -ltag

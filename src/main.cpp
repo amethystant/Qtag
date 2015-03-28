@@ -6,27 +6,10 @@
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-    setDarkTheme(a);
     MainWindow w;
     w.show();
 
     return a.exec();
-}
-
-
-/*
-Sets the application appearence to the Qt Dark style by Collin Duquesnoy
-*/
-void setDarkTheme(QApplication &a) {
-
-    QFile f(":qdarkstyle/style.qss");
-    if (f.exists()) {
-
-        f.open(QFile::ReadOnly | QFile::Text);
-        QTextStream ts(&f);
-        a.setStyleSheet(ts.readAll());
-    }
-
 }
 
 QString intToString(int i) {
