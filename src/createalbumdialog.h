@@ -10,6 +10,8 @@
 
 class CreateAlbumDialog : public QDialog {
 
+    Q_OBJECT
+
 public:
     CreateAlbumDialog(QWidget* parent);
 
