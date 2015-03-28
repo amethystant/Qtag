@@ -1,4 +1,6 @@
 #include "createalbumdialog.h"
+
+#include <QFileDialog>
 #include <QGridLayout>
 
 CreateAlbumDialog::CreateAlbumDialog(QWidget *parent) :
@@ -27,7 +29,7 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget *parent) :
     asfCheck = new QCheckBox("ASF tags", this);
     asfCheck->setChecked(true);
     id3v1Check = new QCheckBox("ID3v1 tags", this);
-    id3v2Check->setChecked(true);
+    id3v1Check->setChecked(true);
     id3v2Check = new QCheckBox("ID3v2 tags", this);
     id3v2Check->setChecked(true);
     infoTagCheck = new QCheckBox("RIFF Info tags", this);
@@ -89,12 +91,10 @@ void CreateAlbumDialog::createLayout() {
     layout7->addWidget(startTaggingButton);
     layout7->addWidget(cancelButton);
 
-    layout->addLayout(layout1);
-    layout->addLayout(layout2);
-    layout->addLayout(layout3);
-    layout->addLayout(layout4);
-    layout->addLayout(layout5);
-    layout->addLayout(layout6);
+    layout->addWidget(directoryGroup);
+    layout->addWidget(tagFormatGroup);
+    layout->addWidget(additionalChangesGroup);
+    layout->addWidget(tagsGroup);
     layout->addLayout(layout7);
     setLayout(layout);
 
