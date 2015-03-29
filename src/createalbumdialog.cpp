@@ -41,6 +41,7 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget *parent) :
     startTaggingButton = new QPushButton("OK", this);
     cancelButton = new QPushButton("Cancel", this);
 
+    setWindowTitle("Create album from path");
     createLayout();
 
     QObject::connect(directorySelectionButton, SIGNAL(clicked()), this, SLOT(openDirectorySelection()));
