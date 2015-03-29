@@ -121,7 +121,27 @@ void CreateAlbumDialog::openDirectorySelection() {
 
 void CreateAlbumDialog::showHint() {
 
-
+    QDialog hint(this);
+    hint.setWindowTitle("Tag format - hint");
+    QLabel* l  = new QLabel(&hint);
+    l->setText(
+                "Tag formating - symbols: \n\n"
+                "/ - directory separator (like usually) \n"
+                "%a - artist \n"
+                "%l - album \n"
+                "%r - track number (can be both 01 or just 1\n"
+                "%t - title\n"
+                "\"string\" - a string that is common to all files, eg. -, ---, _, etc\n\n"
+                "Example:\n"
+                "%a/%l/%r\"---\"%t\n"
+                "The filename extension must NOT be included in the format");
+    QPushButton* b = new QPushButton("Close", &hint);
+    QObject::connect(b, SIGNAL(clicked()), &hint, SLOT(close()));
+    QVBoxLayout* lay = new QVBoxLayout(&hint);
+    lay->addWidget(l);
+    lay->addWidget(b);
+    hint.setLayout(lay);
+    hint.exec();
 
 }
 
