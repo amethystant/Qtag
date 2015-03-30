@@ -1,8 +1,4 @@
 Qtag is a Unix / Windows application for editing audio tags written in Qt. 
-This project is a remake of an older version (which was formerly called openMusicTagger) (github.com/amethystAnt/openMusicTagger-0.-),
- which was completely useless.
 It is licensed under the Mozzila Public License v2.0.
-This project is not ready for using yet, if you want to edit audio tags, you can use the older version, 
-but I recommend you to use another application, because the older version is not a good example of an audio tag editor.
-Once this project will be ready for using, I'm going to rewrite this readme file and delete the old 
-version of openMusicTagger.
+This project is not ready for using yet, if you want to edit audio tags, use another application, e.g. Kid3 or EasyTag 
+(these are both good, but I want to make a better application which combines the positive aspects of them).
