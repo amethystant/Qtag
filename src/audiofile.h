@@ -21,6 +21,15 @@ enum AudioFormat {
     MPEG, OggVorbis, FLAC, WAV, ASF, WavPack
 };
 
+typedef union {
+    TagLib::ASF::File* asfFile;
+    TagLib::FLAC::File* flacFile;
+    TagLib::RIFF::WAV::File* wavFile;
+    TagLib::WavPack::File* wavPackFile;
+    TagLib::MPEG::File* mpegFile;
+    TagLib::Ogg::Vorbis::File* vorbisFile;
+} File;
+
 class MainWindow;
 
 /*
@@ -59,7 +68,7 @@ public:
     int getLength();
 
 private:
-    TagLib::File* file; //this is a pointer to a specific TagLib::File derived object which holds all the TagLib::Tag derived objects
+    File* file;
 
     /*
     Pointers to all possible tags, the value is NULL if the

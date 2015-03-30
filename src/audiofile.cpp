@@ -7,6 +7,8 @@ AudioFile::AudioFile(QString path, QObject* parent) : QObject(parent) {
 
     this->path = path;
 
+    file = new File;
+
     hasFileApeTag = false;
     hasFileAsfTag = false;
     hasFileId3v1 = false;
@@ -41,7 +43,7 @@ void AudioFile::open(QString path) {
     if(path.endsWith(".mp3", Qt::CaseInsensitive)) {
         format = MPEG;
         TagLib::MPEG::File* f = new TagLib::MPEG::File(fileName);
-        file = f;
+        file->mpegFile = f;
         hasFileId3v1 = true;
         hasFileId3v2 = true;
         hasFileApeTag = true;
@@ -53,7 +55,7 @@ void AudioFile::open(QString path) {
 
         format = FLAC;
         TagLib::FLAC::File *f = new TagLib::FLAC::File(fileName);
-        file = f;
+        file->flacFile = f;
         hasFileId3v1 = true;
         hasFileId3v2 = true;
         hasFileXiphComment = true;
@@ -66,7 +68,7 @@ void AudioFile::open(QString path) {
 
         format = WAV;
         TagLib::RIFF::WAV::File *f = new TagLib::RIFF::WAV::File(fileName);
-        file = f;
+        file->wavFile = f;
         hasFileId3v2 = f->hasID3v2Tag();
         hasFileInfoTag = f->hasInfoTag();
         if(hasFileId3v2)
@@ -80,14 +82,14 @@ void AudioFile::open(QString path) {
         format = ASF;
         hasFileAsfTag = true;
         TagLib::ASF::File *f = new TagLib::ASF::File(fileName);
-        file = f;
+        file->asfFile = f;
         asfTag = f->tag();
 
     } else if(path.endsWith(".wv", Qt::CaseInsensitive)) {
 
         format = WavPack;
         TagLib::WavPack::File *f = new TagLib::WavPack::File(fileName);
-        file = f;
+        file->wavPackFile = f;
         hasFileApeTag = true;
         hasFileId3v1 = true;
         apeTag = f->APETag(true);
@@ -98,7 +100,7 @@ void AudioFile::open(QString path) {
         format = OggVorbis;
         hasFileXiphComment = true;
         TagLib::Ogg::Vorbis::File *f = new TagLib::Ogg::Vorbis::File(fileName);
-        file = f;
+        file->vorbisFile = f;
         xiphComment = f->tag();
 
     }
@@ -121,7 +123,19 @@ void AudioFile::open(QString path) {
 
 /*Saves the tags in the file*/
 void AudioFile::save() {
-    file->save();
+    if(format == ASF) {
+        file->asfFile->save();
+    } else if(format == MPEG) {
+        file->mpegFile->save();
+    } else if(format == FLAC) {
+        file->flacFile->save();
+    } else if(format == WAV) {
+        file->wavFile->save();
+    } else if(format == WavPack) {
+        file->wavPackFile->save();
+    } else if(format == OggVorbis) {
+        file->vorbisFile->save();
+    }
 }
 
 QString AudioFile::getPath() {
