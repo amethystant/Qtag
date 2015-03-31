@@ -1,4 +1,4 @@
-Qtag is a Unix / Windows application for editing audio tags written in Qt. 
-It is licensed under the Mozzila Public License v2.0.
+Qtag is (or will be) a cross-platform application for editing audio tags written in Qt. 
+It is licensed under the Mozzila Public License v2.0. ( https://www.mozilla.org/MPL/2.0/index.txt )
 This project is not ready for using yet, if you want to edit audio tags, use another application, e.g. Kid3 or EasyTag 
 (these are both good, but I want to make a better application which combines the positive aspects of them).
