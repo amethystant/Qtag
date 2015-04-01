@@ -364,6 +364,9 @@ Ui::MainWindow* MainWindow::getUI() {
 */
 void MainWindow::saveAll() {
 
+    if(listOfLayouts.length() == 0) {
+        return;
+    }
     QMessageBox* message = new QMessageBox(this);
     message->setWindowTitle("Saving...");
     message->setText("Please wait...");
