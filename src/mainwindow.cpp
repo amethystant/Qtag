@@ -418,6 +418,10 @@ void MainWindow::closeCurrentFile() {
 }
 
 void MainWindow::saveCurrentFile() {
+
+    if(openedFile == NULL) {
+        return;
+    }
     QDialog* dialog = new QDialog(this);
     QLabel* label = new QLabel("Saving...", dialog);
     QGridLayout* layout = new QGridLayout(dialog);
