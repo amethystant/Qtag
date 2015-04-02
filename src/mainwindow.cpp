@@ -486,7 +486,7 @@ void MainWindow::fileEdited() {
 void MainWindow::openCreateAlbumDialog() {
 
     if(unsavedChanges) {
-        if(QMessageBox::question(this, "Copying tags",
+        if(QMessageBox::question(this, "Create album",
                                  "Do you want to save all files before copying tags?") != QMessageBox::Yes)
             return;
         saveAll();
