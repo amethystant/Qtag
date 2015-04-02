@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
                      this, SLOT(openInEditor(QTreeWidgetItem*)));
     QObject::connect(ui->actionSaveAll, SIGNAL(triggered()), this, SLOT(saveAll()));
+    QObject::connect(ui->actionClose_all, SIGNAL(triggered()), this, SLOT(closeAll()));
     QObject::connect(ui->actionCopy_tags, SIGNAL(triggered()), this, SLOT(openCopyTagsDialog()));
     QObject::connect(ui->actionMultipleTagging, SIGNAL(triggered()), this, SLOT(openMultipleTaggingDialog()));
     QObject::connect(ui->actionCreate_album_from_folder, SIGNAL(triggered()),
@@ -414,6 +415,25 @@ void MainWindow::closeCurrentFile() {
         if(f->getPath().compare(path) == 0)
             listOfFiles.removeAt(i);
     }
+    updateViews();
+}
+
+void MainWindow::closeAll() {
+
+    if(unsavedChanges) {
+        if(QMessageBox::question(this, "Save all?", "There are some unsaved changes\n"
+                                                 "Save all?") == QMessageBox::Yes) {
+            saveAll();
+        }
+
+    }
+    if(listOfFiles.isEmpty()) {
+        return;
+    }
+    openedFile = NULL;
+    listOfLayouts.clear();
+    listOfFiles.clear();
+    updateEditor();
     updateViews();
 }
 
