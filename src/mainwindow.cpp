@@ -309,7 +309,11 @@ void MainWindow::updateEditor() {
     QString channels = intToString(openedFile->getChannels());
     QString length = intToString(openedFile->getLength()/60);
     length.append(":");
-    length.append(intToString(openedFile->getLength()%60));
+    QString seconds = intToString(openedFile->getLength()%60);
+    if(seconds.length() == 1) {
+        seconds.insert(0, '0');
+    }
+    length.append(seconds);
     length.append(" min");
     QString sampleRate = intToString(openedFile->getSampleRate());
     sampleRate.append(" Hz");
