@@ -50,6 +50,7 @@ public slots:
     void openMultipleTaggingDialog();
     void fileEdited();
     void openCreateAlbumDialog();
+    void updateWindowTitle();
 
 };
 

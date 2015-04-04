@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->pushButton_closeFile, SIGNAL(clicked()), this, SLOT(closeCurrentFile()));
     QObject::connect(ui->pushButton_saveFile, SIGNAL(clicked()), this, SLOT(saveCurrentFile()));
     QObject::connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
+    QObject::connect(ui->lineEdit_path, SIGNAL(textChanged(QString)), this, SLOT(updateWindowTitle()));
 
 }
 
@@ -501,5 +502,18 @@ void MainWindow::openCreateAlbumDialog() {
     CreateAlbumDialog* dialog = new CreateAlbumDialog(this);
     dialog->show();
     updateViews();
+
+}
+
+void MainWindow::updateWindowTitle() {
+
+    if(ui->lineEdit_path->text().isEmpty()) {
+        setWindowTitle("Qtag");
+    } else {
+        int i = ui->lineEdit_path->text().lastIndexOf('/');
+        QString fileName = ui->lineEdit_path->text();
+        fileName.remove(0, i+1);
+        setWindowTitle(fileName + " - Qtag");
+    }
 
 }
