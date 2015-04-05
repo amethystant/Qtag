@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QLineEdit>
+#include "audiofile.h"
 
 class CreateAlbumDialog : public QDialog {
 
@@ -45,6 +46,9 @@ private:
     QPushButton* cancelButton;
 
     void createLayout();
+    void tagFormatError();
+    void saveTagsTo(AudioFile* f, std::string nameOfTag,
+                    QString title, QString track, QString album, QString artist);
 
 private slots:
     void openDirectorySelection();

@@ -10,6 +10,7 @@ This file declares some simple non-objected functions and variables
 #include <string>
 
 QString intToString(int i);
+QString capitalized(QString s);
 
 const std::string NAME_FILTER = "Audio files (*.mp3 *.wav *.wave *.flac *.ogg *.wma *.asf *.wv)";
 

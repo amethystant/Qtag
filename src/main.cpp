@@ -21,3 +21,13 @@ QString intToString(int i) {
     return value;
 
 }
+
+QString capitalized(QString s) {
+    s.replace(0, 1, s.at(0).toUpper());
+    int index = 0;
+    for(int i = 0; i < s.count(' '); i++) {
+        index = s.indexOf(' ', index) + 1;
+        s.replace(index, 1, s.at(index).toUpper());
+    }
+    return s;
+}

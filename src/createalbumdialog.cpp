@@ -1,7 +1,11 @@
 #include "createalbumdialog.h"
+#include "main.h"
 
 #include <QFileDialog>
 #include <QGridLayout>
+#include <QDir>
+#include <QDirIterator>
+#include <QRegExp>
 
 CreateAlbumDialog::CreateAlbumDialog(QWidget *parent) :
     QDialog(parent) {
@@ -125,16 +129,18 @@ void CreateAlbumDialog::showHint() {
     hint.setWindowTitle("Tag format - hint");
     QLabel* l  = new QLabel(&hint);
     l->setText(
-                "Tag formating - symbols: \n\n"
-                "/ - directory separator (like usually) \n"
-                "%a - artist \n"
-                "%l - album \n"
-                "%r - track number (can be both 01 or just 1\n"
-                "%t - title\n"
-                "\"string\" - a string that is common to all files, eg. -, ---, _, etc\n\n"
-                "Example:\n"
-                "%a/%l/%r\"---\"%t\n"
-                "The filename extension must NOT be included in the format");
+                "<b>Tag formating - symbols:</b> <br>"
+                "/ - directory separator (like usually) <br>"
+                "%a - artist <br>"
+                "%l - album <br>"
+                "%r - track number (can be both 01 or just 1)<br>"
+                "%t - title<br>"
+                "* - any string<br>"
+                "? - any character<br>"
+                "static strings (such as ---, _, -, etc) don't need to be in quotation marks<br><br>"
+                "<b>Example:</b><br>"
+                "%a/%l/%r---%t<br><br>"
+                "<font color=red>The filename extension must NOT be included in the format<br></font>");
     QPushButton* b = new QPushButton("Close", &hint);
     QObject::connect(b, SIGNAL(clicked()), &hint, SLOT(close()));
     QVBoxLayout* lay = new QVBoxLayout(&hint);
@@ -145,8 +151,181 @@ void CreateAlbumDialog::showHint() {
 
 }
 
-void CreateAlbumDialog::startTagging() {
+void CreateAlbumDialog::tagFormatError() {
+
+}
+
+void CreateAlbumDialog::saveTagsTo(AudioFile* f, std::string nameOfTag,
+                                   QString title, QString track, QString album, QString artist) {
+
+    TagLib::Tag* t = f->getTagByName(QString::fromStdString(nameOfTag));
+    if(t == NULL) {
+        return;
+    }
+
+    if(!title.isEmpty()) {
+        t->setTitle(title.toStdString());
+    }
+    if(!track.isEmpty()) {
+        if(track.startsWith('0'))
+            track.remove(0, 1);
+        t->setTrack(track.toInt());
+    }
+    if(!album.isEmpty()) {
+        t->setAlbum(album.toStdString());
+    }
+    if(!artist.isEmpty()) {
+        t->setArtist(artist.toStdString());
+    }
+
+    f->save();
+
+}
+
+void CreateAlbumDialog::startTagging() {    
+
+    QStringList nameFilters;
+    QString filter = tagFormatEdit->text();
+
+    while(filter.indexOf('%') != -1) {
+        int i = filter.indexOf('%');
+        if(filter.at(i+1) != 'a' &&
+                filter.at(i+1) != 'l' &&
+                filter.at(i+1) != 'r' &&
+                filter.at(i+1) != 't') {
+
+            tagFormatError();
+            return;
+
+        } else {
+            filter.replace(i, 2, "*");
+        }
+    }
+
+    QString nameFilter = filter;
+    int i = nameFilter.lastIndexOf('/');
+    nameFilter.remove(0, i+1);
+
+    nameFilters.append(nameFilter + ".mp3");
+    nameFilters.append(nameFilter + ".asf");
+    nameFilters.append(nameFilter + ".ogg");
+    nameFilters.append(nameFilter + ".wma");
+    nameFilters.append(nameFilter + ".flac");
+    nameFilters.append(nameFilter + ".wv");
+    nameFilters.append(nameFilter + ".wav");
+    nameFilters.append(nameFilter + ".wave");
+    QDirIterator dirIterator(directoryEdit->text(), nameFilters, QDir::Files,
+                               QDirIterator::Subdirectories);
+    QStringList* files = new QStringList();
+    while(dirIterator.hasNext()) {
+        files->append(dirIterator.next());
+    }
+
+    for(i = 0; i < files->length();) {
+
+        QRegExp r(filter + ".*", Qt::CaseSensitive, QRegExp::Wildcard);
+        if(!r.exactMatch(files->at(i))) {
+            files->removeAt(i);
+        } else {
+            i++;
+        }
+
+    }
+
+    for(i = 0; i < files->length(); i++) {
+
+        AudioFile *f = new AudioFile(files->at(i), this);
+        QString currentFile = files->at(i);
+        currentFile.remove(0, directoryEdit->text().length() + 1);
+        currentFile.remove(currentFile.lastIndexOf('.'),
+                           currentFile.length() - currentFile.lastIndexOf('.'));
+        QString format = tagFormatEdit->text();
+        QString title,
+                track,
+                album,
+                artist;
+        int loop = format.count('%') + format.count('*') + format.count('?');
+        for(int i1 = 0; i1 < loop; i1++) {
+
+            int index = format.indexOf('%');
+            int index1 = format.indexOf('*');
+            int index2 = format.indexOf('?');
+            if((index < index1 || index1 == -1)&&
+                    (index < index2 || index2 == -1) && index != -1) {
+
+                QString s = format.section('%', 1, 1);
+                QChar symbol  = s.at(0);
+                s.remove(0, 1);
+                int in = currentFile.indexOf(s);
+                QString extractedString = currentFile.mid(index, in-index);
+                format.replace(format.indexOf('%'), 2, extractedString);
+                if(symbol == 'a') {
+                    artist = extractedString;
+                } else if(symbol == 'l') {
+                    album = extractedString;
+                } else if(symbol == 'r') {
+                    track = extractedString;
+                } else if(symbol == 't') {
+                    title = extractedString;
+                }
+
+            } else if((index1 < index || index == -1) &&
+                      (index1 < index2 || index2 == -1) && index1 != -1) {
+
+                QString s = format.section('*', 1, 1);
+                int in = currentFile.indexOf(s);
+                QString extractedString = currentFile.mid(index1, in-index1);
+                format.replace(format.indexOf('*'), 1, extractedString);
 
 
+            } else if((index2 < index || index == -1) &&
+                      (index2 < index1 || index1 == -1) && index2 != -1) {
+
+
+                QString extractedChar = currentFile.mid(index1, 1);
+                format.replace(format.indexOf('?'), 1, extractedChar);
+
+            }
+
+        }
+
+        if(!replaceStringEdit->text().isEmpty()) {
+            if(!title.isEmpty()) {
+                title.replace(replaceStringEdit->text(), replaceByEdit->text());
+            }
+            if(!album.isEmpty()) {
+                album.replace(replaceStringEdit->text(), replaceByEdit->text());
+            }
+            if(!artist.isEmpty()) {
+                artist.replace(replaceStringEdit->text(), replaceByEdit->text());
+            }
+        }
+
+        if(makeCapitalLettersCheck->isChecked()) {
+            if(!artist.isEmpty()) {
+                artist = capitalized(artist);
+            }
+            if(!album.isEmpty()) {
+                album = capitalized(album);
+            }
+            if(!title.isEmpty()) {
+                title = capitalized(title);
+            }
+        }
+
+        if(apeCheck->isChecked())
+            saveTagsTo(f, NamesOfTags::APE, title, track, album, artist);
+        if(asfCheck->isChecked())
+            saveTagsTo(f, NamesOfTags::ASF, title, track, album, artist);
+        if(xiphCommentCheck->isChecked())
+            saveTagsTo(f, NamesOfTags::XIPH, title, track, album, artist);
+        if(id3v1Check->isChecked())
+            saveTagsTo(f, NamesOfTags::ID3V1, title, track, album, artist);
+        if(id3v2Check->isChecked())
+            saveTagsTo(f, NamesOfTags::ID3V2, title, track, album, artist);
+        if(infoTagCheck->isChecked())
+            saveTagsTo(f, NamesOfTags::INFO, title, track, album, artist);
+
+    }
 
 }
