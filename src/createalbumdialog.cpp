@@ -2,6 +2,7 @@
 #include "main.h"
 
 #include <QFileDialog>
+#include <QMessageBox>
 #include <QGridLayout>
 #include <QDir>
 #include <QDirIterator>
@@ -153,6 +154,12 @@ void CreateAlbumDialog::showHint() {
 
 void CreateAlbumDialog::tagFormatError() {
 
+    QMessageBox* message = new QMessageBox(this);
+    message->setWindowTitle("Error");
+    message->setText("Error - invalid tag format.");
+    message->setStandardButtons(QMessageBox::Ok);
+    message->show();
+
 }
 
 void CreateAlbumDialog::saveTagsTo(AudioFile* f, std::string nameOfTag,
@@ -182,7 +189,13 @@ void CreateAlbumDialog::saveTagsTo(AudioFile* f, std::string nameOfTag,
 
 }
 
-void CreateAlbumDialog::startTagging() {    
+void CreateAlbumDialog::startTagging() {
+
+    QMessageBox* message = new QMessageBox(this);
+    message->setWindowTitle("Please wait");
+    message->setText("Please wait, this may take a few seconds...");
+    message->setStandardButtons(QMessageBox::NoButton);
+    message->show();
 
     QStringList nameFilters;
     QString filter = tagFormatEdit->text();
@@ -326,6 +339,13 @@ void CreateAlbumDialog::startTagging() {
         if(infoTagCheck->isChecked())
             saveTagsTo(f, NamesOfTags::INFO, title, track, album, artist);
 
+    }
+
+    message->setText("Done.");
+    message->setStandardButtons(QMessageBox::Ok);
+    message->close();
+    if(message->exec()) {
+        close();
     }
 
 }
