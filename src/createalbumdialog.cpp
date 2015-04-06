@@ -200,12 +200,30 @@ void CreateAlbumDialog::startTagging() {
     QStringList nameFilters;
     QString filter = tagFormatEdit->text();
 
+    while(filter.indexOf('*') != -1) {
+        int i = filter.indexOf('*');
+        if(filter.at(i+1) == '%' || filter.at(i+1) == '?') {
+            tagFormatError();
+            return;
+        }
+    }
+
+    while(filter.indexOf('?') != -1) {
+        int i = filter.indexOf('?');
+        if(filter.at(i+1) == '*' || filter.at(i+1) == '%') {
+            tagFormatError();
+            return;
+        }
+    }
+
     while(filter.indexOf('%') != -1) {
         int i = filter.indexOf('%');
-        if(filter.at(i+1) != 'a' &&
+        if((filter.at(i+1) != 'a' &&
                 filter.at(i+1) != 'l' &&
                 filter.at(i+1) != 'r' &&
-                filter.at(i+1) != 't') {
+                filter.at(i+1) != 't') ||
+                filter.at(i+2) == '*' ||
+                filter.at(i+2) == '?') {
 
             tagFormatError();
             return;
