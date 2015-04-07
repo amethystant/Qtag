@@ -479,7 +479,7 @@ void MainWindow::openMultipleTaggingDialog() {
     listOfLayouts.clear();
     updateEditor();
     MultipleTaggingDialog* dialog = new MultipleTaggingDialog(this);
-    dialog->show();
+    dialog->exec();
     reloadAllFiles();
     updateViews();
 
@@ -502,7 +502,7 @@ void MainWindow::openCreateAlbumDialog() {
     listOfLayouts.clear();
     updateEditor();
     CreateAlbumDialog* dialog = new CreateAlbumDialog(this);
-    dialog->show();
+    dialog->exec();
     reloadAllFiles();
     updateViews();
 
