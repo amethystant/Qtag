@@ -406,6 +406,7 @@ void MainWindow::openCopyTagsDialog() {
     updateEditor();
     CopyTagsDialog* dialog = new CopyTagsDialog(this, &listOfFiles);
     dialog->exec();
+    reloadAllFiles();
     updateViews();
 
 }
@@ -479,6 +480,7 @@ void MainWindow::openMultipleTaggingDialog() {
     updateEditor();
     MultipleTaggingDialog* dialog = new MultipleTaggingDialog(this);
     dialog->show();
+    reloadAllFiles();
     updateViews();
 
 }
@@ -501,6 +503,7 @@ void MainWindow::openCreateAlbumDialog() {
     updateEditor();
     CreateAlbumDialog* dialog = new CreateAlbumDialog(this);
     dialog->show();
+    reloadAllFiles();
     updateViews();
 
 }
@@ -514,6 +517,20 @@ void MainWindow::updateWindowTitle() {
         QString fileName = ui->lineEdit_path->text();
         fileName.remove(0, i+1);
         setWindowTitle(fileName + " - Qtag");
+    }
+
+}
+
+void MainWindow::reloadAllFiles() {
+
+    listOfLayouts.clear();
+    openedFile = NULL;
+    updateEditor();
+    updateViews();
+    for(int i = 0; i < listOfFiles.length(); i++) {
+        AudioFile* f = new AudioFile(listOfFiles.at(i)->getPath(), this);
+        listOfFiles.removeAt(i);
+        listOfFiles.insert(i, f);
     }
 
 }
