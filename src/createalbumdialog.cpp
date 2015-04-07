@@ -22,7 +22,7 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget *parent) :
     hintButton = new QPushButton("Show hint", this);
     tagFormatGroup = new QGroupBox("Tag format", this);
 
-    makeCapitalLettersCheck = new QCheckBox("make capital letters", this);
+    makeCapitalLettersCheck = new QCheckBox("capitalize letters", this);
     replaceStringLabel = new QLabel("Replace:", this);
     replaceStringEdit = new QLineEdit(this);
     replaceByLabel = new QLabel("Replace by:", this);
@@ -140,8 +140,12 @@ void CreateAlbumDialog::showHint() {
                 "? - any character<br>"
                 "static strings (such as ---, _, -, etc) don't need to be in quotation marks<br><br>"
                 "<b>Example:</b><br>"
-                "%a/%l/%r---%t<br><br>"
-                "<font color=red>The filename extension must NOT be included in the format<br></font>");
+                "<font color=green>%a/%l/%r---%t</font>         correct<br><br>"
+                "<font color=red>%a/%l/%r---%t.ogg</font>       incorrect*<br>"
+                "<font color=red>%a%l%t</font>                  incorrect**<br>"
+                "<font color=red>%a?%l/*%r%t</font>             incorrect**<br><br>"
+                "*The filename extension must NOT be included in the format<br>"
+                "**All symbols and wildcards must be separated by a static string");
     QPushButton* b = new QPushButton("Close", &hint);
     QObject::connect(b, SIGNAL(clicked()), &hint, SLOT(close()));
     QVBoxLayout* lay = new QVBoxLayout(&hint);
@@ -158,7 +162,7 @@ void CreateAlbumDialog::tagFormatError() {
     message->setWindowTitle("Error");
     message->setText("Error - invalid tag format.");
     message->setStandardButtons(QMessageBox::Ok);
-    message->show();
+    message->exec();
 
 }
 
@@ -197,20 +201,37 @@ void CreateAlbumDialog::startTagging() {
     message->setStandardButtons(QMessageBox::NoButton);
     message->show();
 
+    if(directoryEdit->text().isEmpty()) {
+        QMessageBox* msg = new QMessageBox(this);
+        msg->setText("Invalid path to the root directory.");
+        msg->setStandardButtons(QMessageBox::Ok);
+        msg->exec();
+        message->done(1);
+        return;
+    }
+
     QStringList nameFilters;
     QString filter = tagFormatEdit->text();
 
-    while(filter.indexOf('*') != -1) {
+    if(filter.count('%') == 0) {
+        tagFormatError();
+        message->done(1);
+        return;
+    }
+
+    while(filter.indexOf('*') != -1 && filter.length() != filter.indexOf('*')+1) {
         int i = filter.indexOf('*');
-        if(filter.at(i+1) == '%' || filter.at(i+1) == '?') {
+        if(filter.at(i+1) == '%' || filter.at(i+1) == '?'|| filter.at(i+1) == '*') {
+            message->done(1);
             tagFormatError();
             return;
         }
     }
 
-    while(filter.indexOf('?') != -1) {
+    while(filter.indexOf('?') != -1 && filter.length() != filter.indexOf('?')+1) {
         int i = filter.indexOf('?');
-        if(filter.at(i+1) == '*' || filter.at(i+1) == '%') {
+        if(filter.at(i+1) == '*' || filter.at(i+1) == '%' || filter.at(i+1) == '*') {
+            message->done(1);
             tagFormatError();
             return;
         }
@@ -218,13 +239,18 @@ void CreateAlbumDialog::startTagging() {
 
     while(filter.indexOf('%') != -1) {
         int i = filter.indexOf('%');
-        if((filter.at(i+1) != 'a' &&
+        if(filter.length() - (i+1) == 1) {
+            filter.replace(i, 2, '*');
+        } else if(filter.endsWith('%') ||
+              ( filter.at(i+1) != 'a' &&
                 filter.at(i+1) != 'l' &&
                 filter.at(i+1) != 'r' &&
-                filter.at(i+1) != 't') ||
+                filter.at(i+1) != 't'    ) ||
                 filter.at(i+2) == '*' ||
-                filter.at(i+2) == '?') {
+                filter.at(i+2) == '?' ||
+                filter.at(i+2) == '%') {
 
+            message->done(1);
             tagFormatError();
             return;
 
@@ -245,11 +271,23 @@ void CreateAlbumDialog::startTagging() {
     nameFilters.append(nameFilter + ".wv");
     nameFilters.append(nameFilter + ".wav");
     nameFilters.append(nameFilter + ".wave");
+
     QDirIterator dirIterator(directoryEdit->text(), nameFilters, QDir::Files,
                                QDirIterator::Subdirectories);
+
     QStringList* files = new QStringList();
     while(dirIterator.hasNext()) {
         files->append(dirIterator.next());
+    }
+
+    for(i = 0; i < files->length();) {
+        QString s = files->at(i);
+        s.remove(directoryEdit->text() + "/");
+        if(s.count('/') != filter.count('/')) {
+            files->removeAt(i);
+        } else {
+            i++;
+        }
     }
 
     for(i = 0; i < files->length();) {
@@ -261,6 +299,16 @@ void CreateAlbumDialog::startTagging() {
             i++;
         }
 
+    }
+
+    if(files->isEmpty()) {
+        QMessageBox* msg = new QMessageBox(this);
+        msg->setWindowTitle("Error");
+        msg->setText("No file matches the tag format.");
+        msg->setStandardButtons(QMessageBox::Ok);
+        msg->exec();
+        message->done(1);
+        return;
     }
 
     for(i = 0; i < files->length(); i++) {
@@ -361,9 +409,7 @@ void CreateAlbumDialog::startTagging() {
 
     message->setText("Done.");
     message->setStandardButtons(QMessageBox::Ok);
-    message->close();
-    if(message->exec()) {
-        close();
-    }
+    message->update();
+    close();
 
 }
