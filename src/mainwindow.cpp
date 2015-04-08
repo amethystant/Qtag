@@ -412,16 +412,7 @@ void MainWindow::openCopyTagsDialog() {
 }
 
 void MainWindow::closeCurrentFile() {
-    openedFile = NULL;
-    QString path = ui->lineEdit_path->text();
-    updateEditor();
-    int i;
-    for(i = 0; i < listOfFiles.length(); i++) {
-        AudioFile* f = listOfFiles.at(i);
-        if(f->getPath().compare(path) == 0)
-            listOfFiles.removeAt(i);
-    }
-    updateViews();
+    closeFile(listOfFiles.indexOf(openedFile));
 }
 
 void MainWindow::closeAll() {
@@ -433,14 +424,14 @@ void MainWindow::closeAll() {
         }
 
     }
+
     if(listOfFiles.isEmpty()) {
         return;
     }
-    openedFile = NULL;
-    listOfLayouts.clear();
-    listOfFiles.clear();
-    updateEditor();
-    updateViews();
+
+    while(listOfFiles.length() > 0) {
+        closeFile(0);
+    }
 }
 
 void MainWindow::saveCurrentFile() {
@@ -531,6 +522,32 @@ void MainWindow::reloadAllFiles() {
         AudioFile* f = new AudioFile(listOfFiles.at(i)->getPath(), this);
         listOfFiles.removeAt(i);
         listOfFiles.insert(i, f);
+    }
+
+}
+
+void MainWindow::closeFile(int i) {
+
+    AudioFile* f = listOfFiles.at(i);
+    TagEditorLayout* l = findLayout(f, false);
+    if(l != NULL) {
+        listOfLayouts.removeOne(l);
+    }
+    if(openedFile == f) {
+        openedFile = NULL;
+    }
+    listOfFiles.removeOne(f);
+    updateViews();
+    updateEditor();
+
+}
+
+void MainWindow::closeFile(QString path) {
+
+    for(int i = 0; i < listOfFiles.length(); i++) {
+        if(listOfFiles.at(i)->getPath() == path) {
+            closeFile(i);
+        }
     }
 
 }
