@@ -345,7 +345,7 @@ TagEditorLayout* MainWindow::findLayout(AudioFile *file, bool create) {
     int i;
     for(i = 0; i < listOfLayouts.length(); i++) {
         TagEditorLayout* l = listOfLayouts.at(i);
-        if(l->getFile() == file) {
+        if(l->getFile()->getPath() == file->getPath()) {
             return l;
         }
     }
