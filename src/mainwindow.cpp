@@ -401,9 +401,8 @@ void MainWindow::openCopyTagsDialog() {
             return;
         saveAll();
     }
-    openedFile = NULL;
+    closeEditor();
     listOfLayouts.clear();
-    updateEditor();
     CopyTagsDialog* dialog = new CopyTagsDialog(this, &listOfFiles);
     dialog->exec();
     reloadAllFiles();
@@ -466,9 +465,8 @@ void MainWindow::openMultipleTaggingDialog() {
             return;
         saveAll();
     }
-    openedFile = NULL;
+    closeEditor();
     listOfLayouts.clear();
-    updateEditor();
     MultipleTaggingDialog* dialog = new MultipleTaggingDialog(this);
     dialog->exec();
     reloadAllFiles();
@@ -489,9 +487,8 @@ void MainWindow::openCreateAlbumDialog() {
             return;
         saveAll();
     }
-    openedFile = NULL;
+    closeEditor();
     listOfLayouts.clear();
-    updateEditor();
     CreateAlbumDialog* dialog = new CreateAlbumDialog(this);
     dialog->exec();
     reloadAllFiles();
@@ -515,8 +512,7 @@ void MainWindow::updateWindowTitle() {
 void MainWindow::reloadAllFiles() {
 
     listOfLayouts.clear();
-    openedFile = NULL;
-    updateEditor();
+    closeEditor();
     updateViews();
     for(int i = 0; i < listOfFiles.length(); i++) {
         AudioFile* f = new AudioFile(listOfFiles.at(i)->getPath(), this);
@@ -550,4 +546,9 @@ void MainWindow::closeFile(QString path) {
         }
     }
 
+}
+
+void MainWindow::closeEditor() {
+    openedFile = NULL;
+    updateEditor();
 }

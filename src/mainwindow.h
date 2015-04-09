@@ -37,6 +37,7 @@ private:
     void reloadAllFiles();
     void closeFile(int i);
     void closeFile(QString path);
+    void closeEditor();
     bool isFileOnList(QString path);
     bool unsavedChanges;
     AudioFile* openedFile; //the file that is viewed in the tag editor
