@@ -461,7 +461,7 @@ void MainWindow::openMultipleTaggingDialog() {
 
     if(unsavedChanges) {
         if(QMessageBox::question(this, "Copying tags",
-                                 "Do you want to save all files before copying tags?") == QMessageBox::Yes)
+                                 "Do you want to save all files before multiple tagging?") == QMessageBox::Yes)
             saveAll();
     }
     closeEditor();
@@ -482,7 +482,7 @@ void MainWindow::openCreateAlbumDialog() {
 
     if(unsavedChanges) {
         if(QMessageBox::question(this, "Create album",
-                                 "Do you want to save all files before copying tags?") == QMessageBox::Yes)
+                                 "Do you want to save all files before creating an album?") == QMessageBox::Yes)
             saveAll();
     }
     closeEditor();
