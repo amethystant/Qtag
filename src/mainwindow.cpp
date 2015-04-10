@@ -397,9 +397,9 @@ void MainWindow::saveAll() {
 void MainWindow::openCopyTagsDialog() {
     if(unsavedChanges) {
         if(QMessageBox::question(this, "Copying tags",
-                                 "Do you want to save all files before copying tags?") != QMessageBox::Yes)
-            return;
-        saveAll();
+                                 "Do you want to save all files before copying tags?") == QMessageBox::Yes)
+            saveAll();
+
     }
     closeEditor();
     listOfLayouts.clear();
@@ -461,9 +461,8 @@ void MainWindow::openMultipleTaggingDialog() {
 
     if(unsavedChanges) {
         if(QMessageBox::question(this, "Copying tags",
-                                 "Do you want to save all files before copying tags?") != QMessageBox::Yes)
-            return;
-        saveAll();
+                                 "Do you want to save all files before copying tags?") == QMessageBox::Yes)
+            saveAll();
     }
     closeEditor();
     listOfLayouts.clear();
@@ -483,9 +482,8 @@ void MainWindow::openCreateAlbumDialog() {
 
     if(unsavedChanges) {
         if(QMessageBox::question(this, "Create album",
-                                 "Do you want to save all files before copying tags?") != QMessageBox::Yes)
-            return;
-        saveAll();
+                                 "Do you want to save all files before copying tags?") == QMessageBox::Yes)
+            saveAll();
     }
     closeEditor();
     listOfLayouts.clear();
