@@ -4,7 +4,6 @@
 #include "audiofile.h"
 #include "id3v1editor.h"
 #include "id3v2editor.h"
-#include "apetageditor.h"
 #include "commontageditor.h"
 #include "ui_mainwindow.h"
 
@@ -105,7 +104,7 @@ void TagEditorLayout::addId3v2Editor() {
 void TagEditorLayout::addApeTagEditor() {
     if(file->hasApeTag()) {
         apeTag = file->getApeTag();
-        ApeTagEditor* apeEdit = new ApeTagEditor(apeTag, parent);
+        CommonTagEditor* apeEdit = new CommonTagEditor(apeTag, "APE tag", parent);
         QObject::connect(apeEdit, SIGNAL(fileEdited()), this, SIGNAL(fileEdited()));
         addWidget(apeEdit);
     }
