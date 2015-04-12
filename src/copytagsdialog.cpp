@@ -9,6 +9,9 @@ CopyTagsDialog::CopyTagsDialog(QWidget *parent, QList<AudioFile*> *listOfFiles) 
     setWindowTitle("Copy Tags");
     this->listOfFiles = listOfFiles;
 
+    sourceFile = NULL;
+    targetFile = NULL;
+
     targetTagLabel = new QLabel("Target tag:", this);
     targetFileLabel = new QLabel("Target file:", this);
     sourceFileLabel = new QLabel("Source file:", this);
@@ -85,22 +88,27 @@ void CopyTagsDialog::updateComboBoxes() {
         }
     }
 
-    sourceTagSelection->clear();
+    if(file != sourceFile) {
 
-    if(file->hasApeTag())
-        sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::APE));
-    if(file->hasAsfTag())
-        sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::ASF));
-    if(file->hasId3v1())
-        sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::ID3V1));
-    if(file->hasId3v2())
-        sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::ID3V2));
-    if(file->hasInfoTag())
-        sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::INFO));
-    if(file->hasXiphComment())
-        sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::XIPH));
+        sourceTagSelection->clear();
 
-    sourceTagSelection->setEnabled(true);
+        if(file->hasApeTag())
+            sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::APE));
+        if(file->hasAsfTag())
+            sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::ASF));
+        if(file->hasId3v1())
+            sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::ID3V1));
+        if(file->hasId3v2())
+            sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::ID3V2));
+        if(file->hasInfoTag())
+            sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::INFO));
+        if(file->hasXiphComment())
+            sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::XIPH));
+
+        sourceTagSelection->setEnabled(true);
+        sourceFile = file;
+
+    }
 
     selectedFile = targetFileSelection->currentText();
     for(i = 0; i < listOfFiles->length(); i++) {
@@ -111,22 +119,28 @@ void CopyTagsDialog::updateComboBoxes() {
         }
     }
 
-    targetTagSelection->clear();
+    if(file != targetFile) {
 
-    if(file->hasApeTag())
-        targetTagSelection->addItem(QString::fromStdString(NamesOfTags::APE));
-    if(file->hasAsfTag())
-        targetTagSelection->addItem(QString::fromStdString(NamesOfTags::ASF));
-    if(file->hasId3v1())
-        targetTagSelection->addItem(QString::fromStdString(NamesOfTags::ID3V1));
-    if(file->hasId3v2())
-        targetTagSelection->addItem(QString::fromStdString(NamesOfTags::ID3V2));
-    if(file->hasInfoTag())
-        targetTagSelection->addItem(QString::fromStdString(NamesOfTags::INFO));
-    if(file->hasXiphComment())
-        targetTagSelection->addItem(QString::fromStdString(NamesOfTags::XIPH));
+        targetTagSelection->clear();
 
-    targetTagSelection->setEnabled(true);
+        if(file->hasApeTag())
+            targetTagSelection->addItem(QString::fromStdString(NamesOfTags::APE));
+        if(file->hasAsfTag())
+            targetTagSelection->addItem(QString::fromStdString(NamesOfTags::ASF));
+        if(file->hasId3v1())
+            targetTagSelection->addItem(QString::fromStdString(NamesOfTags::ID3V1));
+        if(file->hasId3v2())
+            targetTagSelection->addItem(QString::fromStdString(NamesOfTags::ID3V2));
+        if(file->hasInfoTag())
+            targetTagSelection->addItem(QString::fromStdString(NamesOfTags::INFO));
+        if(file->hasXiphComment())
+            targetTagSelection->addItem(QString::fromStdString(NamesOfTags::XIPH));
+
+        targetTagSelection->setEnabled(true);
+        targetFile = file;
+
+    }
+
     if(targetTagSelection->isEnabled() && sourceTagSelection->isEnabled())
         okButton->setEnabled(true);
     else
@@ -153,19 +167,6 @@ void CopyTagsDialog::startCopying() {
     message->setText("Please wait...");
     message->setWindowTitle("Copying...");
     message->show();
-
-    AudioFile* sourceFile;
-    AudioFile* targetFile;
-    int i;
-    for(i = 0; i < listOfFiles->length(); i++) {
-        AudioFile* f = listOfFiles->at(i);
-        if(f->getPath().compare(sourceFileSelection->currentText()) == 0) {
-            sourceFile = f;
-        }
-        if(f->getPath().compare(targetFileSelection->currentText()) == 0) {
-            targetFile = f;
-        }
-    }
 
     copyTags(sourceFile->getTagByName(sourceTagSelection->currentText()),
              targetFile->getTagByName(targetTagSelection->currentText()));

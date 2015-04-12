@@ -26,6 +26,8 @@ private:
     QComboBox* targetTagSelection;
     QPushButton* okButton;
     QPushButton* cancelButton;
+    AudioFile* sourceFile;
+    AudioFile* targetFile;
     void createLayout();
     void initComboBoxes();
     void copyTags(TagLib::Tag* sourceTag, TagLib::Tag* targetTag);
