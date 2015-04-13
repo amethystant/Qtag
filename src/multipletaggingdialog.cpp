@@ -1,15 +1,16 @@
 #include "multipletaggingdialog.h"
 #include "main.h"
-#include "audiofile.h"
 #include <QPushButton>
 #include <QFileDialog>
 #include <QGridLayout>
 #include <QMessageBox>
 
-MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent) :
+MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, QList<AudioFile*> *listOfOpenedFiles) :
     QDialog(parent) {
 
     setWindowTitle("Multiple tagging");
+
+    this->listOfOpenedFiles = listOfOpenedFiles;
 
     filesLabel = new QLabel("Files:", this);
     filesEdit = new QLineEdit(this);
@@ -158,7 +159,20 @@ void MultipleTaggingDialog::openFiles() {
 
 void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
 
-    AudioFile* file = new AudioFile(path, this);
+
+    AudioFile* file = NULL;
+    for(int i = 0; i < listOfOpenedFiles->length(); i++) {
+        AudioFile* f = listOfOpenedFiles->at(i);
+        if(f->getPath() == path) {
+            file = f;
+            i = listOfOpenedFiles->length();
+        }
+    }
+    if(file == NULL) {
+        file = new AudioFile(path, this);
+    }
+
+
     TagLib::Tag* tag = file->getTagByName(nameOfTag);
     if(tag == NULL)
         return;

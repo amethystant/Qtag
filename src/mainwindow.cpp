@@ -466,7 +466,7 @@ void MainWindow::openMultipleTaggingDialog() {
     }
     closeEditor();
     listOfLayouts.clear();
-    MultipleTaggingDialog* dialog = new MultipleTaggingDialog(this);
+    MultipleTaggingDialog* dialog = new MultipleTaggingDialog(this, &listOfFiles);
     dialog->exec();
     reloadAllFiles();
     updateViews();

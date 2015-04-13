@@ -6,6 +6,7 @@
 #include <QLineEdit>
 #include <QGroupBox>
 #include <QCheckBox>
+#include <audiofile.h>
 #include "id3genreselection.h"
 
 class MultipleTaggingDialog : public QDialog {
@@ -13,7 +14,7 @@ class MultipleTaggingDialog : public QDialog {
     Q_OBJECT
 
 public:
-    MultipleTaggingDialog(QWidget* parent);
+    MultipleTaggingDialog(QWidget* parent, QList<AudioFile *> *listOfOpenedFiles);
 
 private:
     QLabel* filesLabel;
@@ -48,6 +49,7 @@ private:
     QPushButton* okButton;
     QPushButton* cancelButton;
 
+    QList<AudioFile*> *listOfOpenedFiles;
     QStringList listOfFiles;
 
     void createLayout();
