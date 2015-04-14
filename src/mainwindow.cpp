@@ -80,10 +80,7 @@ void MainWindow::openFile() {
         for(i = 0; i < numOfFiles; i++) {
 
             QString path = selectedFiles.value(i);
-            if(!isFileOnList(path)) {
-                AudioFile *newFile = new AudioFile(path, this);
-                listOfFiles.append(newFile);
-            }
+            addFileToList(path);
 
         }
 
@@ -91,6 +88,22 @@ void MainWindow::openFile() {
 
     updateViews();
 
+}
+
+void MainWindow::addFileToList(QString path) {
+    if(!isFileOnList(path) && isFileClosed(path)) {
+        for(int i = 0; i < listOfClosedFiles.length(); i++) {
+            AudioFile* closedFile = listOfClosedFiles.at(i);
+            if(closedFile->getPath() == path) {
+                listOfFiles.append(closedFile);
+                listOfClosedFiles.removeAt(i);
+                i = listOfClosedFiles.length();
+            }
+        }
+    } else {
+        AudioFile *newFile = new AudioFile(path, this);
+        listOfFiles.append(newFile);
+    }
 }
 
 /*
@@ -235,16 +248,15 @@ void MainWindow::openDirectory() {
         int i;
         for(i = 0; i < listOfContent.length(); i++) {
             QString s = dir.absoluteFilePath(listOfContent.at(i));
-            if((s.endsWith(".mp3", Qt::CaseInsensitive) ||
+            if(s.endsWith(".mp3", Qt::CaseInsensitive) ||
                           s.endsWith(".flac", Qt::CaseInsensitive) ||
                           s.endsWith(".wav", Qt::CaseInsensitive) ||
                           s.endsWith(".wv", Qt::CaseInsensitive) ||
                           s.endsWith(".ogg", Qt::CaseInsensitive) ||
                           s.endsWith(".wma", Qt::CaseInsensitive) ||
                           s.endsWith(".asf", Qt::CaseInsensitive) ||
-                          s.endsWith(".wave", Qt::CaseInsensitive) ) && !isFileOnList(s)) {
-                AudioFile *newFile = new AudioFile(s, this);
-                listOfFiles.append(newFile);
+                          s.endsWith(".wave", Qt::CaseInsensitive)) {
+                addFileToList(s);
             }
         }
 
@@ -262,6 +274,14 @@ bool MainWindow::isFileOnList(QString path) {
         i++;
     }
 
+    return false;
+}
+
+bool MainWindow::isFileClosed(QString path) {
+    for(int i = 0; i < listOfClosedFiles.length(); i++) {
+        if(path == listOfClosedFiles.at(i)->getPath())
+            return true;
+    }
     return false;
 }
 
@@ -405,7 +425,6 @@ void MainWindow::openCopyTagsDialog() {
     listOfLayouts.clear();
     CopyTagsDialog* dialog = new CopyTagsDialog(this, &listOfFiles);
     dialog->exec();
-    reloadAllFiles();
     updateViews();
 
 }
@@ -468,7 +487,6 @@ void MainWindow::openMultipleTaggingDialog() {
     listOfLayouts.clear();
     MultipleTaggingDialog* dialog = new MultipleTaggingDialog(this, &listOfFiles);
     dialog->exec();
-    reloadAllFiles();
     updateViews();
 
 }
@@ -489,7 +507,6 @@ void MainWindow::openCreateAlbumDialog() {
     listOfLayouts.clear();
     CreateAlbumDialog* dialog = new CreateAlbumDialog(this);
     dialog->exec();
-    reloadAllFiles();
     updateViews();
 
 }
@@ -507,19 +524,6 @@ void MainWindow::updateWindowTitle() {
 
 }
 
-void MainWindow::reloadAllFiles() {
-
-    listOfLayouts.clear();
-    closeEditor();
-    updateViews();
-    for(int i = 0; i < listOfFiles.length(); i++) {
-        AudioFile* f = new AudioFile(listOfFiles.at(i)->getPath(), this);
-        listOfFiles.removeAt(i);
-        listOfFiles.insert(i, f);
-    }
-
-}
-
 void MainWindow::closeFile(int i) {
 
     AudioFile* f = listOfFiles.at(i);
@@ -530,6 +534,7 @@ void MainWindow::closeFile(int i) {
     if(openedFile == f) {
         openedFile = NULL;
     }
+    listOfClosedFiles.append(f);
     listOfFiles.removeOne(f);
     updateViews();
     updateEditor();

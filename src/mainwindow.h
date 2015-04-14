@@ -23,6 +23,7 @@ public:
 private:
     Ui::MainWindow *ui;
     QList<AudioFile*> listOfFiles; //list of all opened files
+    QList<AudioFile*> listOfClosedFiles; //list of all closed files
 
     /*
      * List of all tag editor layouts. When the user clicks to open a file in the editor,
@@ -32,13 +33,14 @@ private:
 
     TagEditorLayout* findLayout(AudioFile* file, bool create = true);
     void setIcons();
+    void addFileToList(QString path);
     void updateViews();
     void updateEditor();
-    void reloadAllFiles();
     void closeFile(int i);
     void closeFile(QString path);
     void closeEditor();
     bool isFileOnList(QString path);
+    bool isFileClosed(QString path);
     bool unsavedChanges;
     AudioFile* openedFile; //the file that is viewed in the tag editor
 
