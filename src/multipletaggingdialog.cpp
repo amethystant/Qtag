@@ -5,12 +5,14 @@
 #include <QGridLayout>
 #include <QMessageBox>
 
-MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, QList<AudioFile*> *listOfOpenedFiles) :
+MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, QList<AudioFile*> *listOfOpenedFiles,
+                                             QList<AudioFile *> *listOfClosedFiles) :
     QDialog(parent) {
 
     setWindowTitle("Multiple tagging");
 
     this->listOfOpenedFiles = listOfOpenedFiles;
+    this->listOfClosedFiles = listOfClosedFiles;
 
     filesLabel = new QLabel("Files:", this);
     filesEdit = new QLineEdit(this);
@@ -169,7 +171,17 @@ void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
         }
     }
     if(file == NULL) {
+        for(int i = 0; i < listOfClosedFiles->length(); i++) {
+            AudioFile* f = listOfClosedFiles->at(i);
+            if(f->getPath() == path) {
+                file = f;
+                i = listOfClosedFiles->length();
+            }
+        }
+    }
+    if(file == NULL) {
         file = new AudioFile(path, this);
+        listOfClosedFiles->append(file);
     }
 
 

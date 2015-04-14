@@ -14,7 +14,8 @@ class MultipleTaggingDialog : public QDialog {
     Q_OBJECT
 
 public:
-    MultipleTaggingDialog(QWidget* parent, QList<AudioFile *> *listOfOpenedFiles);
+    MultipleTaggingDialog(QWidget* parent, QList<AudioFile *> *listOfOpenedFiles,
+                          QList<AudioFile*> *listOfClosedFiles);
 
 private:
     QLabel* filesLabel;
@@ -50,6 +51,7 @@ private:
     QPushButton* cancelButton;
 
     QList<AudioFile*> *listOfOpenedFiles;
+    QList<AudioFile*> *listOfClosedFiles;
     QStringList listOfFiles;
 
     void createLayout();
