@@ -124,6 +124,10 @@ void CreateAlbumDialog::openDirectorySelection() {
 
 }
 
+/*
+*Called when the user clicks on the button "show hint". 
+*Displays a dialog with a review of the tag formating symbols
+*/
 void CreateAlbumDialog::showHint() {
 
     QDialog hint(this);
@@ -156,6 +160,10 @@ void CreateAlbumDialog::showHint() {
 
 }
 
+/*
+* Called if a wrong tag format is recognized.
+* Displays an error message.
+*/
 void CreateAlbumDialog::tagFormatError() {
 
     QMessageBox* message = new QMessageBox(this);
