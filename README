@@ -4,7 +4,7 @@ This project is not ready for using yet, if you want to edit audio tags, use ano
 (these are both good, but I want to make a better application which combines the positive aspects of them).
 However, if you want to compile it for a reason, install Qt 5 and TagLib (and obviously GNU G++ and Git) and open a command line:
 $git clone http://www.github.com/amethystAnt/Qtag.git
-$cd src
+$cd Qtag/src
 $qmake #on Fedora, it might be qmake-qt5 instead
 $make
 $./Qtag
