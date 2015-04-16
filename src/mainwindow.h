@@ -45,7 +45,7 @@ private:
     AudioFile* openedFile; //the file that is viewed in the tag editor
 
 public slots:
-    void openFile();
+    void openFileDialog();
     void openDirectory();
     void openInEditor(QTreeWidgetItem* file);
     void saveAll();

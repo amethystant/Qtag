@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     unsavedChanges = false;
     setIcons();
 
-    QObject::connect(ui->actionOpenFile, SIGNAL(triggered()), this, SLOT(openFile()));
+    QObject::connect(ui->actionOpenFile, SIGNAL(triggered()), this, SLOT(openFileDialog()));
     QObject::connect(ui->actionOpenDirectory, SIGNAL(triggered()), this, SLOT(openDirectory()));
     QObject::connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
                      this, SLOT(openInEditor(QTreeWidgetItem*)));
@@ -58,7 +58,7 @@ void MainWindow::setIcons() {
 /*
 Opens the file dialog and then calls a method to update the tree widget
 */
-void MainWindow::openFile() {
+void MainWindow::openFileDialog() {
 
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::ExistingFiles);
