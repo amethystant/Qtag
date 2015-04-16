@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QComboBox>
 #include "audiofile.h"
+#include "filelist.h"
 #include <string>
 
 class CopyTagsDialog : public QDialog {
@@ -12,10 +13,10 @@ class CopyTagsDialog : public QDialog {
     Q_OBJECT
 
 public:
-    CopyTagsDialog(QWidget *parent, QList<AudioFile *> *listOfFiles);
+    CopyTagsDialog(QWidget *parent, FileList *listOfFiles);
 
 private:
-    QList<AudioFile*> *listOfFiles;
+    FileList* listOfFiles;
     QLabel* sourceFileLabel;
     QLabel* sourceTagLabel;
     QLabel* targetFileLabel;

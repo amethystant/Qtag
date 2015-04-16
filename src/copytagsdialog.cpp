@@ -4,7 +4,7 @@
 #include <QGridLayout>
 #include <QMessageBox>
 
-CopyTagsDialog::CopyTagsDialog(QWidget *parent, QList<AudioFile*> *listOfFiles) : QDialog(parent) {
+CopyTagsDialog::CopyTagsDialog(QWidget *parent, FileList *listOfFiles) : QDialog(parent) {
 
     setWindowTitle("Copy Tags");
     this->listOfFiles = listOfFiles;

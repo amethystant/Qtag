@@ -5,14 +5,12 @@
 #include <QGridLayout>
 #include <QMessageBox>
 
-MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, QList<AudioFile*> *listOfOpenedFiles,
-                                             QList<AudioFile *> *listOfClosedFiles) :
+MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, FileList *list) :
     QDialog(parent) {
 
     setWindowTitle("Multiple tagging");
 
-    this->listOfOpenedFiles = listOfOpenedFiles;
-    this->listOfClosedFiles = listOfClosedFiles;
+    fileList = list;
 
     filesLabel = new QLabel("Files:", this);
     filesEdit = new QLineEdit(this);
@@ -163,25 +161,26 @@ void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
 
 
     AudioFile* file = NULL;
-    for(int i = 0; i < listOfOpenedFiles->length(); i++) {
-        AudioFile* f = listOfOpenedFiles->at(i);
+    for(int i = 0; i < fileList->length(); i++) {
+        AudioFile* f = fileList->at(i);
         if(f->getPath() == path) {
             file = f;
-            i = listOfOpenedFiles->length();
+            i = fileList->length();
         }
     }
     if(file == NULL) {
-        for(int i = 0; i < listOfClosedFiles->length(); i++) {
-            AudioFile* f = listOfClosedFiles->at(i);
+        for(int i = 0; i < fileList->closed_length(); i++) {
+            AudioFile* f = fileList->closed_at(i);
             if(f->getPath() == path) {
                 file = f;
-                i = listOfClosedFiles->length();
+                i = fileList->closed_length();
             }
         }
     }
     if(file == NULL) {
         file = new AudioFile(path, this);
-        listOfClosedFiles->append(file);
+        fileList->addFileToList(path);
+        fileList->closeFile(path);
     }
 
 

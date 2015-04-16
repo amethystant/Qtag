@@ -9,7 +9,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow) {
+    ui(new Ui::MainWindow),
+    listOfFiles(this) {
 
     openedFile = NULL;
     ui->setupUi(this);
@@ -80,7 +81,7 @@ void MainWindow::openFileDialog() {
         for(i = 0; i < numOfFiles; i++) {
 
             QString path = selectedFiles.value(i);
-            addFileToList(path);
+            openFile(path);
 
         }
 
@@ -88,22 +89,6 @@ void MainWindow::openFileDialog() {
 
     updateViews();
 
-}
-
-void MainWindow::addFileToList(QString path) {
-    if(!isFileOnList(path) && isFileClosed(path)) {
-        for(int i = 0; i < listOfClosedFiles.length(); i++) {
-            AudioFile* closedFile = listOfClosedFiles.at(i);
-            if(closedFile->getPath() == path) {
-                listOfFiles.append(closedFile);
-                listOfClosedFiles.removeAt(i);
-                i = listOfClosedFiles.length();
-            }
-        }
-    } else {
-        AudioFile *newFile = new AudioFile(path, this);
-        listOfFiles.append(newFile);
-    }
 }
 
 /*
@@ -256,7 +241,7 @@ void MainWindow::openDirectory() {
                           s.endsWith(".wma", Qt::CaseInsensitive) ||
                           s.endsWith(".asf", Qt::CaseInsensitive) ||
                           s.endsWith(".wave", Qt::CaseInsensitive)) {
-                addFileToList(s);
+                openFile(s);
             }
         }
 
@@ -264,25 +249,6 @@ void MainWindow::openDirectory() {
 
     updateViews();
 
-}
-
-bool MainWindow::isFileOnList(QString path) {
-    int i = 0;
-    while(i < listOfFiles.length()) {
-        if(path.compare(listOfFiles.at(i)->getPath()) == 0)
-            return true;
-        i++;
-    }
-
-    return false;
-}
-
-bool MainWindow::isFileClosed(QString path) {
-    for(int i = 0; i < listOfClosedFiles.length(); i++) {
-        if(path == listOfClosedFiles.at(i)->getPath())
-            return true;
-    }
-    return false;
 }
 
 void MainWindow::openInEditor(QTreeWidgetItem *file) {
@@ -485,7 +451,7 @@ void MainWindow::openMultipleTaggingDialog() {
     }
     closeEditor();
     listOfLayouts.clear();
-    MultipleTaggingDialog* dialog = new MultipleTaggingDialog(this, &listOfFiles, &listOfClosedFiles);
+    MultipleTaggingDialog* dialog = new MultipleTaggingDialog(this, &listOfFiles);
     dialog->exec();
     updateViews();
 
@@ -524,8 +490,13 @@ void MainWindow::updateWindowTitle() {
 
 }
 
-void MainWindow::closeFile(int i) {
+void MainWindow::openFile(QString path) {
+    listOfFiles.addFileToList(path);
+    updateEditor();
+    updateViews();
+}
 
+void MainWindow::closeFile(int i) {
     AudioFile* f = listOfFiles.at(i);
     TagEditorLayout* l = findLayout(f, false);
     if(l != NULL) {
@@ -534,21 +505,15 @@ void MainWindow::closeFile(int i) {
     if(openedFile == f) {
         openedFile = NULL;
     }
-    listOfClosedFiles.append(f);
-    listOfFiles.removeOne(f);
-    updateViews();
+    listOfFiles.closeFile(i);
     updateEditor();
-
+    updateViews();
 }
 
 void MainWindow::closeFile(QString path) {
-
-    for(int i = 0; i < listOfFiles.length(); i++) {
-        if(listOfFiles.at(i)->getPath() == path) {
-            closeFile(i);
-        }
-    }
-
+    listOfFiles.closeFile(path);
+    updateEditor();
+    updateViews();
 }
 
 void MainWindow::closeEditor() {

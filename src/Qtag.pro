@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     commontageditor.cpp \
     copytagsdialog.cpp \
     multipletaggingdialog.cpp \
-    createalbumdialog.cpp
+    createalbumdialog.cpp \
+    filelist.cpp
 
 HEADERS  += picturefile.h \
     id3v2editor.h \
@@ -34,7 +35,8 @@ HEADERS  += picturefile.h \
     commontageditor.h \
     copytagsdialog.h \
     multipletaggingdialog.h \
-    createalbumdialog.h
+    createalbumdialog.h \
+    filelist.h
 
 
 FORMS    += mainwindow.ui

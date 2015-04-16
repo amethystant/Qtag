@@ -6,6 +6,7 @@
 
 #include "audiofile.h"
 #include "tageditorlayout.h"
+#include "filelist.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,25 +23,22 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QList<AudioFile*> listOfFiles; //list of all opened files
-    QList<AudioFile*> listOfClosedFiles; //list of all closed files
+    FileList listOfFiles;
 
     /*
      * List of all tag editor layouts. When the user clicks to open a file in the editor,
-     *  a TagEditorLayout pointer is created and added to this list.
+     * a TagEditorLayout pointer is created and added to this list.
     */
     QList<TagEditorLayout*> listOfLayouts;
 
     TagEditorLayout* findLayout(AudioFile* file, bool create = true);
     void setIcons();
-    void addFileToList(QString path);
     void updateViews();
     void updateEditor();
-    void closeFile(int i);
-    void closeFile(QString path);
     void closeEditor();
-    bool isFileOnList(QString path);
-    bool isFileClosed(QString path);
+    void openFile(QString path);
+    void closeFile(QString path);
+    void closeFile(int i);
     bool unsavedChanges;
     AudioFile* openedFile; //the file that is viewed in the tag editor
 
