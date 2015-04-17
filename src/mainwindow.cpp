@@ -81,7 +81,7 @@ void MainWindow::openFileDialog() {
         for(i = 0; i < numOfFiles; i++) {
 
             QString path = selectedFiles.value(i);
-            openFile(path);
+            openFile(path, false);
 
         }
 
@@ -241,7 +241,7 @@ void MainWindow::openDirectory() {
                           s.endsWith(".wma", Qt::CaseInsensitive) ||
                           s.endsWith(".asf", Qt::CaseInsensitive) ||
                           s.endsWith(".wave", Qt::CaseInsensitive)) {
-                openFile(s);
+                openFile(s, false);
             }
         }
 
@@ -490,10 +490,11 @@ void MainWindow::updateWindowTitle() {
 
 }
 
-void MainWindow::openFile(QString path) {
+void MainWindow::openFile(QString path, bool update) {
     listOfFiles.addFileToList(path);
-    updateEditor();
-    updateViews();
+    if(update) {
+        updateViews();
+    }
 }
 
 void MainWindow::closeFile(int i) {

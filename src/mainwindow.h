@@ -36,7 +36,7 @@ private:
     void updateViews();
     void updateEditor();
     void closeEditor();
-    void openFile(QString path);
+    void openFile(QString path, bool update = true);
     void closeFile(QString path);
     void closeFile(int i);
     bool unsavedChanges;
