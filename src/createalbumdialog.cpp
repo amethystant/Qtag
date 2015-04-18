@@ -8,8 +8,10 @@
 #include <QDirIterator>
 #include <QRegExp>
 
-CreateAlbumDialog::CreateAlbumDialog(QWidget *parent) :
+CreateAlbumDialog::CreateAlbumDialog(QWidget *parent, FileList* list) :
     QDialog(parent) {
+
+    fileList = list;
 
     directoryLabel = new QLabel("Root directory:", this);
     directoryEdit = new QLineEdit(this);
@@ -321,7 +323,30 @@ void CreateAlbumDialog::startTagging() {
 
     for(i = 0; i < files->length(); i++) {
 
-        AudioFile *f = new AudioFile(files->at(i), this);
+        QString path = files->at(i);
+        AudioFile* file = NULL;
+        for(int i = 0; i < fileList->length(); i++) {
+            AudioFile* f = fileList->at(i);
+            if(f->getPath() == path) {
+                file = f;
+                i = fileList->length();
+            }
+        }
+        if(file == NULL) {
+            for(int i = 0; i < fileList->closed_length(); i++) {
+                AudioFile* f = fileList->closed_at(i);
+                if(f->getPath() == path) {
+                    file = f;
+                    i = fileList->closed_length();
+                }
+            }
+        }
+        if(file == NULL) {
+            file = new AudioFile(path, this);
+            fileList->addFileToList(path);
+            fileList->closeFile(path);
+        }
+
         QString currentFile = files->at(i);
         currentFile.remove(0, directoryEdit->text().length() + 1);
         currentFile.remove(currentFile.lastIndexOf('.'),
@@ -401,17 +426,17 @@ void CreateAlbumDialog::startTagging() {
         }
 
         if(apeCheck->isChecked())
-            saveTagsTo(f, NamesOfTags::APE, title, track, album, artist);
+            saveTagsTo(file, NamesOfTags::APE, title, track, album, artist);
         if(asfCheck->isChecked())
-            saveTagsTo(f, NamesOfTags::ASF, title, track, album, artist);
+            saveTagsTo(file, NamesOfTags::ASF, title, track, album, artist);
         if(xiphCommentCheck->isChecked())
-            saveTagsTo(f, NamesOfTags::XIPH, title, track, album, artist);
+            saveTagsTo(file, NamesOfTags::XIPH, title, track, album, artist);
         if(id3v1Check->isChecked())
-            saveTagsTo(f, NamesOfTags::ID3V1, title, track, album, artist);
+            saveTagsTo(file, NamesOfTags::ID3V1, title, track, album, artist);
         if(id3v2Check->isChecked())
-            saveTagsTo(f, NamesOfTags::ID3V2, title, track, album, artist);
+            saveTagsTo(file, NamesOfTags::ID3V2, title, track, album, artist);
         if(infoTagCheck->isChecked())
-            saveTagsTo(f, NamesOfTags::INFO, title, track, album, artist);
+            saveTagsTo(file, NamesOfTags::INFO, title, track, album, artist);
 
     }
 

@@ -8,15 +8,18 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include "audiofile.h"
+#include "filelist.h"
 
 class CreateAlbumDialog : public QDialog {
 
     Q_OBJECT
 
 public:
-    CreateAlbumDialog(QWidget* parent);
+    CreateAlbumDialog(QWidget* parent, FileList *list);
 
 private:
+    FileList* fileList;
+
     QLabel* directoryLabel;
     QLineEdit* directoryEdit;
     QPushButton* directorySelectionButton;

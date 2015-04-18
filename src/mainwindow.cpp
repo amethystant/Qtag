@@ -471,7 +471,7 @@ void MainWindow::openCreateAlbumDialog() {
     }
     closeEditor();
     listOfLayouts.clear();
-    CreateAlbumDialog* dialog = new CreateAlbumDialog(this);
+    CreateAlbumDialog* dialog = new CreateAlbumDialog(this, &listOfFiles);
     dialog->exec();
     updateViews();
 
