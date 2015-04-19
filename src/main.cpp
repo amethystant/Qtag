@@ -2,12 +2,15 @@
 #include <QApplication>
 #include <QFile>
 #include <QTextStream>
+#include <QStringList>
 #include "main.h"
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+    QStringList files = a.arguments();
+    files.removeFirst();
+    MainWindow window(files);
+    window.show();
 
     return a.exec();
 }

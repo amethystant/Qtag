@@ -4,11 +4,11 @@
 #include "multipletaggingdialog.h"
 #include "main.h"
 #include "createalbumdialog.h"
-
+#include <QFileInfo>
 #include <QMessageBox>
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
+MainWindow::MainWindow(QStringList files) :
+    QMainWindow(),
     ui(new Ui::MainWindow),
     listOfFiles(this) {
 
@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lineEdit_path->setReadOnly(true);
     unsavedChanges = false;
     setIcons();
+
+    openFilesFromArguments(files);
+    updateViews();
 
     QObject::connect(ui->actionOpenFile, SIGNAL(triggered()), this, SLOT(openFileDialog()));
     QObject::connect(ui->actionOpenDirectory, SIGNAL(triggered()), this, SLOT(openDirectory()));
@@ -54,6 +57,15 @@ void MainWindow::setIcons() {
     ui->actionSaveAll->setIcon(QIcon::fromTheme("document-save", QIcon(":/save.png")));
     ui->actionSettings->setIcon(QIcon::fromTheme("preferences-system", QIcon(":/settings.png")));
 
+}
+
+void MainWindow::openFilesFromArguments(QStringList files) {
+    for(int i = 0; i < files.length(); i++) {
+        QFileInfo f(files.at(i));
+        if(f.exists()) {
+            openFile(files.at(i), false);
+        }
+    }
 }
 
 /*

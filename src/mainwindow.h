@@ -17,7 +17,7 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QStringList files);
     ~MainWindow();
     Ui::MainWindow* getUI();
 
@@ -33,6 +33,7 @@ private:
 
     TagEditorLayout* findLayout(AudioFile* file, bool create = true);
     void setIcons();
+    void openFilesFromArguments(QStringList files);
     void updateViews();
     void updateEditor();
     void closeEditor();
