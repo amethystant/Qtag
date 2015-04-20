@@ -383,7 +383,10 @@
   </action>
   <action name="actionClose_all">
    <property name="text">
-    <string>&amp;Close all</string>
+    <string>Close all</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+W</string>
    </property>
   </action>
  </widget>
