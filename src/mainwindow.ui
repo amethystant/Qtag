@@ -304,13 +304,13 @@
   </action>
   <action name="actionOpenDirectory">
    <property name="text">
-    <string>Open &amp;directory</string>
+    <string>Open directory</string>
    </property>
    <property name="toolTip">
     <string>Open folder</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+D</string>
+    <string>Ctrl+Shift+O</string>
    </property>
   </action>
   <action name="actionMultipleTagging">
@@ -383,7 +383,7 @@
   </action>
   <action name="actionClose_all">
    <property name="text">
-    <string>Close all</string>
+    <string>&amp;Close all</string>
    </property>
   </action>
  </widget>
