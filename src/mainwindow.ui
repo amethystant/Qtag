@@ -68,6 +68,7 @@
     </widget>
     <addaction name="menuOpen"/>
     <addaction name="actionSaveAll"/>
+    <addaction name="actionClose_file"/>
     <addaction name="actionClose_all"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
@@ -304,7 +305,7 @@
   </action>
   <action name="actionOpenDirectory">
    <property name="text">
-    <string>Open directory</string>
+    <string>Open &amp;directory</string>
    </property>
    <property name="toolTip">
     <string>Open folder</string>
@@ -383,10 +384,18 @@
   </action>
   <action name="actionClose_all">
    <property name="text">
-    <string>Close all</string>
+    <string>&amp;Close all</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+W</string>
+   </property>
+  </action>
+  <action name="actionClose_file">
+   <property name="text">
+    <string>Close file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
    </property>
   </action>
  </widget>

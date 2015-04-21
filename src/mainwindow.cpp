@@ -28,15 +28,15 @@ MainWindow::MainWindow(QStringList files) :
     QObject::connect(ui->actionSaveAll, SIGNAL(triggered()), this, SLOT(saveAll()));
     QObject::connect(ui->actionClose_all, SIGNAL(triggered()), this, SLOT(closeAll()));
     QObject::connect(ui->actionCopy_tags, SIGNAL(triggered()), this, SLOT(openCopyTagsDialog()));
-    QObject::connect(ui->actionMultipleTagging, SIGNAL(triggered()), this, SLOT(openMultipleTaggingDialog()));
+    QObject::connect(ui->actionMultipleTagging, SIGNAL(triggered()), this,
+                     SLOT(openMultipleTaggingDialog()));
     QObject::connect(ui->actionCreate_album_from_folder, SIGNAL(triggered()),
                      this, SLOT(openCreateAlbumDialog()));
-    QObject::connect(ui->pushButton_closeFile, SIGNAL(clicked()), this, SLOT(closeCurrentFile()));
+    QObject::connect(ui->pushButton_closeFile, SIGNAL(clicked()), ui->actionClose_file, SLOT(trigger()));
+    QObject::connect(ui->actionClose_file, SIGNAL(triggered()), this, SLOT(closeCurrentFile()));
     QObject::connect(ui->pushButton_saveFile, SIGNAL(clicked()), this, SLOT(saveCurrentFile()));
     QObject::connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     QObject::connect(ui->lineEdit_path, SIGNAL(textChanged(QString)), this, SLOT(updateWindowTitle()));
-    QKeySequence s("Ctrl+W");
-    ui->pushButton_closeFile->setShortcut(s);
 
 }
 
