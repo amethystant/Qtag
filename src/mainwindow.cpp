@@ -4,6 +4,7 @@
 #include "multipletaggingdialog.h"
 #include "main.h"
 #include "createalbumdialog.h"
+#include "configdialog.h"
 #include <QFileInfo>
 #include <QMessageBox>
 
@@ -37,6 +38,7 @@ MainWindow::MainWindow(QStringList files) :
     QObject::connect(ui->pushButton_saveFile, SIGNAL(clicked()), this, SLOT(saveCurrentFile()));
     QObject::connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     QObject::connect(ui->lineEdit_path, SIGNAL(textChanged(QString)), this, SLOT(updateWindowTitle()));
+    QObject::connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(openSettingsDialog()));
 
 }
 
@@ -534,4 +536,9 @@ void MainWindow::closeFile(QString path) {
 void MainWindow::closeEditor() {
     openedFile = NULL;
     updateEditor();
+}
+
+void MainWindow::openSettingsDialog() {
+    ConfigDialog dialog(this);
+    dialog.exec();
 }
