@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     copytagsdialog.cpp \
     multipletaggingdialog.cpp \
     createalbumdialog.cpp \
-    filelist.cpp
+    filelist.cpp \
+    configdialog.cpp
 
 HEADERS  += picturefile.h \
     id3v2editor.h \
@@ -36,7 +37,8 @@ HEADERS  += picturefile.h \
     copytagsdialog.h \
     multipletaggingdialog.h \
     createalbumdialog.h \
-    filelist.h
+    filelist.h \
+    configdialog.h
 
 
 FORMS    += mainwindow.ui
