@@ -16,7 +16,6 @@ MainWindow::MainWindow(QStringList files) :
     openedFile = NULL;
     ui->setupUi(this);
     ui->lineEdit_path->setReadOnly(true);
-    unsavedChanges = false;
     setIcons();
 
     openFilesFromArguments(files);
@@ -356,7 +355,7 @@ TagEditorLayout* MainWindow::findLayout(AudioFile *file, bool create) {
         return NULL;
     } else {
         TagEditorLayout* l = new TagEditorLayout(this, file);
-        QObject::connect(l, SIGNAL(fileEdited()), this, SLOT(fileEdited()));
+        QObject::connect(l, SIGNAL(fileEdited()), this, SLOT(updateWindowTitle()));
         listOfLayouts.append(l);
         return l;
     }
@@ -387,17 +386,17 @@ void MainWindow::saveAll() {
         l->getFile()->save();
     }
 
-    unsavedChanges = false;
     updateViews();
 
     message->setText("Done.");
     message->setStandardButtons(QMessageBox::Ok);
     message->update();
+    updateWindowTitle();
 
 }
 
 void MainWindow::openCopyTagsDialog() {
-    if(unsavedChanges) {
+    if(unsavedChanges()) {
         if(QMessageBox::question(this, "Copying tags",
                                  "Do you want to save all files before copying tags?") == QMessageBox::Yes)
             saveAll();
@@ -417,7 +416,7 @@ void MainWindow::closeCurrentFile() {
 
 void MainWindow::closeAll() {
 
-    if(unsavedChanges) {
+    if(unsavedChanges()) {
         if(QMessageBox::question(this, "Save all?", "There are some unsaved changes\n"
                                                  "Save all?") == QMessageBox::Yes) {
             saveAll();
@@ -456,11 +455,13 @@ void MainWindow::saveCurrentFile() {
     QObject::connect(button, SIGNAL(clicked()),dialog, SLOT(close()));
     layout->addWidget(button, 1, 1);
     dialog->update();
+    updateWindowTitle();
+
 }
 
 void MainWindow::openMultipleTaggingDialog() {
 
-    if(unsavedChanges) {
+    if(unsavedChanges()) {
         if(QMessageBox::question(this, "Copying tags",
                                  "Do you want to save all files before multiple tagging?") == QMessageBox::Yes)
             saveAll();
@@ -473,14 +474,9 @@ void MainWindow::openMultipleTaggingDialog() {
 
 }
 
-void MainWindow::fileEdited() {
-    unsavedChanges = true;
-}
-
-
 void MainWindow::openCreateAlbumDialog() {
 
-    if(unsavedChanges) {
+    if(unsavedChanges()) {
         if(QMessageBox::question(this, "Create album",
                                  "Do you want to save all files before creating an album?") == QMessageBox::Yes)
             saveAll();
@@ -501,6 +497,10 @@ void MainWindow::updateWindowTitle() {
         int i = ui->lineEdit_path->text().lastIndexOf('/');
         QString fileName = ui->lineEdit_path->text();
         fileName.remove(0, i+1);
+        TagEditorLayout* layout = findLayout(openedFile, false);
+        if(layout != NULL && layout->isEdited()) {
+            fileName.append('*');
+        }
         setWindowTitle(fileName + " - Qtag");
     }
 
@@ -541,4 +541,17 @@ void MainWindow::closeEditor() {
 void MainWindow::openSettingsDialog() {
     ConfigDialog dialog(this);
     dialog.exec();
+}
+
+bool MainWindow::unsavedChanges() {
+
+    for(int i = 0; i < listOfLayouts.length(); i++) {
+        TagEditorLayout* l = listOfLayouts.at(i);
+        if(l->isEdited()) {
+            return true;
+        }
+    }
+
+    return false;
+
 }

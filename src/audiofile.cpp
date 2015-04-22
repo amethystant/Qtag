@@ -123,6 +123,7 @@ void AudioFile::open(QString path) {
 
 /*Saves the tags in the file*/
 void AudioFile::save() {
+
     if(format == ASF) {
         file->asfFile->save();
     } else if(format == MPEG) {
@@ -136,6 +137,9 @@ void AudioFile::save() {
     } else if(format == OggVorbis) {
         file->vorbisFile->save();
     }
+
+    emit saved();
+
 }
 
 QString AudioFile::getPath() {

@@ -40,7 +40,7 @@ private:
     void openFile(QString path, bool update = true);
     void closeFile(QString path);
     void closeFile(int i);
-    bool unsavedChanges;
+    bool unsavedChanges();
     AudioFile* openedFile; //the file that is viewed in the tag editor
 
 public slots:
@@ -53,7 +53,6 @@ public slots:
     void closeCurrentFile();
     void saveCurrentFile();
     void openMultipleTaggingDialog();
-    void fileEdited();
     void openCreateAlbumDialog();
     void updateWindowTitle();
     void openSettingsDialog();

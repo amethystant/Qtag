@@ -107,6 +107,9 @@ private:
 public slots:
     void save();
 
+signals:
+    void saved();
+
 };
 
 #endif // AUDIOFILE_H
