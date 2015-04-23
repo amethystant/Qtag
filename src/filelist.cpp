@@ -43,7 +43,7 @@ int FileList::closed_indexOf(AudioFile *f) {
 }
 
 void FileList::addFileToList(QString path) {
-    if(!isFileOpened(path) && isFileClosed(path)) {
+    if(isFileClosed(path)) {
         for(int i = 0; i < listOfClosedFiles.length(); i++) {
             AudioFile* closedFile = listOfClosedFiles.at(i);
             if(closedFile->getPath() == path) {
@@ -52,7 +52,7 @@ void FileList::addFileToList(QString path) {
                 i = listOfClosedFiles.length();
             }
         }
-    } else {
+    } else if(!isFileOpened(path)) {
         AudioFile *newFile = new AudioFile(path, this);
         listOfOpenedFiles.append(newFile);
     }
