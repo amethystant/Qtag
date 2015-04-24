@@ -103,7 +103,7 @@
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonIconOnly</enum>
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -392,7 +392,7 @@
   </action>
   <action name="actionClose_file">
    <property name="text">
-    <string>Close file</string>
+    <string>Close &amp;file</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+W</string>
