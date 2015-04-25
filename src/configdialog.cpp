@@ -5,6 +5,8 @@
 
 ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
 
+    setWindowTitle("Settings - Qtag");
+
     contentsWidget = new QListWidget(this);
     stackedWidget = new QStackedWidget(this);
 
