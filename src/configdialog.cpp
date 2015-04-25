@@ -51,8 +51,6 @@ void ConfigDialog::createLayout() {
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addLayout(horizontalLayout);
-    layout->addStretch(1);
-    layout->addSpacing(12);
     layout->addLayout(buttonsLayout);
     setLayout(layout);
 
