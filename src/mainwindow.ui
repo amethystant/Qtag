@@ -79,7 +79,7 @@
     </property>
     <addaction name="actionMultipleTagging"/>
     <addaction name="actionCopy_tags"/>
-    <addaction name="actionCreate_album_from_folder"/>
+    <addaction name="actionCreateAlbumFromDirectory"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -117,7 +117,7 @@
    <addaction name="separator"/>
    <addaction name="actionMultipleTagging"/>
    <addaction name="actionCopy_tags"/>
-   <addaction name="actionCreate_album_from_folder"/>
+   <addaction name="actionCreateAlbumFromDirectory"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockWidget_file">
@@ -330,9 +330,9 @@
     <string>Ctrl+C</string>
    </property>
   </action>
-  <action name="actionCreate_album_from_folder">
+  <action name="actionCreateAlbumFromDirectory">
    <property name="text">
-    <string>Create album &amp;from folder...</string>
+    <string>Create album from directory...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>

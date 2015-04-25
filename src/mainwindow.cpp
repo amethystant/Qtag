@@ -30,7 +30,7 @@ MainWindow::MainWindow(QStringList files) :
     QObject::connect(ui->actionCopy_tags, SIGNAL(triggered()), this, SLOT(openCopyTagsDialog()));
     QObject::connect(ui->actionMultipleTagging, SIGNAL(triggered()), this,
                      SLOT(openMultipleTaggingDialog()));
-    QObject::connect(ui->actionCreate_album_from_folder, SIGNAL(triggered()),
+    QObject::connect(ui->actionCreateAlbumFromDirectory, SIGNAL(triggered()),
                      this, SLOT(openCreateAlbumDialog()));
     QObject::connect(ui->pushButton_closeFile, SIGNAL(clicked()), ui->actionClose_file, SLOT(trigger()));
     QObject::connect(ui->actionClose_file, SIGNAL(triggered()), this, SLOT(closeCurrentFile()));
@@ -49,7 +49,7 @@ void MainWindow::setIcons() {
 
     ui->actionQuit->setIcon(QIcon::fromTheme("application-exit", QIcon(":/application-exit.png")));
     ui->actionCopy_tags->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/copytags.png")));
-    ui->actionCreate_album_from_folder->setIcon(QIcon::fromTheme("media-optical", QIcon(":/createalbum.png")));
+    ui->actionCreateAlbumFromDirectory->setIcon(QIcon::fromTheme("media-optical", QIcon(":/createalbum.png")));
     ui->actionAbout->setIcon(QIcon::fromTheme("help-about", QIcon(":/info.png")));
     ui->actionOpenDirectory->setIcon(QIcon::fromTheme("folder-open", QIcon(":/opendirectory.png")));
     ui->actionOpenFile->setIcon(QIcon::fromTheme("document-open", QIcon(":/openfile.png")));
