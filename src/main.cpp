@@ -3,10 +3,16 @@
 #include <QFile>
 #include <QTextStream>
 #include <QStringList>
+#include <QStyle>
 #include "main.h"
 
 int main(int argc, char *argv[]) {
+
     QApplication a(argc, argv);
+    QCoreApplication::setApplicationName("Qtag");
+    QCoreApplication::setOrganizationName("Qtag");
+    QApplication::setStyle(getStyleFromSettings());
+    QApplication::setStyle("");
     QStringList files = a.arguments();
     files.removeFirst();
     MainWindow window(files);
@@ -33,4 +39,13 @@ QString capitalized(QString s) {
         s.replace(index, 1, s.at(index).toUpper());
     }
     return s;
+}
+
+QStyle* getStyleFromSettings() {
+
+    QSettings settings;
+    QVariant value = settings.value("appearance/style");
+    QString style = value.toString();
+    return QStyleFactory::create(style);
+
 }

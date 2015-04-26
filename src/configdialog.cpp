@@ -1,7 +1,10 @@
 #include "configdialog.h"
+#include "main.h"
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QButtonGroup>
+#include <QSettings>
 
 ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
 
@@ -15,6 +18,31 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
 
     generalSettingsWidget = new QWidget(this);
     appearanceSettingsWidget = new QWidget(this);
+
+    styleLabel = new QLabel("Style:", appearanceSettingsWidget);
+    styleSelection = new QComboBox(appearanceSettingsWidget);
+    styleSelection->addItem("Native");
+    styleSelection->addItem("GTK");
+    styleSelection->addItem("Fusion");
+
+    QSettings settings;
+    QString currentStyle = settings.value("appearance/style", "native").toString();
+    styleSelection->setCurrentText(currentStyle);
+
+    iconsGroup = new QGroupBox("Icon theme", appearanceSettingsWidget);
+    iconsSelection = new QButtonGroup(iconsGroup);
+    nativeIconsButton = new QRadioButton("Use native icon theme (Linux only)", appearanceSettingsWidget);
+    oxygenIconsButton = new QRadioButton("Use Oxygen icon theme", appearanceSettingsWidget);
+
+    QString currentIconTheme = settings.value("appearance/icons", "native").toString();
+    if(currentIconTheme == "native") {
+        nativeIconsButton->setChecked(true);
+    } else {
+        oxygenIconsButton->setChecked(true);
+    }
+
+    iconsSelection->addButton(nativeIconsButton);
+    iconsSelection->addButton(oxygenIconsButton);
 
     stackedWidget->addWidget(generalSettingsWidget);
     stackedWidget->addWidget(appearanceSettingsWidget);
@@ -39,6 +67,16 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
 }
 
 void ConfigDialog::createLayout() {
+
+    QVBoxLayout* iconsGroupLayout = new QVBoxLayout(iconsGroup);
+    iconsGroupLayout->addWidget(nativeIconsButton);
+    iconsGroupLayout->addWidget(oxygenIconsButton);
+    iconsGroup->setLayout(iconsGroupLayout);
+
+    QGridLayout *appearanceSettingsLayout = new QGridLayout(appearanceSettingsWidget);
+    appearanceSettingsLayout->addWidget(styleLabel, 0, 0);
+    appearanceSettingsLayout->addWidget(styleSelection, 0, 1);
+    appearanceSettingsLayout->addWidget(iconsGroup, 1, 0, 1, 0);
 
     QHBoxLayout *horizontalLayout = new QHBoxLayout;
     horizontalLayout->addWidget(contentsWidget);
@@ -79,5 +117,16 @@ void ConfigDialog::changeLayout(QListWidgetItem *item) {
 }
 
 void ConfigDialog::applyChanges() {
+
+    QSettings settings;
+    settings.setValue("appearance/style", QVariant(styleSelection->currentText()));
+    if(nativeIconsButton->isChecked()) {
+        settings.setValue("appearance/icons", "native");
+    } else {
+        settings.setValue("appearance/icons", "oxygen");
+    }
+    QApplication::setStyle(getStyleFromSettings());
+
+    settings.sync();
 
 }

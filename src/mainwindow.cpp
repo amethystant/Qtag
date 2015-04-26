@@ -47,18 +47,39 @@ MainWindow::~MainWindow() {
 
 void MainWindow::setIcons() {
 
-    ui->actionQuit->setIcon(QIcon::fromTheme("application-exit", QIcon(":/application-exit.png")));
-    ui->actionCopy_tags->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/copytags.png")));
-    ui->actionCreateAlbumFromDirectory->setIcon(QIcon::fromTheme("media-optical", QIcon(":/createalbum.png")));
-    ui->actionAbout->setIcon(QIcon::fromTheme("help-about", QIcon(":/info.png")));
-    ui->actionOpenDirectory->setIcon(QIcon::fromTheme("folder-open", QIcon(":/opendirectory.png")));
-    ui->actionOpenFile->setIcon(QIcon::fromTheme("document-open", QIcon(":/openfile.png")));
-    ui->actionHow_to_contribute->setIcon(QIcon::fromTheme("help-about", QIcon(":/info.png")));
-    ui->actionLicense->setIcon(QIcon::fromTheme("help-about", QIcon(":/info.png")));
-    ui->actionMultipleTagging->setIcon(QIcon::fromTheme("format-justify-fill",
-                                                        QIcon(":/multipletagging.png")));
-    ui->actionSaveAll->setIcon(QIcon::fromTheme("document-save", QIcon(":/save.png")));
-    ui->actionSettings->setIcon(QIcon::fromTheme("preferences-system", QIcon(":/settings.png")));
+    QSettings settings;
+    QString iconTheme = settings.value("appearance/icons", "native").toString();
+
+    if(iconTheme == "native") {
+
+        ui->actionQuit->setIcon(QIcon::fromTheme("application-exit", QIcon(":/application-exit.png")));
+        ui->actionCopy_tags->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/copytags.png")));
+        ui->actionCreateAlbumFromDirectory->setIcon(QIcon::fromTheme("media-optical", QIcon(":/createalbum.png")));
+        ui->actionAbout->setIcon(QIcon::fromTheme("help-about", QIcon(":/info.png")));
+        ui->actionOpenDirectory->setIcon(QIcon::fromTheme("folder-open", QIcon(":/opendirectory.png")));
+        ui->actionOpenFile->setIcon(QIcon::fromTheme("document-open", QIcon(":/openfile.png")));
+        ui->actionHow_to_contribute->setIcon(QIcon::fromTheme("help-about", QIcon(":/info.png")));
+        ui->actionLicense->setIcon(QIcon::fromTheme("help-about", QIcon(":/info.png")));
+        ui->actionMultipleTagging->setIcon(QIcon::fromTheme("format-justify-fill",
+                                                            QIcon(":/multipletagging.png")));
+        ui->actionSaveAll->setIcon(QIcon::fromTheme("document-save", QIcon(":/save.png")));
+        ui->actionSettings->setIcon(QIcon::fromTheme("preferences-system", QIcon(":/settings.png")));
+
+    } else {
+
+        ui->actionQuit->setIcon(QIcon(":/application-exit.png"));
+        ui->actionCopy_tags->setIcon(QIcon(":/copytags.png"));
+        ui->actionCreateAlbumFromDirectory->setIcon(QIcon(":/createalbum.png"));
+        ui->actionAbout->setIcon(QIcon(":/info.png"));
+        ui->actionOpenDirectory->setIcon(QIcon(":/opendirectory.png"));
+        ui->actionOpenFile->setIcon(QIcon(":/openfile.png"));
+        ui->actionHow_to_contribute->setIcon(QIcon(":/info.png"));
+        ui->actionLicense->setIcon(QIcon(":/info.png"));
+        ui->actionMultipleTagging->setIcon(QIcon(":/multipletagging.png"));
+        ui->actionSaveAll->setIcon(QIcon(":/save.png"));
+        ui->actionSettings->setIcon(QIcon(":/settings.png"));
+
+    }
 
 }
 
@@ -541,6 +562,7 @@ void MainWindow::closeEditor() {
 void MainWindow::openSettingsDialog() {
     ConfigDialog dialog(this);
     dialog.exec();
+    setIcons();
 }
 
 bool MainWindow::unsavedChanges() {
