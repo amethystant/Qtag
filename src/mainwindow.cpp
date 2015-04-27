@@ -52,32 +52,32 @@ void MainWindow::setIcons() {
 
     if(iconTheme == "native") {
 
-        ui->actionQuit->setIcon(QIcon::fromTheme("application-exit", QIcon(":/application-exit.png")));
-        ui->actionCopy_tags->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/copytags.png")));
-        ui->actionCreateAlbumFromDirectory->setIcon(QIcon::fromTheme("media-optical", QIcon(":/createalbum.png")));
-        ui->actionAbout->setIcon(QIcon::fromTheme("help-about", QIcon(":/info.png")));
-        ui->actionOpenDirectory->setIcon(QIcon::fromTheme("folder-open", QIcon(":/opendirectory.png")));
-        ui->actionOpenFile->setIcon(QIcon::fromTheme("document-open", QIcon(":/openfile.png")));
-        ui->actionHow_to_contribute->setIcon(QIcon::fromTheme("help-about", QIcon(":/info.png")));
-        ui->actionLicense->setIcon(QIcon::fromTheme("help-about", QIcon(":/info.png")));
+        ui->actionQuit->setIcon(QIcon::fromTheme("application-exit", QIcon(":/images/application-exit.png")));
+        ui->actionCopy_tags->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/images/copytags.png")));
+        ui->actionCreateAlbumFromDirectory->setIcon(QIcon::fromTheme("media-optical", QIcon(":/images/createalbum.png")));
+        ui->actionAbout->setIcon(QIcon::fromTheme("help-about", QIcon(":/images/info.png")));
+        ui->actionOpenDirectory->setIcon(QIcon::fromTheme("folder-open", QIcon(":/images/opendirectory.png")));
+        ui->actionOpenFile->setIcon(QIcon::fromTheme("document-open", QIcon(":/images/openfile.png")));
+        ui->actionHow_to_contribute->setIcon(QIcon::fromTheme("help-about", QIcon(":/images/info.png")));
+        ui->actionLicense->setIcon(QIcon::fromTheme("help-about", QIcon(":/images/info.png")));
         ui->actionMultipleTagging->setIcon(QIcon::fromTheme("format-justify-fill",
-                                                            QIcon(":/multipletagging.png")));
-        ui->actionSaveAll->setIcon(QIcon::fromTheme("document-save", QIcon(":/save.png")));
-        ui->actionSettings->setIcon(QIcon::fromTheme("preferences-system", QIcon(":/settings.png")));
+                                                            QIcon(":/images/multipletagging.png")));
+        ui->actionSaveAll->setIcon(QIcon::fromTheme("document-save", QIcon(":/images/save.png")));
+        ui->actionSettings->setIcon(QIcon::fromTheme("preferences-system", QIcon(":/images/settings.png")));
 
     } else {
 
-        ui->actionQuit->setIcon(QIcon(":/application-exit.png"));
-        ui->actionCopy_tags->setIcon(QIcon(":/copytags.png"));
-        ui->actionCreateAlbumFromDirectory->setIcon(QIcon(":/createalbum.png"));
-        ui->actionAbout->setIcon(QIcon(":/info.png"));
-        ui->actionOpenDirectory->setIcon(QIcon(":/opendirectory.png"));
-        ui->actionOpenFile->setIcon(QIcon(":/openfile.png"));
-        ui->actionHow_to_contribute->setIcon(QIcon(":/info.png"));
-        ui->actionLicense->setIcon(QIcon(":/info.png"));
-        ui->actionMultipleTagging->setIcon(QIcon(":/multipletagging.png"));
-        ui->actionSaveAll->setIcon(QIcon(":/save.png"));
-        ui->actionSettings->setIcon(QIcon(":/settings.png"));
+        ui->actionQuit->setIcon(QIcon(":/images/application-exit.png"));
+        ui->actionCopy_tags->setIcon(QIcon(":/images/copytags.png"));
+        ui->actionCreateAlbumFromDirectory->setIcon(QIcon(":/images/createalbum.png"));
+        ui->actionAbout->setIcon(QIcon(":/images/info.png"));
+        ui->actionOpenDirectory->setIcon(QIcon(":/images/opendirectory.png"));
+        ui->actionOpenFile->setIcon(QIcon(":/images/openfile.png"));
+        ui->actionHow_to_contribute->setIcon(QIcon(":/images/info.png"));
+        ui->actionLicense->setIcon(QIcon(":/images/info.png"));
+        ui->actionMultipleTagging->setIcon(QIcon(":/images/multipletagging.png"));
+        ui->actionSaveAll->setIcon(QIcon(":/images/save.png"));
+        ui->actionSettings->setIcon(QIcon(":/images/settings.png"));
 
     }
 
