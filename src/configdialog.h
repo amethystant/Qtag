@@ -27,7 +27,9 @@ private:
     QWidget* generalSettingsWidget;
     QWidget* appearanceSettingsWidget;
 
+    QGroupBox* styleGroup;
     QLabel* styleLabel;
+    QLabel* warningLabel;
     QComboBox* styleSelection;
     QGroupBox* iconsGroup;
     QButtonGroup* iconsSelection;

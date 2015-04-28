@@ -19,7 +19,10 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
     generalSettingsWidget = new QWidget(this);
     appearanceSettingsWidget = new QWidget(this);
 
+    styleGroup = new QGroupBox("Style", appearanceSettingsWidget);
     styleLabel = new QLabel("Style:", appearanceSettingsWidget);
+    warningLabel = new QLabel("<i>Warning: this option may apply after restarting Qtag.</i>",
+                              appearanceSettingsWidget);
     styleSelection = new QComboBox(appearanceSettingsWidget);
     styleSelection->addItem("Native");
     styleSelection->addItem("GTK");
@@ -73,10 +76,15 @@ void ConfigDialog::createLayout() {
     iconsGroupLayout->addWidget(oxygenIconsButton);
     iconsGroup->setLayout(iconsGroupLayout);
 
-    QGridLayout *appearanceSettingsLayout = new QGridLayout(appearanceSettingsWidget);
-    appearanceSettingsLayout->addWidget(styleLabel, 0, 0);
-    appearanceSettingsLayout->addWidget(styleSelection, 0, 1);
-    appearanceSettingsLayout->addWidget(iconsGroup, 1, 0, 1, 0);
+    QGridLayout* styleGroupLayout = new QGridLayout(styleGroup);
+    styleGroupLayout->addWidget(styleLabel, 0, 0);
+    styleGroupLayout->addWidget(styleSelection, 0, 1);
+    styleGroupLayout->addWidget(warningLabel, 1, 0, 1, 0);
+    styleGroup->setLayout(styleGroupLayout);
+
+    QVBoxLayout *appearanceSettingsLayout = new QVBoxLayout(appearanceSettingsWidget);
+    appearanceSettingsLayout->addWidget(styleGroup);
+    appearanceSettingsLayout->addWidget(iconsGroup);
 
     QHBoxLayout *horizontalLayout = new QHBoxLayout;
     horizontalLayout->addWidget(contentsWidget);
