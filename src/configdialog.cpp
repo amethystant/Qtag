@@ -14,7 +14,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
     stackedWidget = new QStackedWidget(this);
 
     closeButton = new QPushButton("Close", this);
-    applyButton = new QPushButton("Apply", this);
+    okButton = new QPushButton("OK", this);
 
     generalSettingsWidget = new QWidget(this);
     appearanceSettingsWidget = new QWidget(this);
@@ -62,7 +62,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
     QObject::connect(closeButton, SIGNAL(clicked()), this, SLOT(close()));
     QObject::connect(contentsWidget, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)),
                      this, SLOT(changeLayout(QListWidgetItem*)));
-    QObject::connect(applyButton, SIGNAL(clicked()), this, SLOT(applyChanges()));
+    QObject::connect(okButton, SIGNAL(clicked()), this, SLOT(applyChanges()));
 
 }
 
@@ -84,7 +84,7 @@ void ConfigDialog::createLayout() {
 
     QHBoxLayout *buttonsLayout = new QHBoxLayout;
     buttonsLayout->addStretch(1);
-    buttonsLayout->addWidget(applyButton);
+    buttonsLayout->addWidget(okButton);
     buttonsLayout->addWidget(closeButton);
 
     QVBoxLayout *layout = new QVBoxLayout;
@@ -128,5 +128,6 @@ void ConfigDialog::applyChanges() {
     QApplication::setStyle(getStyleFromSettings());
 
     settings.sync();
+    close();
 
 }

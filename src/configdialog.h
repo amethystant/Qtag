@@ -22,7 +22,7 @@ private:
     QStackedWidget* stackedWidget;
 
     QPushButton* closeButton;
-    QPushButton* applyButton;
+    QPushButton* okButton;
 
     QWidget* generalSettingsWidget;
     QWidget* appearanceSettingsWidget;
