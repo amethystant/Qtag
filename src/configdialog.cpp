@@ -52,7 +52,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
 
     contentsWidget->setViewMode(QListView::IconMode);
     contentsWidget->setMovement(QListView::Static);
-    contentsWidget->setIconSize(QSize(64, 64));
+    contentsWidget->setIconSize(QSize(60, 60));
     contentsWidget->setSpacing(12);
     contentsWidget->setMaximumWidth(128);
 
