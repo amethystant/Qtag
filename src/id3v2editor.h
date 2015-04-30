@@ -22,6 +22,7 @@ private:
     QString* picturePath;
     PictureSelectionButton* pictureSelection;
     QPushButton* removeCoverButton;
+    QPushButton* extractPictureButton;
     QLabel* picturePreview;
     QLabel* pictureLabel;
     void extractPictureFromTag();
@@ -34,6 +35,7 @@ protected slots:
 
 private slots:
     void removeCover();
+    void savePictureAsFile();
 
 };
 
