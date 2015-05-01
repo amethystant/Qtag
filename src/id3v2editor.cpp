@@ -106,6 +106,7 @@ void Id3v2Editor::savePictureAsFile() {
     QImage image;
     TagLib::ID3v2::FrameList frameList = id3v2Tag->frameList("APIC");
     if(frameList.isEmpty()) {
+        QMessageBox::warning(this, "Warning", "There is no picture to save.");
         return;
     }
     TagLib::ID3v2::AttachedPictureFrame *pictureFrame =
