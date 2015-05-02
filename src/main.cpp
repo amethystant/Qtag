@@ -44,7 +44,7 @@ QString capitalized(QString s) {
 QStyle* getStyleFromSettings() {
 
     QSettings settings;
-    QVariant value = settings.value("appearance/style");
+    QVariant value = settings.value("style");
     QString style = value.toString();
     return QStyleFactory::create(style);
 

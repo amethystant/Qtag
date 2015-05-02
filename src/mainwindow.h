@@ -41,6 +41,8 @@ private:
     void closeFile(QString path);
     void closeFile(int i);
     bool unsavedChanges();
+    void saveSession();
+    void openLastSession();
     AudioFile* openedFile; //the file that is viewed in the tag editor
 
 public slots:

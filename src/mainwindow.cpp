@@ -18,7 +18,13 @@ MainWindow::MainWindow(QStringList files) :
     ui->lineEdit_path->setReadOnly(true);
     setIcons();
 
-    openFilesFromArguments(files);
+    QSettings settings;
+
+    if(!files.isEmpty()) {
+        openFilesFromArguments(files);
+    } else if(settings.value("openfiles", QVariant(false)).toBool()) {
+        openLastSession();
+    }
     updateViews();
 
     QObject::connect(ui->actionOpenFile, SIGNAL(triggered()), this, SLOT(openFileDialog()));
@@ -42,13 +48,14 @@ MainWindow::MainWindow(QStringList files) :
 }
 
 MainWindow::~MainWindow() {
+    saveSession();
     delete ui;
 }
 
 void MainWindow::setIcons() {
 
     QSettings settings;
-    QString iconTheme = settings.value("appearance/icons", "native").toString();
+    QString iconTheme = settings.value("icons", "native").toString();
 
     if(iconTheme == "native") {
 
@@ -576,4 +583,27 @@ bool MainWindow::unsavedChanges() {
 
     return false;
 
+}
+
+void MainWindow::saveSession() {
+
+    QList<QVariant> list;
+    for(int i = 0; i < listOfFiles.length(); i++) {
+        QVariant member(listOfFiles.at(i)->getPath());
+        list.append(member);
+    }
+
+    QSettings settings;
+    settings.setValue("lastfiles", list);
+    settings.sync();
+
+}
+
+void MainWindow::openLastSession() {
+    QSettings settings;
+    QList<QVariant> list = settings.value("lastfiles").toList();
+    for(int i = 0; i < list.length(); i++) {
+        openFile(list.at(i).toString(), false);
+    }
+    updateViews();
 }

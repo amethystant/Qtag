@@ -9,6 +9,8 @@
 #include <QComboBox>
 #include <QRadioButton>
 #include <QGroupBox>
+#include <QCheckBox>
+#include <QSettings>
 
 class ConfigDialog : public QDialog {
 
@@ -18,6 +20,8 @@ public:
     ConfigDialog(QWidget *parent);
 
 private:
+    QSettings* settings;
+
     QListWidget* contentsWidget;
     QStackedWidget* stackedWidget;
 
@@ -26,6 +30,10 @@ private:
 
     QWidget* generalSettingsWidget;
     QWidget* appearanceSettingsWidget;
+
+    QGroupBox* filesGroup;
+    QCheckBox* openLastFilesCheck;
+
 
     QGroupBox* styleGroup;
     QLabel* styleLabel;

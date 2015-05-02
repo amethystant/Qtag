@@ -4,7 +4,6 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QButtonGroup>
-#include <QSettings>
 
 ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
 
@@ -19,6 +18,9 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
     generalSettingsWidget = new QWidget(this);
     appearanceSettingsWidget = new QWidget(this);
 
+    filesGroup = new QGroupBox("Files", generalSettingsWidget);
+    openLastFilesCheck = new QCheckBox("Open files from last session at startup", generalSettingsWidget);
+
     styleGroup = new QGroupBox("Style", appearanceSettingsWidget);
     styleLabel = new QLabel("Style:", appearanceSettingsWidget);
     warningLabel = new QLabel("<i>Warning: this option may apply after restarting Qtag.</i>",
@@ -28,8 +30,9 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
     styleSelection->addItem("GTK");
     styleSelection->addItem("Fusion");
 
-    QSettings settings;
-    QString currentStyle = settings.value("appearance/style", "native").toString();
+    settings = new QSettings(this);
+
+    QString currentStyle = settings->value("style", "native").toString();
     styleSelection->setCurrentText(currentStyle);
 
     iconsGroup = new QGroupBox("Icon theme", appearanceSettingsWidget);
@@ -37,11 +40,16 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
     nativeIconsButton = new QRadioButton("Use native icon theme (Linux only)", appearanceSettingsWidget);
     oxygenIconsButton = new QRadioButton("Use Oxygen icon theme", appearanceSettingsWidget);
 
-    QString currentIconTheme = settings.value("appearance/icons", "native").toString();
+    QString currentIconTheme = settings->value("icons", "native").toString();
     if(currentIconTheme == "native") {
         nativeIconsButton->setChecked(true);
     } else {
         oxygenIconsButton->setChecked(true);
+    }
+
+    bool openLastFiles = settings->value("openfiles", QVariant(false)).toBool();
+    if(openLastFiles) {
+        openLastFilesCheck->setChecked(true);
     }
 
     iconsSelection->addButton(nativeIconsButton);
@@ -70,6 +78,15 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
 }
 
 void ConfigDialog::createLayout() {
+
+
+    QVBoxLayout* filesGroupLayout = new QVBoxLayout(filesGroup);
+    filesGroupLayout->addWidget(openLastFilesCheck);
+    filesGroup->setLayout(filesGroupLayout);
+
+    QVBoxLayout* generalSettingsLayout = new QVBoxLayout(generalSettingsWidget);
+    generalSettingsLayout->addWidget(filesGroup);
+    generalSettingsWidget->setLayout(generalSettingsLayout);
 
     QVBoxLayout* iconsGroupLayout = new QVBoxLayout(iconsGroup);
     iconsGroupLayout->addWidget(nativeIconsButton);
@@ -126,16 +143,21 @@ void ConfigDialog::changeLayout(QListWidgetItem *item) {
 
 void ConfigDialog::applyChanges() {
 
-    QSettings settings;
-    settings.setValue("appearance/style", QVariant(styleSelection->currentText()));
-    if(nativeIconsButton->isChecked()) {
-        settings.setValue("appearance/icons", "native");
+    if(openLastFilesCheck->isChecked()) {
+        settings->setValue("openfiles", true);
     } else {
-        settings.setValue("appearance/icons", "oxygen");
+        settings->setValue("openfiles", false);
+    }
+
+    settings->setValue("style", QVariant(styleSelection->currentText()));
+    if(nativeIconsButton->isChecked()) {
+        settings->setValue("icons", "native");
+    } else {
+        settings->setValue("icons", "oxygen");
     }
     QApplication::setStyle(getStyleFromSettings());
+    settings->sync();
 
-    settings.sync();
     close();
 
 }
