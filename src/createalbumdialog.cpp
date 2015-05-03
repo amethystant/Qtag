@@ -132,9 +132,9 @@ void CreateAlbumDialog::openDirectorySelection() {
 */
 void CreateAlbumDialog::showHint() {
 
-    QDialog hint(this);
-    hint.setWindowTitle("Tag format - hint");
-    QLabel* l  = new QLabel(&hint);
+    QDialog *hint = new QDialog(this);
+    hint->setWindowTitle("Tag format - hint");
+    QLabel* l  = new QLabel(hint);
     l->setText(
                 "<b>Tag formating - symbols:</b> <br>"
                 "/ - directory separator (like usually) <br>"
@@ -152,13 +152,13 @@ void CreateAlbumDialog::showHint() {
                 "<font color=red>%a?%l/*%r%t</font>             incorrect**<br><br>"
                 "*The filename extension must NOT be included in the format<br>"
                 "**All symbols and wildcards must be separated by a static string");
-    QPushButton* b = new QPushButton("Close", &hint);
-    QObject::connect(b, SIGNAL(clicked()), &hint, SLOT(close()));
-    QVBoxLayout* lay = new QVBoxLayout(&hint);
+    QPushButton* b = new QPushButton("Close", hint);
+    QObject::connect(b, SIGNAL(clicked()), hint, SLOT(close()));
+    QVBoxLayout* lay = new QVBoxLayout(hint);
     lay->addWidget(l);
     lay->addWidget(b);
-    hint.setLayout(lay);
-    hint.exec();
+    hint->setLayout(lay);
+    hint->show();
 
 }
 
