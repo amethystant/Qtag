@@ -12,7 +12,7 @@ Id3v2Editor::Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent) :
     picturePath = new QString();
     picturePreview = new QLabel();
     picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
-    extractPictureFromTag();
+    showPicturePreview();
     pictureSelection = new PictureSelectionButton(this, picturePath, picturePreview);
     extractPictureButton = new QPushButton("Save as a file...", this);
     removeCoverButton = new QPushButton("Remove cover", this);
@@ -76,18 +76,28 @@ void Id3v2Editor::updateTags() {
 
 }
 
-/*This method extracts the cover from the tag and shows it to the user*/
-void Id3v2Editor::extractPictureFromTag() {
+QImage Id3v2Editor::getPictureFromTag() {
 
     QImage image;
     TagLib::ID3v2::FrameList frameList = id3v2Tag->frameList("APIC");
     if(frameList.isEmpty()) {
-        picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
-        return;
+        return image;
      }
     TagLib::ID3v2::AttachedPictureFrame *pictureFrame =
         static_cast<TagLib::ID3v2::AttachedPictureFrame *>(frameList.front());
     image.loadFromData((const uchar *) pictureFrame->picture().data(), pictureFrame->picture().size());
+
+    return image;
+
+}
+
+void Id3v2Editor::showPicturePreview() {
+
+    QImage image;
+    if(image.isNull()) {
+        picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
+    }
+    image = getPictureFromTag();
     image = image.scaled(100, 100);
     picturePreview->clear();
     picturePreview->setPixmap(QPixmap::fromImage(image));
@@ -105,15 +115,12 @@ void Id3v2Editor::removeCover() {
 
 void Id3v2Editor::savePictureAsFile() {
 
-    QImage image;
-    TagLib::ID3v2::FrameList frameList = id3v2Tag->frameList("APIC");
-    if(frameList.isEmpty()) {
+    QImage image = getPictureFromTag();
+    if(image.isNull()) {
         QMessageBox::warning(this, "Warning", "There is no picture to save.");
         return;
     }
-    TagLib::ID3v2::AttachedPictureFrame *pictureFrame =
-            static_cast<TagLib::ID3v2::AttachedPictureFrame*>(frameList.front());
-    image.loadFromData((const uchar*) pictureFrame->picture().data(), pictureFrame->picture().size());
+
     QString fileName = QFileDialog::getSaveFileName(this, "Save cover", 0, "PNG Images (*.png)");
     image.save(fileName);
 
@@ -121,15 +128,11 @@ void Id3v2Editor::savePictureAsFile() {
 
 void Id3v2Editor::showPictureFullSize() {
 
-    QImage image;
-    TagLib::ID3v2::FrameList frameList = id3v2Tag->frameList("APIC");
-    if(frameList.isEmpty()) {
+    QImage image = getPictureFromTag();
+    if(image.isNull()) {
         QMessageBox::warning(this, "Error", "There is no picture to show.");
         return;
     }
-    TagLib::ID3v2::AttachedPictureFrame *pictureFrame =
-            static_cast<TagLib::ID3v2::AttachedPictureFrame*>(frameList.front());
-    image.loadFromData((const uchar*) pictureFrame->picture().data(), pictureFrame->picture().size());
 
     QScrollArea* window = new QScrollArea;
     QLabel* preview = new QLabel(window);

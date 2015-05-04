@@ -1,6 +1,7 @@
 #ifndef ID3V2EDITOR_H
 #define ID3V2EDITOR_H
 
+#include <QImage>
 #include <id3v2tag.h>
 #include <attachedpictureframe.h>
 #include "pictureselectionbutton.h"
@@ -26,7 +27,8 @@ private:
     QPushButton* pictureFullSizeButton;
     QLabel* picturePreview;
     QLabel* pictureLabel;
-    void extractPictureFromTag();
+    void showPicturePreview();
+    QImage getPictureFromTag();
 
 protected:
     virtual void createLayout();
