@@ -15,11 +15,13 @@ Id3v2Editor::Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent) :
     extractPictureFromTag();
     pictureSelection = new PictureSelectionButton(this, picturePath, picturePreview);
     extractPictureButton = new QPushButton("Save as a file...", this);
-    removeCoverButton = new QPushButton("Remove cover");
+    removeCoverButton = new QPushButton("Remove cover", this);
+    pictureFullSizeButton = new QPushButton("Show full size");
     QObject::connect(removeCoverButton, SIGNAL(clicked()), this, SLOT(removeCover()));
     QObject::connect(genreEdit, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTags()));
     QObject::connect(pictureSelection, SIGNAL(pictureChanged()), this, SLOT(updateTags()));
     QObject::connect(extractPictureButton, SIGNAL(clicked(bool)), this, SLOT(savePictureAsFile()));
+    QObject::connect(pictureFullSizeButton, SIGNAL(clicked()), this, SLOT(showPictureFullSize()));
     createLayout();
 
 }
@@ -39,9 +41,9 @@ void Id3v2Editor::createLayout() {
     l->addWidget(pictureSelection);
     l->addWidget(removeCoverButton);
     layout->addLayout(l, i, 0, 2, 0);
-    i++;
-    layout->addWidget(extractPictureButton, i+1, 0);
-    i++;
+    i+=2;
+    layout->addWidget(extractPictureButton, i, 0);
+    layout->addWidget(pictureFullSizeButton, i, 1);
 
     TagEditor::createLayout();
     i = layout->rowCount();
@@ -114,5 +116,25 @@ void Id3v2Editor::savePictureAsFile() {
     image.loadFromData((const uchar*) pictureFrame->picture().data(), pictureFrame->picture().size());
     QString fileName = QFileDialog::getSaveFileName(this, "Save cover", 0, "PNG Images (*.png)");
     image.save(fileName);
+
+}
+
+void Id3v2Editor::showPictureFullSize() {
+
+    QImage image;
+    TagLib::ID3v2::FrameList frameList = id3v2Tag->frameList("APIC");
+    if(frameList.isEmpty()) {
+        QMessageBox::warning(this, "Error", "There is no picture to show.");
+        return;
+    }
+    TagLib::ID3v2::AttachedPictureFrame *pictureFrame =
+            static_cast<TagLib::ID3v2::AttachedPictureFrame*>(frameList.front());
+    image.loadFromData((const uchar*) pictureFrame->picture().data(), pictureFrame->picture().size());
+
+    QScrollArea* window = new QScrollArea;
+    QLabel* preview = new QLabel(window);
+    preview->setPixmap(QPixmap::fromImage(image));
+    window->setWidget(preview);
+    window->show();
 
 }
