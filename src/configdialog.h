@@ -11,6 +11,7 @@
 #include <QGroupBox>
 #include <QCheckBox>
 #include <QSettings>
+#include <QLineEdit>
 
 class ConfigDialog : public QDialog {
 
@@ -33,7 +34,9 @@ private:
 
     QGroupBox* filesGroup;
     QCheckBox* openLastFilesCheck;
-
+    QGroupBox* viewGroup;
+    QLabel* coverPreviewSizeLabel;
+    QLineEdit* coverPreviewSizeEdit;
 
     QGroupBox* styleGroup;
     QLabel* styleLabel;

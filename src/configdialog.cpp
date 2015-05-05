@@ -20,6 +20,11 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
 
     filesGroup = new QGroupBox("Files", generalSettingsWidget);
     openLastFilesCheck = new QCheckBox("Open files from last session at startup", generalSettingsWidget);
+    viewGroup = new QGroupBox("View", generalSettingsWidget);
+    coverPreviewSizeLabel = new QLabel("Cover art preview size:", generalSettingsWidget);
+    coverPreviewSizeEdit = new QLineEdit(generalSettingsWidget);
+    coverPreviewSizeEdit->setValidator(new QIntValidator);
+    coverPreviewSizeEdit->setMaxLength(3);
 
     styleGroup = new QGroupBox("Style", appearanceSettingsWidget);
     styleLabel = new QLabel("Style:", appearanceSettingsWidget);
@@ -51,6 +56,9 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
     if(openLastFiles) {
         openLastFilesCheck->setChecked(true);
     }
+
+    int previewSize = settings->value("previewsize", QVariant(150)).toInt();
+    coverPreviewSizeEdit->setText(intToString(previewSize));
 
     iconsSelection->addButton(nativeIconsButton);
     iconsSelection->addButton(oxygenIconsButton);
@@ -84,8 +92,14 @@ void ConfigDialog::createLayout() {
     filesGroupLayout->addWidget(openLastFilesCheck);
     filesGroup->setLayout(filesGroupLayout);
 
+    QHBoxLayout* viewGroupLayout = new QHBoxLayout(viewGroup);
+    viewGroupLayout->addWidget(coverPreviewSizeLabel);
+    viewGroupLayout->addWidget(coverPreviewSizeEdit);
+    viewGroup->setLayout(viewGroupLayout);
+
     QVBoxLayout* generalSettingsLayout = new QVBoxLayout(generalSettingsWidget);
     generalSettingsLayout->addWidget(filesGroup);
+    generalSettingsLayout->addWidget(viewGroup);
     generalSettingsWidget->setLayout(generalSettingsLayout);
 
     QVBoxLayout* iconsGroupLayout = new QVBoxLayout(iconsGroup);
@@ -148,6 +162,7 @@ void ConfigDialog::applyChanges() {
     } else {
         settings->setValue("openfiles", false);
     }
+    settings->setValue("previewsize", QVariant(coverPreviewSizeEdit->text().toInt()));
 
     settings->setValue("style", QVariant(styleSelection->currentText()));
     if(nativeIconsButton->isChecked()) {
@@ -155,6 +170,7 @@ void ConfigDialog::applyChanges() {
     } else {
         settings->setValue("icons", "oxygen");
     }
+
     QApplication::setStyle(getStyleFromSettings());
     settings->sync();
 
