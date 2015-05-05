@@ -12,5 +12,6 @@
         <file>nofile.png</file>
         <file>settings-general.png</file>
         <file>settings-appearance.png</file>
+        <file>Qtag.png</file>
     </qresource>
 </RCC>

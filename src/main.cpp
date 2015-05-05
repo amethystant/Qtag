@@ -9,6 +9,7 @@
 int main(int argc, char *argv[]) {
 
     QApplication a(argc, argv);
+    a.setWindowIcon(QIcon(":/images/Qtag.png"));
     QCoreApplication::setApplicationName("Qtag");
     QCoreApplication::setOrganizationName("Qtag");
     QApplication::setStyle(getStyleFromSettings());
