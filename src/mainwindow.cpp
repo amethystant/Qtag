@@ -44,6 +44,7 @@ MainWindow::MainWindow(QStringList files) :
     QObject::connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     QObject::connect(ui->lineEdit_path, SIGNAL(textChanged(QString)), this, SLOT(updateWindowTitle()));
     QObject::connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(openSettingsDialog()));
+    QObject::connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(openAboutDialog()));
 
 }
 
@@ -606,4 +607,32 @@ void MainWindow::openLastSession() {
         openFile(list.at(i).toString(), false);
     }
     updateViews();
+}
+
+void MainWindow::openAboutDialog() {
+
+    QDialog dialog;
+    dialog.setWindowTitle("About Qtag");
+    QVBoxLayout layout(&dialog);
+    QHBoxLayout horizontalLayout(&dialog);
+    QHBoxLayout buttonsLayout(&dialog);
+    QLabel iconLabel(&dialog);
+    iconLabel.setPixmap(QPixmap::fromImage(QImage(":/images/Qtag.png").scaled(150, 150)));
+    QLabel descriptionLabel("<b>Qtag v" + QString::fromStdString(VERSION) +"</b><br>"
+                                              "Qtag is an audio tag editor based on Qt and TagLib.<br>"
+                                              "It is developed for Linux and it is also compatible with MS Windows<br>"
+                                              "Supported formats: MP3, Ogg Vorbis, FLAC, ASF, WavPack, and WAV<br><br>"
+                                              "© 2015 by Karel Patlejch<br>Licensed under Mozzila Public License 2.0<br>",
+                            &dialog);
+    QPushButton closeButton("Close", &dialog);
+    QObject::connect(&closeButton, SIGNAL(clicked()), &dialog, SLOT(close()));
+
+    horizontalLayout.addWidget(&iconLabel);
+    horizontalLayout.addWidget(&descriptionLabel);
+    buttonsLayout.addStretch(1);
+    buttonsLayout.addWidget(&closeButton);
+    layout.addLayout(&horizontalLayout);
+    layout.addLayout(&buttonsLayout);
+    dialog.exec();
+
 }

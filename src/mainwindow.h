@@ -58,6 +58,7 @@ public slots:
     void openCreateAlbumDialog();
     void updateWindowTitle();
     void openSettingsDialog();
+    void openAboutDialog();
 
 };
 
