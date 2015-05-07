@@ -81,9 +81,9 @@
     <addaction name="actionCopy_tags"/>
     <addaction name="actionCreateAlbumFromDirectory"/>
    </widget>
-   <widget class="QMenu" name="menuHelp">
+   <widget class="QMenu" name="menuAbout">
     <property name="title">
-     <string>Help</string>
+     <string>Abo&amp;ut</string>
     </property>
     <addaction name="actionAbout"/>
     <addaction name="actionLicense"/>
@@ -99,7 +99,7 @@
    <addaction name="menuOpenMusicTagge"/>
    <addaction name="menuTools"/>
    <addaction name="menuOptions"/>
-   <addaction name="menuHelp"/>
+   <addaction name="menuAbout"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="toolButtonStyle">
@@ -130,7 +130,7 @@
    <property name="minimumSize">
     <size>
      <width>252</width>
-     <height>229</height>
+     <height>233</height>
     </size>
    </property>
    <property name="baseSize">
@@ -332,7 +332,7 @@
   </action>
   <action name="actionCreateAlbumFromDirectory">
    <property name="text">
-    <string>Create album from directory...</string>
+    <string>Create album &amp;from directory...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
