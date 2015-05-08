@@ -325,7 +325,7 @@
     <string>&amp;Copy tags...</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+C</string>
+    <string>Ctrl+Shift+C</string>
    </property>
   </action>
   <action name="actionCreateAlbumFromDirectory">
