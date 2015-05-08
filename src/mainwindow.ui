@@ -87,8 +87,6 @@
     </property>
     <addaction name="actionAbout"/>
     <addaction name="actionLicense"/>
-    <addaction name="separator"/>
-    <addaction name="actionHow_to_contribute"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
