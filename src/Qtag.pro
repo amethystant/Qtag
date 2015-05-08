@@ -43,7 +43,8 @@ HEADERS  += picturefile.h \
 
 FORMS    += mainwindow.ui
 
-RESOURCES += images/images.qrc
+RESOURCES += images/images.qrc \
+    text_files/text_files.qrc
 
 unix: LIBS += -L/usr/lib/ -ltag
 win32: LIBS += -L"C:\Libraries\taglib\lib" -ltag

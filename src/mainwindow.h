@@ -59,6 +59,7 @@ public slots:
     void updateWindowTitle();
     void openSettingsDialog();
     void openAboutDialog();
+    void openLicenseDialog();
 
 };
 

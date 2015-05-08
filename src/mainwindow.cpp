@@ -45,6 +45,7 @@ MainWindow::MainWindow(QStringList files) :
     QObject::connect(ui->lineEdit_path, SIGNAL(textChanged(QString)), this, SLOT(updateWindowTitle()));
     QObject::connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(openSettingsDialog()));
     QObject::connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(openAboutDialog()));
+    QObject::connect(ui->actionLicense, SIGNAL(triggered()), this, SLOT(openLicenseDialog()));
 
 }
 
@@ -633,6 +634,28 @@ void MainWindow::openAboutDialog() {
     buttonsLayout.addWidget(&closeButton);
     layout.addLayout(&horizontalLayout);
     layout.addLayout(&buttonsLayout);
+    dialog.exec();
+
+}
+
+void MainWindow::openLicenseDialog() {
+
+    QFile file(":/text_files/LICENSE_MPL");
+    file.open(QFile::ReadOnly | QFile::Text);
+    QTextStream ts(&file);
+
+    QDialog dialog;
+    dialog.setWindowTitle("Qtag - license");
+    QGridLayout layout(&dialog);
+    QTextEdit license(&dialog);
+    license.setText(ts.readAll());
+    license.setReadOnly(true);
+    QPushButton closeButton("Close", &dialog);
+    QObject::connect(&closeButton, SIGNAL(clicked()), &dialog, SLOT(close()));
+    layout.addWidget(&license, 0, 0);
+    layout.addWidget(&closeButton, 1, 1);
+    dialog.setLayout(&layout);
+    dialog.resize(550, 390);
     dialog.exec();
 
 }
