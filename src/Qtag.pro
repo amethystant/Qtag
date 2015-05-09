@@ -1,10 +1,9 @@
-QT       += core gui
+QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Qtag
+TARGET = qtag
 TEMPLATE = app
-
 
 SOURCES += main.cpp\
     mainwindow.cpp \
@@ -23,7 +22,7 @@ SOURCES += main.cpp\
     filelist.cpp \
     configdialog.cpp
 
-HEADERS  += picturefile.h \
+HEADERS += picturefile.h \
     id3v2editor.h \
     id3v1editor.h \
     mainwindow.h \
@@ -40,16 +39,29 @@ HEADERS  += picturefile.h \
     filelist.h \
     configdialog.h
 
-
-FORMS    += mainwindow.ui
+FORMS += mainwindow.ui
 
 RESOURCES += images/images.qrc \
     text_files/text_files.qrc
 
-unix: LIBS += -L/usr/lib/ -ltag
-win32: LIBS += -L"C:\Libraries\taglib\lib" -ltag
+unix {
 
-unix:INCLUDEPATH +=/usr/include/taglib
-unix:DEPENDPATH += /usr/include/taglib
-win32:INCLUDEPATH += C:/Libraries/taglib/include/taglib
-win32:DEPENDPATH += C:/Libraries/taglib/include/taglib
+    LIBS += -L/usr/lib/ -ltag
+    INCLUDEPATH +=/usr/include/taglib
+    DEPENDPATH += /usr/include/taglib
+
+    target.path = /usr/local/bin
+
+}
+
+win32 {
+
+    LIBS += -L"C:\Libraries\taglib\lib" -ltag
+    INCLUDEPATH += C:/Libraries/taglib/include/taglib
+    DEPENDPATH += C:/Libraries/taglib/include/taglib
+
+    target.path = "C:/Program Files/Qtag"
+
+}
+
+INSTALLS += target
