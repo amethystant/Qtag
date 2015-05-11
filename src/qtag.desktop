@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Qtag
+Comment=Audio tag editor
+Exec=qtag
+Icon=/usr/share/pixmaps/Qtag.png
+Terminal=false
+Categories=Multimedia;
+Version=1.0
+Type=Application

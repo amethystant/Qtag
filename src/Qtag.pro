@@ -51,6 +51,9 @@ unix {
     DEPENDPATH += /usr/include/taglib
 
     target.path = /usr/local/bin
+    target.commands += "install -m 755 -p "qtag" "/usr/local/bin/qtag"; \
+        cp images/Qtag.png /usr/share/pixmaps; \
+        cp qtag.desktop /usr/share/applications"
 
 }
 
