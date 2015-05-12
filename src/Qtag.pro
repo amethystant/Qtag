@@ -63,6 +63,7 @@ win32 {
     INCLUDEPATH += C:/Libraries/taglib/include/taglib
     DEPENDPATH += C:/Libraries/taglib/include/taglib
 
+    RC_ICONS = Qtag.ico
     target.path = "C:/Program Files/Qtag"
 
 }
