@@ -108,7 +108,6 @@ void MainWindow::openFileDialog() {
 
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setOption(QFileDialog::DontUseNativeDialog);
 #ifdef WIN32
     dialog.setDirectory("C:/");
 #else
@@ -263,7 +262,6 @@ void MainWindow::openDirectory() {
 
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::DirectoryOnly);
-    dialog.setOption(QFileDialog::DontUseNativeDialog);
 #ifdef WIN32
     dialog.setDirectory("C:/");
 #else
