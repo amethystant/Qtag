@@ -2,7 +2,6 @@ QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = qtag
 TEMPLATE = app
 
 SOURCES += main.cpp\
@@ -46,6 +45,8 @@ RESOURCES += images/images.qrc \
 
 unix {
 
+    TARGET = qtag
+
     LIBS += -L/usr/lib/ -ltag
     INCLUDEPATH +=/usr/include/taglib
     DEPENDPATH += /usr/include/taglib
@@ -58,6 +59,8 @@ unix {
 }
 
 win32 {
+
+    TARGET = Qtag
 
     LIBS += -L"C:\Libraries\taglib\lib" -ltag
     INCLUDEPATH += C:/Libraries/taglib/include/taglib
