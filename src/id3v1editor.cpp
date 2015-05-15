@@ -1,3 +1,17 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ *
+ *
+ * (C) 2015 by Karel Patlejch
+ *
+ * Used libraries:
+ *    TagLib - https://github.com/taglib
+ *    Qt - http://qt.io
+ *
+*/
+
 #include "id3v1editor.h"
 
 Id3v1Editor::Id3v1Editor(TagLib::ID3v1::Tag *tag, QWidget *parent) :
