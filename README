@@ -15,4 +15,12 @@ If you want to compile it, install Qt 5 and TagLib (and obviously GNU G++ and Gi
   $make
   $./Qtag
 
+
+**Windows:**
+
+Download the installer here: https://github.com/amethystAnt/Qtag-installer/releases/download/0.1-1/Qtag-installer.exe
+
+
+**Others:**
+
 If you'd like to compile it on *BSD or OS X, do it on your own.
