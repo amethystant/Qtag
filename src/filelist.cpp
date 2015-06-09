@@ -13,6 +13,7 @@
 */
 
 #include "filelist.h"
+#include <QFile>
 
 FileList::FileList(QObject *parent, QStringList *listOfFiles) : QObject(parent) {
 
@@ -67,8 +68,11 @@ void FileList::addFileToList(QString path) {
             }
         }
     } else if(!isFileOpened(path)) {
-        AudioFile *newFile = new AudioFile(path, this);
-        listOfOpenedFiles.append(newFile);
+        QFile f(path);
+        if(f.exists()) {
+            AudioFile *newFile = new AudioFile(path, this);
+            listOfOpenedFiles.append(newFile);
+        }
     }
 }
 
