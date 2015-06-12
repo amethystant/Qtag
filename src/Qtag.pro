@@ -65,10 +65,14 @@ unix {
     INCLUDEPATH +=/usr/include/taglib
     DEPENDPATH += /usr/include/taglib
 
-    target.path = /usr/local/bin
-    target.commands += "install -m 755 -p "qtag" "/usr/local/bin/qtag"; \
-        cp images/Qtag.png /usr/share/pixmaps; \
-        cp qtag.desktop /usr/share/applications"
+    binary.path = /usr/local/bin
+    binary.files = qtag
+
+    desktopfile.path = ~/.local/share/applications
+    desktopfile.files = qtag.desktop
+
+    pixmap.path = ~/.local/share/pixmaps
+    pixmap.files = images/Qtag.png
 
 }
 
@@ -87,4 +91,4 @@ win32 {
 
 }
 
-INSTALLS += target
+INSTALLS += binary desktopfile pixmap
