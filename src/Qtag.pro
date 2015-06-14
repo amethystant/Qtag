@@ -74,6 +74,8 @@ unix {
     pixmap.path = ~/.local/share/pixmaps
     pixmap.files = images/Qtag.png
 
+    INSTALLS += binary desktopfile pixmap
+
 }
 
 win32 {
@@ -90,5 +92,3 @@ win32 {
     target.path = "C:/Program Files/Qtag"
 
 }
-
-INSTALLS += binary desktopfile pixmap
