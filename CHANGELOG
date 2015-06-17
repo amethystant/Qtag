@@ -1,0 +1,7 @@
+5/19/15 *Qtag 0.1
+        - The initial release
+        
+6/17/15 *Qtag 0.1.1
+        - Fixed pointless install targets in Qtag.pro
+        - Removed the install targets for Windows in Qtag.pro
+        - Bug fixed: application crashed when trying to open an invalid file.
