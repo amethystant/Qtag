@@ -81,7 +81,6 @@ void MainWindow::setIcons() {
         ui->actionAbout->setIcon(QIcon::fromTheme("help-about", QIcon(":/images/info.png")));
         ui->actionOpenDirectory->setIcon(QIcon::fromTheme("folder-open", QIcon(":/images/opendirectory.png")));
         ui->actionOpenFile->setIcon(QIcon::fromTheme("document-open", QIcon(":/images/openfile.png")));
-        ui->actionHow_to_contribute->setIcon(QIcon::fromTheme("help-about", QIcon(":/images/info.png")));
         ui->actionLicense->setIcon(QIcon::fromTheme("help-about", QIcon(":/images/info.png")));
         ui->actionMultipleTagging->setIcon(QIcon::fromTheme("format-justify-fill",
                                                             QIcon(":/images/multipletagging.png")));
@@ -96,7 +95,6 @@ void MainWindow::setIcons() {
         ui->actionAbout->setIcon(QIcon(":/images/info.png"));
         ui->actionOpenDirectory->setIcon(QIcon(":/images/opendirectory.png"));
         ui->actionOpenFile->setIcon(QIcon(":/images/openfile.png"));
-        ui->actionHow_to_contribute->setIcon(QIcon(":/images/info.png"));
         ui->actionLicense->setIcon(QIcon(":/images/info.png"));
         ui->actionMultipleTagging->setIcon(QIcon(":/images/multipletagging.png"));
         ui->actionSaveAll->setIcon(QIcon(":/images/save.png"));
