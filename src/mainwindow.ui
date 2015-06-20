@@ -52,10 +52,13 @@
      <x>0</x>
      <y>0</y>
      <width>987</width>
-     <height>29</height>
+     <height>20</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuOpenMusicTagge">
+   <property name="nativeMenuBar">
+    <bool>false</bool>
+   </property>
+   <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
@@ -94,7 +97,7 @@
     </property>
     <addaction name="actionSettings"/>
    </widget>
-   <addaction name="menuOpenMusicTagge"/>
+   <addaction name="menuFile"/>
    <addaction name="menuTools"/>
    <addaction name="menuOptions"/>
    <addaction name="menuAbout"/>
@@ -352,15 +355,6 @@
    </property>
    <property name="text">
     <string>&amp;License</string>
-   </property>
-  </action>
-  <action name="actionHow_to_contribute">
-   <property name="icon">
-    <iconset resource="images/images.qrc">
-     <normaloff>:/images/info.png</normaloff>:/images/info.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;How to contribute?</string>
    </property>
   </action>
   <action name="actionSettings">
