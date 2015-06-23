@@ -13,7 +13,7 @@ If you want to compile it, install Qt 5 and TagLib (and obviously GNU G++ and Gi
   $cd Qtag/src
   $qmake #on Fedora, it might be qmake-qt5 instead
   $make
-  $./Qtag
+  $./qtag
 
 
 **Windows:**
