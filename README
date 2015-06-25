@@ -1,4 +1,6 @@
-Qtag is a new cross-platform Qt-based application for editing audio tags. 
+Qtag is a cross-platform Qt-based application for editing audio tags.
+Supports ID3v1, ID3v2, Xiph Comments and various other tag formats.
+Includes some advanced options like multiple tagging, copying tags, tagging from path/filename...
 It is licensed under the Mozzila Public License v2.0. ( https://www.mozilla.org/MPL/2.0/index.txt )
 
 
@@ -7,13 +9,13 @@ It is licensed under the Mozzila Public License v2.0. ( https://www.mozilla.org/
 Fedora RPM: https://github.com/amethystAnt/Qtag/releases/download/0.1.1/qtag-0.1.1-1.fc21.i686.rpm
 Arch Linux PKGBUILD (tarball): https://github.com/amethystAnt/Qtag/releases/download/0.1.1/qtag-0.1.1-1-archlinux.tar.gz
 
-If you want to compile it, install Qt 5 and TagLib (and obviously GNU G++ and Git) and open a command line:
+If you want to compile it, install Qt 5 and TagLib (and obviously GCC and Git) and open a command line:
 
   $git clone http://www.github.com/amethystAnt/Qtag.git
   $cd Qtag/src
-  $qmake #on Fedora, it might be qmake-qt5 instead
+  $qmake-qt5 # or qmake could also work
   $make
-  $./qtag
+  #make install
 
 
 **Windows:**
