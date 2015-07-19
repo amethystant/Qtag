@@ -109,14 +109,15 @@ void Id3v2Editor::showPicturePreview() {
 
     QSettings settings;
     int size = settings.value("previewsize", QVariant(150)).toInt();
-    QImage image;
+    QImage image = getPictureFromTag();
     if(image.isNull()) {
+        picturePreview->clear();
         picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
+    } else {
+        image = image.scaled(size, size);
+        picturePreview->clear();
+        picturePreview->setPixmap(QPixmap::fromImage(image));
     }
-    image = getPictureFromTag();
-    image = image.scaled(size, size);
-    picturePreview->clear();
-    picturePreview->setPixmap(QPixmap::fromImage(image));
     picturePreview->update();
 
 }
