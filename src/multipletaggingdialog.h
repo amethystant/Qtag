@@ -20,7 +20,7 @@
 #include <QLineEdit>
 #include <QGroupBox>
 #include <QCheckBox>
-#include <audiofile.h>
+#include "audiofile.h"
 #include "id3genreselection.h"
 #include "filelist.h"
 

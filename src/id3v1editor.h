@@ -17,7 +17,7 @@
 
 #include <id3v1tag.h>
 #include "id3genreselection.h"
-#include <tageditor.h>
+#include "tageditor.h"
 
 /*
 The Id3v1 implementation of TagEditor class

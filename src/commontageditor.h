@@ -16,7 +16,7 @@
 #define COMMONTAGEDITOR_H
 
 #include "tageditor.h"
-#include "tag.h"
+#include <tag.h>
 
 /*
  * An implementation of the TagEditor class, which is common to all tags
