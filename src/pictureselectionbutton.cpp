@@ -22,10 +22,6 @@ PictureSelectionButton::PictureSelectionButton(QWidget* parent, QString* path, Q
 
 }
 
-PictureSelectionButton::~PictureSelectionButton() {
-    delete picturePath;
-}
-
 void PictureSelectionButton::selectPicture() {
 
     QFileDialog dialog(this);

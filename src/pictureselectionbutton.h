@@ -26,7 +26,6 @@ class PictureSelectionButton : public QPushButton {
 
 public:
     PictureSelectionButton(QWidget *parent, QString* path, QLabel* preview);
-    ~PictureSelectionButton();
 
 private:
     QString *picturePath;

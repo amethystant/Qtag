@@ -23,8 +23,8 @@ Id3v2Editor::Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent) :
     genreEdit->setCurrentIndex(i);
     genreLabel = new QLabel("Genre:", this);
     pictureLabel = new QLabel("Cover:", this);
-    picturePath = new QString();
-    picturePreview = new QLabel();
+    picturePath = new QString(this);
+    picturePreview = new QLabel(this);
     picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
     showPicturePreview();
     pictureSelection = new PictureSelectionButton(this, picturePath, picturePreview);
