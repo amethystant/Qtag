@@ -23,7 +23,7 @@ Id3v2Editor::Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent) :
     genreEdit->setCurrentIndex(i);
     genreLabel = new QLabel("Genre:", this);
     pictureLabel = new QLabel("Cover:", this);
-    picturePath = new QString(this);
+    picturePath = new QString();
     picturePreview = new QLabel(this);
     picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
     showPicturePreview();
@@ -38,6 +38,10 @@ Id3v2Editor::Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent) :
     QObject::connect(pictureFullSizeButton, SIGNAL(clicked()), this, SLOT(showPictureFullSize()));
     createLayout();
 
+}
+
+Id3v2Editor::~Id3v2EDitor() {
+    delete picturePath;
 }
 
 /*

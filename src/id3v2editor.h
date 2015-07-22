@@ -29,6 +29,7 @@ class Id3v2Editor : public TagEditor {
 
 public:
     Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent);
+    ~Id3v2Editor();
 
 private:
     TagLib::ID3v2::Tag* id3v2Tag;
