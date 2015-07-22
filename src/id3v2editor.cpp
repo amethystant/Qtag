@@ -67,7 +67,7 @@ void Id3v2Editor::createLayout() {
 }
 
 /*
-Overrides TagEditor::saveTags() and updates some ID3v2 specific tags
+ * Overrides TagEditor::updateTags() and updates some ID3v2 specific tags
 */
 void Id3v2Editor::updateTags() {
 
