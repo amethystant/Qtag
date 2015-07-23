@@ -454,6 +454,7 @@ void CreateAlbumDialog::startTagging() {
 
     }
 
+    delete files;
     message->setText("Done.");
     message->setStandardButtons(QMessageBox::Ok);
     message->update();
