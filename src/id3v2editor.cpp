@@ -26,11 +26,13 @@ Id3v2Editor::Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent) :
     picturePath = new QString();
     picturePreview = new QLabel(this);
     picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
-    showPicturePreview();
     pictureSelection = new PictureSelectionButton(this, picturePath, picturePreview);
     extractPictureButton = new QPushButton("Save as a file...", this);
     removeCoverButton = new QPushButton("Remove cover", this);
     pictureFullSizeButton = new QPushButton("Show full size");
+    coverArtActions = new CoverArtActions(this, picturePreview);
+    coverArtActions->showPicturePreview(getPictureFromTag());
+
     QObject::connect(removeCoverButton, SIGNAL(clicked()), this, SLOT(removeCover()));
     QObject::connect(genreEdit, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTags()));
     QObject::connect(pictureSelection, SIGNAL(pictureChanged()), this, SLOT(updateTags()));
@@ -40,7 +42,7 @@ Id3v2Editor::Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent) :
 
 }
 
-Id3v2Editor::~Id3v2EDitor() {
+Id3v2Editor::~Id3v2Editor() {
     delete picturePath;
 }
 
@@ -94,6 +96,14 @@ void Id3v2Editor::updateTags() {
 
 }
 
+void Id3v2Editor::savePictureAsFile() {
+    coverArtActions->savePictureAsFile(getPictureFromTag());
+}
+
+void Id3v2Editor::showPictureFullSize() {
+    coverArtActions->showPictureFullSize(getPictureFromTag());
+}
+
 QImage Id3v2Editor::getPictureFromTag() {
 
     QImage image;
@@ -109,56 +119,10 @@ QImage Id3v2Editor::getPictureFromTag() {
 
 }
 
-void Id3v2Editor::showPicturePreview() {
-
-    QSettings settings;
-    int size = settings.value("previewsize", QVariant(150)).toInt();
-    QImage image = getPictureFromTag();
-    if(image.isNull()) {
-        picturePreview->clear();
-        picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
-    } else {
-        image = image.scaled(size, size);
-        picturePreview->clear();
-        picturePreview->setPixmap(QPixmap::fromImage(image));
-    }
-    picturePreview->update();
-
-}
-
 void Id3v2Editor::removeCover() {
 
     picturePath->clear();
     picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
     id3v2Tag->removeFrames("APIC");
-
-}
-
-void Id3v2Editor::savePictureAsFile() {
-
-    QImage image = getPictureFromTag();
-    if(image.isNull()) {
-        QMessageBox::warning(this, "Warning", "There is no picture to save.");
-        return;
-    }
-
-    QString fileName = QFileDialog::getSaveFileName(this, "Save cover", 0, "PNG Images (*.png)");
-    image.save(fileName);
-
-}
-
-void Id3v2Editor::showPictureFullSize() {
-
-    QImage image = getPictureFromTag();
-    if(image.isNull()) {
-        QMessageBox::warning(this, "Error", "There is no picture to show.");
-        return;
-    }
-
-    QScrollArea* window = new QScrollArea;
-    QLabel* preview = new QLabel(window);
-    preview->setPixmap(QPixmap::fromImage(image));
-    window->setWidget(preview);
-    window->show();
 
 }

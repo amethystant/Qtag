@@ -22,6 +22,7 @@
 #include "picturefile.h"
 #include "tageditor.h"
 #include "id3genreselection.h"
+#include "coverartactions.h"
 
 class Id3v2Editor : public TagEditor {
 
@@ -42,8 +43,8 @@ private:
     QPushButton* pictureFullSizeButton;
     QLabel* picturePreview;
     QLabel* pictureLabel;
-    void showPicturePreview();
     QImage getPictureFromTag();
+    CoverArtActions* coverArtActions;
 
 protected:
     virtual void createLayout();
@@ -53,8 +54,8 @@ protected slots:
 
 private slots:
     void removeCover();
-    void savePictureAsFile();
     void showPictureFullSize();
+    void savePictureAsFile();
 
 };
 

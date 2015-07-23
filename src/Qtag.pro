@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     multipletaggingdialog.cpp \
     createalbumdialog.cpp \
     filelist.cpp \
-    configdialog.cpp
+    configdialog.cpp \
+    coverartactions.cpp
 
 HEADERS += picturefile.h \
     id3v2editor.h \
@@ -50,7 +51,8 @@ HEADERS += picturefile.h \
     multipletaggingdialog.h \
     createalbumdialog.h \
     filelist.h \
-    configdialog.h
+    configdialog.h \
+    coverartactions.h
 
 FORMS += mainwindow.ui
 
