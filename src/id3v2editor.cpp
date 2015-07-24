@@ -83,9 +83,9 @@ void Id3v2Editor::updateTags() {
     if(!picturePath->isEmpty()) {
 
         TagLib::ID3v2::AttachedPictureFrame* frame = new TagLib::ID3v2::AttachedPictureFrame();
-        if(picturePath->endsWith(".jpeg", Qt::CaseInsensitive) || picturePath->endsWith(".jpg"), Qt::CaseInsensitive)
+        if(picturePath->endsWith(".jpeg", Qt::CaseInsensitive) || picturePath->endsWith(".jpg", Qt::CaseInsensitive))
             frame->setMimeType("image/jpeg");
-        else if(picturePath->endsWith(".png"), Qt::CaseInsensitive)
+        else if(picturePath->endsWith(".png", Qt::CaseInsensitive))
             frame->setMimeType("image/png");
         id3v2Tag->removeFrames("APIC");
         PictureFile pictureFile(picturePath->toStdString().c_str());
