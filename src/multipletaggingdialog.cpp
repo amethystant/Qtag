@@ -97,19 +97,20 @@ void MultipleTaggingDialog::createLayout() {
     QGridLayout* layout1 = new QGridLayout(this);
     layout1->addWidget(filesLabel, 0, 0);
     layout1->addWidget(filesEdit, 0, 1);
-    layout1->addWidget(selectFilesButton, 1, 0);
+    layout1->addWidget(selectFilesButton, 0, 2);
     filesGroup->setLayout(layout1);
 
-    QVBoxLayout* layout2 = new QVBoxLayout(this);
-    layout2->addWidget(apeCheck);
-    layout2->addWidget(asfCheck);
-    layout2->addWidget(id3v1Check);
-    layout2->addWidget(id3v2Check);
-    layout2->addWidget(xiphCommentCheck);
-    layout2->addWidget(infoTagCheck);
+    QGridLayout* layout2 = new QGridLayout(this);
+    layout2->addWidget(apeCheck, 0, 0);
+    layout2->addWidget(asfCheck, 0, 1);
+    layout2->addWidget(id3v1Check, 1, 0);
+    layout2->addWidget(id3v2Check, 1, 1);
+    layout2->addWidget(xiphCommentCheck, 2, 0);
+    layout2->addWidget(infoTagCheck, 2, 1);
     tagsGroup->setLayout(layout2);
 
     QGridLayout* layout3 = new QGridLayout(this);
+    i = 0;
     layout3->addWidget(titleCheck, i, 0);
     layout3->addWidget(titleEdit, i, 1);
     i++;
