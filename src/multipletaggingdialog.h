@@ -52,6 +52,7 @@ private:
     QCheckBox* genreCheck;
     QCheckBox* yearCheck;
     QCheckBox* commentCheck;
+    QCheckBox* coverCheck;
     QLineEdit* titleEdit;
     QLineEdit* trackEdit;
     QLineEdit* albumEdit;
@@ -59,6 +60,8 @@ private:
     Id3GenreSelection* genreEdit;
     QLineEdit* yearEdit;
     QLineEdit* commentEdit;
+    QLineEdit* coverEdit;
+    QPushButton* selectCoverButton;
     QGroupBox* editorGroup;
 
     QPushButton* okButton;
@@ -67,12 +70,15 @@ private:
     FileList* fileList;
     QStringList listOfFiles;
 
+    QString coverEditDefaultText;
+
     void createLayout();
     void saveTagsTo(QString nameOfTag, QString path);
 
 private slots:
     void startTagging();
     void openFiles();
+    void selectCover();
 
 };
 

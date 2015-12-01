@@ -14,6 +14,8 @@
 
 #include "multipletaggingdialog.h"
 #include "main.h"
+#include "picturefile.h"
+#include <taglib/attachedpictureframe.h>
 #include <QPushButton>
 #include <QFileDialog>
 #include <QGridLayout>
@@ -60,6 +62,8 @@ MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, FileList *list) :
     yearCheck->setChecked(true);
     commentCheck = new QCheckBox("Comment:", this);
     commentCheck->setChecked(true);
+    coverCheck = new QCheckBox("Cover art:", this);
+    coverCheck->setChecked(true);
     titleEdit = new QLineEdit(this);
     trackEdit = new QLineEdit(this);
     albumEdit = new QLineEdit(this);
@@ -68,6 +72,11 @@ MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, FileList *list) :
     yearEdit = new QLineEdit(this);
     yearEdit->setValidator(new QIntValidator(0, 10000, yearEdit));
     commentEdit = new QLineEdit(this);
+    coverEdit = new QLineEdit(this);
+    coverEdit->setEnabled(false);
+    coverEditDefaultText = "<remove cover art>";
+    coverEdit->setText(coverEditDefaultText);
+    selectCoverButton = new QPushButton("Browse...", this);
     editorGroup = new QGroupBox("Tags", this);
 
      okButton = new QPushButton("OK", this);
@@ -80,7 +89,9 @@ MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, FileList *list) :
      QObject::connect(genreCheck, SIGNAL(clicked(bool)), genreEdit, SLOT(setEnabled(bool)));
      QObject::connect(yearCheck, SIGNAL(clicked(bool)), yearEdit, SLOT(setEnabled(bool)));
      QObject::connect(commentCheck, SIGNAL(clicked(bool)), commentEdit, SLOT(setEnabled(bool)));
+     QObject::connect(coverCheck, SIGNAL(clicked(bool)), selectCoverButton, SLOT(setEnabled(bool)));
 
+     QObject::connect(selectCoverButton, SIGNAL(clicked()), this, SLOT(selectCover()));
      QObject::connect(selectFilesButton, SIGNAL(clicked()), this, SLOT(openFiles()));
      QObject::connect(okButton, SIGNAL(clicked()), this, SLOT(startTagging()));
      QObject::connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
@@ -131,6 +142,11 @@ void MultipleTaggingDialog::createLayout() {
     i++;
     layout3->addWidget(commentCheck, i, 0);
     layout3->addWidget(commentEdit, i, 1);
+    i++;
+    layout3->addWidget(coverCheck, i, 0);
+    layout3->addWidget(coverEdit, i, 1);
+    i++;
+    layout3->addWidget(selectCoverButton, i, 0);
     editorGroup->setLayout(layout3);
 
     QHBoxLayout* layout4 = new QHBoxLayout(this);
@@ -173,7 +189,6 @@ void MultipleTaggingDialog::openFiles() {
 }
 
 void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
-
 
     AudioFile* file = NULL;
     for(int i = 0; i < fileList->length(); i++) {
@@ -218,6 +233,26 @@ void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
     if(yearCheck->isChecked())
         tag->setYear(yearEdit->text().toInt());
 
+    QString s(NamesOfTags::ID3V2.c_str());
+    if(coverCheck->isChecked() && nameOfTag == s) {
+
+        TagLib::ID3v2::Tag* id3Tag = (TagLib::ID3v2::Tag*) tag;
+        id3Tag->removeFrames("APIC");
+
+        if(coverEdit->text() != coverEditDefaultText) {
+            TagLib::ID3v2::AttachedPictureFrame* frame = new TagLib::ID3v2::AttachedPictureFrame();
+            if(coverEdit->text().endsWith(".jpeg", Qt::CaseInsensitive) ||
+                    coverEdit->text().endsWith(".jpg", Qt::CaseInsensitive))
+                frame->setMimeType("image/jpeg");
+            else if(coverEdit->text().endsWith(".png", Qt::CaseInsensitive))
+                frame->setMimeType("image/png");
+            PictureFile pictureFile(coverEdit->text().toStdString().c_str());
+            frame->setPicture(pictureFile.getData());
+            id3Tag->addFrame(frame);
+        }
+
+    }
+
     file->save();
 
 }
@@ -252,5 +287,26 @@ void MultipleTaggingDialog::startTagging() {
     message->setStandardButtons(QMessageBox::Ok);
     message->update();
     close();
+
+}
+
+void MultipleTaggingDialog::selectCover() {
+
+    QFileDialog dialog(this);
+    dialog.setOption(QFileDialog::DontUseNativeDialog);
+#ifdef WIN32
+    dialog.setDirectory("C:/");
+#else
+    dialog.setDirectory("/home");
+#endif
+    dialog.setNameFilter("Images (*.jpeg *.jpg *.png)");
+    dialog.setFileMode(QFileDialog::ExistingFile);
+    dialog.setViewMode(QFileDialog::Detail);
+    dialog.show();
+    if(dialog.exec()) {
+        QStringList nameList = dialog.selectedFiles();
+        QString name = nameList.join("");
+        coverEdit->setText(name);
+    }
 
 }
