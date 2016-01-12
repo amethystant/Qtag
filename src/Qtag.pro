@@ -18,7 +18,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TEMPLATE = app
 
-SOURCES += main.cpp\
+SOURCES += main.cpp \
     mainwindow.cpp \
     audiofile.cpp \
     tageditorlayout.cpp \
@@ -61,22 +61,46 @@ RESOURCES += images/images.qrc \
 
 unix {
 
-    TARGET = qtag
+    !android: TARGET = qtag
+    android: TARGET = Qtag
 
-    LIBS += -L/usr/lib/ -ltag
-    INCLUDEPATH +=/usr/include/taglib
-    DEPENDPATH += /usr/include/taglib
+    LIBS += -L/usr/lib/ -L/usr/arm-linux-androideabi/lib -L/usr/i686-linux-androideabi/lib/ -ltag
 
-    binary.path = /usr/local/bin
-    binary.files = qtag
+    INCLUDEPATH += /usr/include/taglib \
+                    /usr/arm-linux-androideabi/include/taglib \
+                    /usr/i686-linux-androideabi/include/taglib
 
-    desktopfile.path = ~/.local/share/applications
-    desktopfile.files = qtag.desktop
+    DEPENDPATH += /usr/include/taglib \
+                    /usr/arm-linux-androideabi/include/taglib \
+                    /usr/i686-linux-androideabi/include/taglib
 
-    pixmap.path = ~/.local/share/pixmaps
-    pixmap.files = images/Qtag.png
+    ANDROID_EXTRA_LIBS += /usr/arm-linux-androideabi/lib/libtag.so \
+                            /usr/i686-linux-androideabi/lib/libtag.so
 
-    INSTALLS += binary desktopfile pixmap
+    DISTFILES += \
+        android/AndroidManifest.xml \
+        android/gradle/wrapper/gradle-wrapper.jar \
+        android/gradlew \
+        android/res/values/libs.xml \
+        android/build.gradle \
+        android/gradle/wrapper/gradle-wrapper.properties \
+        android/gradlew.bat
+
+    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+
+    !android {
+        binary.path = /usr/local/bin
+        binary.files = qtag
+
+        desktopfile.path = ~/.local/share/applications
+        desktopfile.files = qtag.desktop
+
+        pixmap.path = ~/.local/share/pixmaps
+        pixmap.files = images/Qtag.png
+
+        INSTALLS += binary desktopfile pixmap
+    }
 
 }
 
@@ -94,3 +118,4 @@ win32 {
     target.path = "C:/Program Files/Qtag"
 
 }
+
