@@ -15,7 +15,7 @@
 #include "multipletaggingdialog.h"
 #include "main.h"
 #include "picturefile.h"
-#include <taglib/attachedpictureframe.h>
+#include <attachedpictureframe.h>
 #include <QPushButton>
 #include <QFileDialog>
 #include <QGridLayout>
