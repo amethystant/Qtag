@@ -1,2 +1,8 @@
 *.pro.user*
 build*
+qtag
+*.o
+moc*
+Makefile
+ui_*
+qrc_*
