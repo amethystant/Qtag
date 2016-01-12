@@ -6,21 +6,21 @@ It is licensed under the Mozzila Public License v2.0. ( https://www.mozilla.org/
 
 **Linux:**
 
-Fedora RPM: https://github.com/amethystAnt/Qtag/releases/download/0.1.1/qtag-0.1.1-1.fc21.i686.rpm
-Arch Linux PKGBUILD (tarball): https://github.com/amethystAnt/Qtag/releases/download/0.1.1/qtag-0.1.1-1-archlinux.tar.gz
+Pick a package suitable for your system here: https://github.com/amethystAnt/Qtag/releases
 
 If you want to compile it, install Qt 5 and TagLib (and obviously GCC and Git) and open a command line:
 
   $git clone http://www.github.com/amethystAnt/Qtag.git
+  $git checkout stable
   $cd Qtag/src
-  $qmake-qt5 # or qmake could also work
+  $qmake-qt5 # or just qmake could also work
   $make
   #make install
 
 
 **Windows:**
 
-Download the installer here: https://github.com/amethystAnt/Qtag-installer/releases/download/0.1.1-1/Qtag-installer.exe
+Download an installer here: https://github.com/amethystAnt/Qtag-installer/releases/
 
 
 **Others:**
