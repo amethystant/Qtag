@@ -382,7 +382,11 @@ void CreateAlbumDialog::startTagging() {
                 QString s = format.section('%', 1, 1);
                 QChar symbol  = s.at(0);
                 s.remove(0, 1);
-                int in = currentFile.indexOf(s);
+                int in;
+                if(!s.isEmpty())
+                    in = currentFile.indexOf(s, index);
+                else
+                    in = currentFile.length() - 1;
                 QString extractedString = currentFile.mid(index, in-index);
                 format.replace(format.indexOf('%'), 2, extractedString);
                 if(symbol == 'a') {
@@ -399,7 +403,11 @@ void CreateAlbumDialog::startTagging() {
                       (index1 < index2 || index2 == -1) && index1 != -1) {
 
                 QString s = format.section('*', 1, 1);
-                int in = currentFile.indexOf(s);
+                int in;
+                if(!s.isEmpty())
+                    in = currentFile.indexOf(s, index1);
+                else
+                    in = currentFile.length() - 1;
                 QString extractedString = currentFile.mid(index1, in-index1);
                 format.replace(format.indexOf('*'), 1, extractedString);
 
