@@ -54,9 +54,12 @@ void AudioFile::open(QString path) {
     const char* char_path = encodedFileName.constData();
     TagLib::FileName fileName = char_path;
 
+    TagLib::AudioProperties* properties;
+
     if(path.endsWith(".mp3", Qt::CaseInsensitive)) {
         format = MPEG;
         TagLib::MPEG::File* f = new TagLib::MPEG::File(fileName);
+        properties = f->audioProperties();
         file->mpegFile = f;
         hasFileId3v1 = true;
         hasFileId3v2 = true;
@@ -69,6 +72,7 @@ void AudioFile::open(QString path) {
 
         format = FLAC;
         TagLib::FLAC::File *f = new TagLib::FLAC::File(fileName);
+        properties = f->audioProperties();
         file->flacFile = f;
         hasFileId3v1 = true;
         hasFileId3v2 = true;
@@ -82,6 +86,7 @@ void AudioFile::open(QString path) {
 
         format = WAV;
         TagLib::RIFF::WAV::File *f = new TagLib::RIFF::WAV::File(fileName);
+        properties = f->audioProperties();
         file->wavFile = f;
         hasFileId3v2 = f->hasID3v2Tag();
         hasFileInfoTag = f->hasInfoTag();
@@ -96,6 +101,7 @@ void AudioFile::open(QString path) {
         format = ASF;
         hasFileAsfTag = true;
         TagLib::ASF::File *f = new TagLib::ASF::File(fileName);
+        properties = f->audioProperties();
         file->asfFile = f;
         asfTag = f->tag();
 
@@ -103,6 +109,7 @@ void AudioFile::open(QString path) {
 
         format = WavPack;
         TagLib::WavPack::File *f = new TagLib::WavPack::File(fileName);
+        properties = f->audioProperties();
         file->wavPackFile = f;
         hasFileApeTag = true;
         hasFileId3v1 = true;
@@ -114,20 +121,43 @@ void AudioFile::open(QString path) {
         format = OggVorbis;
         hasFileXiphComment = true;
         TagLib::Ogg::Vorbis::File *f = new TagLib::Ogg::Vorbis::File(fileName);
+        properties = f->audioProperties();
         file->vorbisFile = f;
         xiphComment = f->tag();
 
     }
 
-    TagLib::FileRef f(fileName);
+#ifndef WIN32
+    TagLib::FileRef *f = new TagLib::FileRef(char_path);
 
-    TagLib::Tag *tag = f.tag();
+    TagLib::Tag *tag = f->tag();
     name = QString::fromStdString(tag->title().to8Bit(true));
     track = tag->track();
     album = QString::fromStdString(tag->album().to8Bit(true));
     artist = QString::fromStdString(tag->artist().to8Bit(true));
 
-    TagLib::AudioProperties* properties = f.audioProperties();
+    delete f;
+#else
+    TagLib::Tag *tag;
+     if(id3v1 && !id3v1->isEmpty())
+         tag = id3v1;
+     else if(id3v2 && !id3v2->isEmpty())
+         tag = id3v2;
+     else if(apeTag && !apeTag->isEmpty())
+         tag = apeTag;
+     else if(asfTag && !asfTag->isEmpty())
+         tag = asfTag;
+     else if(xiphComment && !xiphComment->isEmpty())
+         tag = xiphComment;
+     else if(infoTag && !infoTag->isEmpty())
+         tag = infoTag;
+
+     name = QString::fromStdString(tag->title().to8Bit(true));
+     track = tag->track();
+     album = QString::fromStdString(tag->album().to8Bit(true));
+     artist = QString::fromStdString(tag->artist().to8Bit(true));
+#endif
+
     bitrate = properties->bitrate();
     channels = properties->channels();
     length = properties->length();
