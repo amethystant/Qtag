@@ -199,7 +199,7 @@ void CreateAlbumDialog::saveTagsTo(AudioFile* f, std::string nameOfTag,
     }
 
     if(!title.isEmpty()) {
-        t->setTitle(title.toStdString());
+        t->setTitle(title.toLocal8Bit().toStdString());
     }
     if(!track.isEmpty()) {
         if(track.startsWith('0'))
@@ -207,10 +207,10 @@ void CreateAlbumDialog::saveTagsTo(AudioFile* f, std::string nameOfTag,
         t->setTrack(track.toInt());
     }
     if(!album.isEmpty()) {
-        t->setAlbum(album.toStdString());
+        t->setAlbum(album.toLocal8Bit().toStdString());
     }
     if(!artist.isEmpty()) {
-        t->setArtist(artist.toStdString());
+        t->setArtist(artist.toLocal8Bit().toStdString());
     }
 
     f->save();
@@ -386,7 +386,7 @@ void CreateAlbumDialog::startTagging() {
                 if(!s.isEmpty())
                     in = currentFile.indexOf(s, index);
                 else
-                    in = currentFile.length() - 1;
+                    in = currentFile.length();
                 QString extractedString = currentFile.mid(index, in-index);
                 format.replace(format.indexOf('%'), 2, extractedString);
                 if(symbol == 'a') {
@@ -407,7 +407,7 @@ void CreateAlbumDialog::startTagging() {
                 if(!s.isEmpty())
                     in = currentFile.indexOf(s, index1);
                 else
-                    in = currentFile.length() - 1;
+                    in = currentFile.length();
                 QString extractedString = currentFile.mid(index1, in-index1);
                 format.replace(format.indexOf('*'), 1, extractedString);
 
