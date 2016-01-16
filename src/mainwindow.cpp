@@ -21,6 +21,7 @@
 #include "configdialog.h"
 #include <QFileInfo>
 #include <QMessageBox>
+#include <QGridLayout>
 
 MainWindow::MainWindow(QStringList files) :
     QMainWindow(),
@@ -40,6 +41,9 @@ MainWindow::MainWindow(QStringList files) :
         openLastSession();
     }
     updateViews();
+
+    spacer = new QSpacerItem(1, 100000, QSizePolicy::Maximum, QSizePolicy::Maximum);
+    ui->gridLayout_3->addItem(spacer, ui->gridLayout_3->rowCount()+1, 1);
 
     QObject::connect(ui->actionOpenFile, SIGNAL(triggered()), this, SLOT(openFileDialog()));
     QObject::connect(ui->actionOpenDirectory, SIGNAL(triggered()), this, SLOT(openDirectory()));

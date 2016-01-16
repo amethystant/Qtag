@@ -17,6 +17,7 @@
 
 #include <QtWidgets>
 #include <QtCore>
+#include <QSpacerItem>
 
 #include "audiofile.h"
 #include "tageditorlayout.h"
@@ -58,6 +59,7 @@ private:
     void saveSession();
     void openLastSession();
     AudioFile* openedFile; //the file that is viewed in the tag editor
+    QSpacerItem* spacer;
 
 public slots:
     void openFileDialog();

@@ -52,7 +52,7 @@
      <x>0</x>
      <y>0</y>
      <width>987</width>
-     <height>20</height>
+     <height>30</height>
     </rect>
    </property>
    <property name="nativeMenuBar">
@@ -131,7 +131,7 @@
    <property name="minimumSize">
     <size>
      <width>252</width>
-     <height>233</height>
+     <height>246</height>
     </size>
    </property>
    <property name="baseSize">
@@ -162,84 +162,15 @@
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="0" column="1">
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="5" column="1">
-        <widget class="QLabel" name="label_channels_value">
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_type_value">
          <property name="text">
           <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_length">
-         <property name="text">
-          <string>Legth:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_bitrate">
-         <property name="text">
-          <string>Bitrate:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_file">
-         <property name="text">
-          <string>File (path):</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEdit_path"/>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="pushButton_saveFile">
-         <property name="text">
-          <string>&amp;Save file</string>
-         </property>
-         <property name="shortcut">
-          <string>Ctrl+S</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLabel" name="label_bitrate_value">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_channels">
-         <property name="text">
-          <string>Channels:</string>
          </property>
         </widget>
        </item>
        <item row="4" column="1">
         <widget class="QLabel" name="label_length_value">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="pushButton_closeFile">
-         <property name="text">
-          <string>Close File</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_sampleRate">
-         <property name="text">
-          <string>Sample Rate:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QLabel" name="label_sampleRate_value">
          <property name="text">
           <string/>
          </property>
@@ -252,10 +183,79 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="label_type_value">
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_sampleRate">
+         <property name="text">
+          <string>Sample Rate:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_channels">
+         <property name="text">
+          <string>Channels:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="label_bitrate_value">
          <property name="text">
           <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLabel" name="label_channels_value">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="pushButton_saveFile">
+         <property name="text">
+          <string>&amp;Save file</string>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+S</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_bitrate">
+         <property name="text">
+          <string>Bitrate:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineEdit_path"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_file">
+         <property name="text">
+          <string>File (path):</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLabel" name="label_sampleRate_value">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="pushButton_closeFile">
+         <property name="text">
+          <string>Close File</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_length">
+         <property name="text">
+          <string>Legth:</string>
          </property>
         </widget>
        </item>
@@ -287,7 +287,7 @@
   </widget>
   <action name="actionSaveAll">
    <property name="text">
-    <string>&amp;Save all</string>
+    <string>Save all</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
@@ -295,7 +295,7 @@
   </action>
   <action name="actionOpenFile">
    <property name="text">
-    <string>&amp;Open file(s)</string>
+    <string>Open file(s)</string>
    </property>
    <property name="toolTip">
     <string>Open file(s)</string>
@@ -306,7 +306,7 @@
   </action>
   <action name="actionOpenDirectory">
    <property name="text">
-    <string>Open &amp;directory</string>
+    <string>Open directory</string>
    </property>
    <property name="toolTip">
     <string>Open folder</string>
@@ -317,7 +317,7 @@
   </action>
   <action name="actionMultipleTagging">
    <property name="text">
-    <string>&amp;Multiple tagging...</string>
+    <string>Multiple tagging...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+M</string>
@@ -325,7 +325,7 @@
   </action>
   <action name="actionCopy_tags">
    <property name="text">
-    <string>&amp;Copy tags...</string>
+    <string>Copy tags...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+C</string>
@@ -345,7 +345,7 @@
      <normaloff>:/images/info.png</normaloff>:/images/info.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;About</string>
+    <string>About</string>
    </property>
   </action>
   <action name="actionLicense">
@@ -354,7 +354,7 @@
      <normaloff>:/images/info.png</normaloff>:/images/info.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;License</string>
+    <string>License</string>
    </property>
   </action>
   <action name="actionSettings">
@@ -363,12 +363,12 @@
      <normaloff>:/images/settings.png</normaloff>:/images/settings.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Settings</string>
+    <string>Settings</string>
    </property>
   </action>
   <action name="actionQuit">
    <property name="text">
-    <string>&amp;Quit</string>
+    <string>Quit</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
@@ -376,7 +376,7 @@
   </action>
   <action name="actionClose_all">
    <property name="text">
-    <string>&amp;Close all</string>
+    <string>Close all</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+W</string>
@@ -384,7 +384,7 @@
   </action>
   <action name="actionClose_file">
    <property name="text">
-    <string>Close &amp;file</string>
+    <string>Close file</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+W</string>
