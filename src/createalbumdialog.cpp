@@ -358,7 +358,6 @@ void CreateAlbumDialog::startTagging() {
         if(file == NULL) {
             file = new AudioFile(path, this);
             fileList->addFileToList(path);
-            fileList->closeFile(path);
         }
 
         QString currentFile = files->at(i);
