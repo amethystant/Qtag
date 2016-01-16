@@ -455,7 +455,8 @@ void MainWindow::openCopyTagsDialog() {
 }
 
 void MainWindow::closeCurrentFile() {
-    closeFile(listOfFiles.indexOf(openedFile));
+    if(openedFile)
+        closeFile(listOfFiles.indexOf(openedFile));
 }
 
 void MainWindow::closeAll() {
