@@ -118,6 +118,8 @@ private:
     int length;
     int sampleRate;
 
+    void updateBasicInfo();
+
 public slots:
     void save();
 
