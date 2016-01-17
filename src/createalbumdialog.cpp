@@ -316,7 +316,7 @@ void CreateAlbumDialog::startTagging() {
 
     for(i = 0; i < files->length();) {
 
-        QRegExp r(filter + ".*", Qt::CaseSensitive, QRegExp::Wildcard);
+        QRegExp r(directoryEdit->text() + "/" + filter + ".*", Qt::CaseSensitive, QRegExp::Wildcard);
         if(!r.exactMatch(files->at(i))) {
             files->removeAt(i);
         } else {
