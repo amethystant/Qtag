@@ -100,13 +100,13 @@ void CreateAlbumDialog::createLayout() {
     layout5->addLayout(layout4);
     additionalChangesGroup->setLayout(layout5);
 
-    QVBoxLayout* layout6 = new QVBoxLayout(this);
-    layout6->addWidget(apeCheck);
-    layout6->addWidget(asfCheck);
-    layout6->addWidget(id3v1Check);
-    layout6->addWidget(id3v2Check);
-    layout6->addWidget(infoTagCheck);
-    layout6->addWidget(xiphCommentCheck);
+    QGridLayout* layout6 = new QGridLayout(this);
+    layout6->addWidget(apeCheck, 0, 0);
+    layout6->addWidget(asfCheck, 0, 1);
+    layout6->addWidget(id3v1Check, 1, 0);
+    layout6->addWidget(id3v2Check, 1, 1);
+    layout6->addWidget(infoTagCheck, 2, 0);
+    layout6->addWidget(xiphCommentCheck, 2, 1);
     tagsGroup->setLayout(layout6);
 
     QHBoxLayout* layout7 = new QHBoxLayout(this);
