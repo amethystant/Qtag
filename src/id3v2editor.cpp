@@ -57,7 +57,7 @@ void Id3v2Editor::createLayout() {
     layout->addWidget(picturePreview, i, 1);
     i++;
 
-    QHBoxLayout* l = new QHBoxLayout(this);
+    QHBoxLayout* l = new QHBoxLayout();
     l->addWidget(pictureSelection);
     l->addWidget(removeCoverButton);
     layout->addLayout(l, i, 0, 2, 0);
