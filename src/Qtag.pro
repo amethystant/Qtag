@@ -59,19 +59,43 @@ FORMS += mainwindow.ui
 RESOURCES += images/images.qrc \
     text_files/text_files.qrc
 
-unix {
 
-    !android: TARGET = qtag
-    android: TARGET = Qtag
 
-    LIBS += -L/usr/lib/ -L/usr/arm-linux-androideabi/lib -L/usr/i686-linux-androideabi/lib/ -ltag
+unix:!android {
+
+    TARGET = qtag
+
+    LIBS += -L/usr/lib -L/usr/local/lib -L/usr/lib/x86_64-linux-gnu -ltag -lz
 
     INCLUDEPATH += /usr/include/taglib \
-                    /usr/arm-linux-androideabi/include/taglib \
-                    /usr/i686-linux-androideabi/include/taglib
+                    /usr/local/include/taglib
 
     DEPENDPATH += /usr/include/taglib \
-                    /usr/arm-linux-androideabi/include/taglib \
+                    /usr/local/include/taglib
+
+    binary.path = /usr/local/bin
+    binary.files = qtag
+
+    desktopfile.path = ~/.local/share/applications
+    desktopfile.files = qtag.desktop
+
+    pixmap.path = ~/.local/share/pixmaps
+    pixmap.files = images/Qtag.png
+
+    INSTALLS += binary desktopfile pixmap
+
+}
+
+android {
+
+    TARGET = Qtag
+
+    LIBS += -L/usr/arm-linux-androideabi/lib -L/usr/i686-linux-androideabi/lib/ -ltag
+
+    INCLUDEPATH += /usr/arm-linux-androideabi/include/taglib \
+                    /usr/i686-linux-androideabi/include/taglib
+
+    DEPENDPATH += /usr/arm-linux-androideabi/include/taglib \
                     /usr/i686-linux-androideabi/include/taglib
 
     ANDROID_EXTRA_LIBS += /usr/arm-linux-androideabi/lib/libtag.so \
@@ -87,20 +111,6 @@ unix {
         android/gradlew.bat
 
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
-
-
-    !android {
-        binary.path = /usr/local/bin
-        binary.files = qtag
-
-        desktopfile.path = ~/.local/share/applications
-        desktopfile.files = qtag.desktop
-
-        pixmap.path = ~/.local/share/pixmaps
-        pixmap.files = images/Qtag.png
-
-        INSTALLS += binary desktopfile pixmap
-    }
 
 }
 
