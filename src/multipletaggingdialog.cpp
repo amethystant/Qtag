@@ -105,13 +105,13 @@ void MultipleTaggingDialog::createLayout() {
     QGridLayout* layout = new QGridLayout(this);
     int i = 0;
 
-    QGridLayout* layout1 = new QGridLayout(this);
+    QGridLayout* layout1 = new QGridLayout();
     layout1->addWidget(filesLabel, 0, 0);
     layout1->addWidget(filesEdit, 0, 1);
     layout1->addWidget(selectFilesButton, 0, 2);
     filesGroup->setLayout(layout1);
 
-    QGridLayout* layout2 = new QGridLayout(this);
+    QGridLayout* layout2 = new QGridLayout();
     layout2->addWidget(apeCheck, 0, 0);
     layout2->addWidget(asfCheck, 0, 1);
     layout2->addWidget(id3v1Check, 1, 0);
@@ -120,7 +120,7 @@ void MultipleTaggingDialog::createLayout() {
     layout2->addWidget(infoTagCheck, 2, 1);
     tagsGroup->setLayout(layout2);
 
-    QGridLayout* layout3 = new QGridLayout(this);
+    QGridLayout* layout3 = new QGridLayout();
     i = 0;
     layout3->addWidget(titleCheck, i, 0);
     layout3->addWidget(titleEdit, i, 1);
@@ -149,7 +149,7 @@ void MultipleTaggingDialog::createLayout() {
     layout3->addWidget(selectCoverButton, i, 0);
     editorGroup->setLayout(layout3);
 
-    QHBoxLayout* layout4 = new QHBoxLayout(this);
+    QHBoxLayout* layout4 = new QHBoxLayout();
     layout4->addWidget(cancelButton);
     layout4->addWidget(okButton);
 
