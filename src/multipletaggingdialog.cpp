@@ -217,20 +217,32 @@ void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
     if(tag == NULL)
         return;
 
-    if(titleCheck->isChecked())
-        tag->setTitle(titleEdit->text().toStdString());
-    if(trackCheck->isChecked())
+    if(titleCheck->isChecked()) {
+        TagLib::String str(titleEdit->text().toStdString());
+        tag->setTitle(str);
+    }
+    if(trackCheck->isChecked()) {
         tag->setTrack(trackEdit->text().toInt());
-    if(albumCheck->isChecked())
-        tag->setAlbum(albumEdit->text().toStdString());
-    if(artistCheck->isChecked())
-        tag->setArtist(artistEdit->text().toStdString());
-    if(commentCheck->isChecked())
-        tag->setComment(commentEdit->text().toStdString());
-    if(genreCheck->isChecked())
-        tag->setGenre(genreEdit->currentText().toStdString());
-    if(yearCheck->isChecked())
+    }
+    if(albumCheck->isChecked()) {
+        TagLib::String str(albumEdit->text().toStdString());
+        tag->setAlbum(str);
+    }
+    if(artistCheck->isChecked()) {
+        TagLib::String str(artistEdit->text().toStdString());
+        tag->setArtist(str);
+    }
+    if(commentCheck->isChecked()) {
+        TagLib::String str(commentEdit->text().toStdString());
+        tag->setComment(str);
+    }
+    if(genreCheck->isChecked()) {
+        TagLib::String str(genreEdit->currentText().toStdString());
+        tag->setGenre(str);
+    }
+    if(yearCheck->isChecked()) {
         tag->setYear(yearEdit->text().toInt());
+    }
 
     QString s(NamesOfTags::ID3V2.c_str());
     if(coverCheck->isChecked() && nameOfTag == s) {
