@@ -33,6 +33,21 @@ AudioFile* FileList::closed_at(int index) {
     return listOfClosedFiles.at(index);
 }
 
+AudioFile* FileList::getFileByPath(QString path) {
+
+    for(int i = 0; i < length(); i++) {
+
+        AudioFile* currentFile = at(i);
+        if(currentFile->getPath() == path) {
+            return currentFile;
+        }
+
+    }
+
+    return NULL;
+
+}
+
 int FileList::length() {
     return listOfOpenedFiles.length();
 }

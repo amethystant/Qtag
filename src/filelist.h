@@ -28,6 +28,7 @@ public:
     explicit FileList(QObject *parent, QStringList *listOfFiles = NULL);
     AudioFile* at(int index);
     AudioFile* closed_at(int inedex);
+    AudioFile* getFileByPath(QString path);
     int length();
     int closed_length();
     bool isEmpty();
