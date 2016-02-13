@@ -74,33 +74,34 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget *parent, FileList* list) :
 
 void CreateAlbumDialog::createLayout() {
 
-    QVBoxLayout* layout = new QVBoxLayout(this);
+    QVBoxLayout* layout = new QVBoxLayout();
+    setLayout(layout);
 
-    QGridLayout* layout1 = new QGridLayout(this);
+    QGridLayout* layout1 = new QGridLayout();
     layout1->addWidget(directoryLabel, 0, 0);
     layout1->addWidget(directoryEdit, 0, 1);
     layout1->addWidget(directorySelectionButton, 1, 0);
     directoryGroup->setLayout(layout1);
 
-    QGridLayout* layout2 = new QGridLayout(this);
+    QGridLayout* layout2 = new QGridLayout();
     layout2->addWidget(tagFormatLabel, 0, 0);
     layout2->addWidget(tagFormatEdit, 0, 1);
     layout2->addWidget(hintButton, 1, 0);
     tagFormatGroup->setLayout(layout2);
 
-    QHBoxLayout* layout3 = new QHBoxLayout(this);
+    QHBoxLayout* layout3 = new QHBoxLayout();
     layout3->addWidget(replaceStringLabel);
     layout3->addWidget(replaceStringEdit);
-    QHBoxLayout* layout4 = new QHBoxLayout(this);
+    QHBoxLayout* layout4 = new QHBoxLayout();
     layout4->addWidget(replaceByLabel);
     layout4->addWidget(replaceByEdit);
-    QVBoxLayout* layout5 = new QVBoxLayout(this);
+    QVBoxLayout* layout5 = new QVBoxLayout();
     layout5->addWidget(makeCapitalLettersCheck);
     layout5->addLayout(layout3);
     layout5->addLayout(layout4);
     additionalChangesGroup->setLayout(layout5);
 
-    QGridLayout* layout6 = new QGridLayout(this);
+    QGridLayout* layout6 = new QGridLayout();
     layout6->addWidget(apeCheck, 0, 0);
     layout6->addWidget(asfCheck, 0, 1);
     layout6->addWidget(id3v1Check, 1, 0);
@@ -109,7 +110,7 @@ void CreateAlbumDialog::createLayout() {
     layout6->addWidget(xiphCommentCheck, 2, 1);
     tagsGroup->setLayout(layout6);
 
-    QHBoxLayout* layout7 = new QHBoxLayout(this);
+    QHBoxLayout* layout7 = new QHBoxLayout();
     layout7->addWidget(startTaggingButton);
     layout7->addWidget(cancelButton);
 
@@ -118,7 +119,6 @@ void CreateAlbumDialog::createLayout() {
     layout->addWidget(additionalChangesGroup);
     layout->addWidget(tagsGroup);
     layout->addLayout(layout7);
-    setLayout(layout);
 
 }
 
