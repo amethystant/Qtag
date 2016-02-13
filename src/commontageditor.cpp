@@ -13,6 +13,7 @@
 */
 
 #include "commontageditor.h"
+#include <tstring.h>
 
 CommonTagEditor::CommonTagEditor(TagLib::Tag *tag, QString nameOfTag, QWidget *parent) :
     TagEditor(tag, nameOfTag, parent) {
