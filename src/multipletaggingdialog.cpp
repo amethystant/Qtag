@@ -79,24 +79,24 @@ MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, FileList *list) :
     selectCoverButton = new QPushButton("Browse...", this);
     editorGroup = new QGroupBox("Tags", this);
 
-     okButton = new QPushButton("OK", this);
-     cancelButton = new QPushButton("Cancel", this);
+    okButton = new QPushButton("OK", this);
+    cancelButton = new QPushButton("Cancel", this);
 
-     QObject::connect(titleCheck, SIGNAL(clicked(bool)), titleEdit, SLOT(setEnabled(bool)));
-     QObject::connect(trackCheck, SIGNAL(clicked(bool)), trackEdit, SLOT(setEnabled(bool)));
-     QObject::connect(albumCheck, SIGNAL(clicked(bool)), albumEdit, SLOT(setEnabled(bool)));
-     QObject::connect(artistCheck, SIGNAL(clicked(bool)), artistEdit, SLOT(setEnabled(bool)));
-     QObject::connect(genreCheck, SIGNAL(clicked(bool)), genreEdit, SLOT(setEnabled(bool)));
-     QObject::connect(yearCheck, SIGNAL(clicked(bool)), yearEdit, SLOT(setEnabled(bool)));
-     QObject::connect(commentCheck, SIGNAL(clicked(bool)), commentEdit, SLOT(setEnabled(bool)));
-     QObject::connect(coverCheck, SIGNAL(clicked(bool)), selectCoverButton, SLOT(setEnabled(bool)));
+    QObject::connect(titleCheck, SIGNAL(clicked(bool)), titleEdit, SLOT(setEnabled(bool)));
+    QObject::connect(trackCheck, SIGNAL(clicked(bool)), trackEdit, SLOT(setEnabled(bool)));
+    QObject::connect(albumCheck, SIGNAL(clicked(bool)), albumEdit, SLOT(setEnabled(bool)));
+    QObject::connect(artistCheck, SIGNAL(clicked(bool)), artistEdit, SLOT(setEnabled(bool)));
+    QObject::connect(genreCheck, SIGNAL(clicked(bool)), genreEdit, SLOT(setEnabled(bool)));
+    QObject::connect(yearCheck, SIGNAL(clicked(bool)), yearEdit, SLOT(setEnabled(bool)));
+    QObject::connect(commentCheck, SIGNAL(clicked(bool)), commentEdit, SLOT(setEnabled(bool)));
+    QObject::connect(coverCheck, SIGNAL(clicked(bool)), selectCoverButton, SLOT(setEnabled(bool)));
 
-     QObject::connect(selectCoverButton, SIGNAL(clicked()), this, SLOT(selectCover()));
-     QObject::connect(selectFilesButton, SIGNAL(clicked()), this, SLOT(openFiles()));
-     QObject::connect(okButton, SIGNAL(clicked()), this, SLOT(startTagging()));
-     QObject::connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
+    QObject::connect(selectCoverButton, SIGNAL(clicked()), this, SLOT(selectCover()));
+    QObject::connect(selectFilesButton, SIGNAL(clicked()), this, SLOT(openFiles()));
+    QObject::connect(okButton, SIGNAL(clicked()), this, SLOT(startTagging()));
+    QObject::connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
 
-     createLayout();
+    createLayout();
 
 }
 
@@ -190,14 +190,7 @@ void MultipleTaggingDialog::openFiles() {
 
 void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
 
-    AudioFile* file = NULL;
-    for(int i = 0; i < fileList->length(); i++) {
-        AudioFile* f = fileList->at(i);
-        if(f->getPath() == path) {
-            file = f;
-            i = fileList->length();
-        }
-    }
+    AudioFile* file = fileList->getFileByPath(path);
     if(file == NULL) {
         for(int i = 0; i < fileList->closed_length(); i++) {
             AudioFile* f = fileList->closed_at(i);
@@ -208,8 +201,8 @@ void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
         }
     }
     if(file == NULL) {
-        file = new AudioFile(path, this);
         fileList->addFileToList(path);
+        file = fileList->getFileByPath(path);
     }
 
 
@@ -218,30 +211,25 @@ void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
         return;
 
     if(titleCheck->isChecked()) {
-        TagLib::String str(titleEdit->text().toStdString());
-        tag->setTitle(str);
+        tag->setTitle(title);
     }
     if(trackCheck->isChecked()) {
-        tag->setTrack(trackEdit->text().toInt());
+        tag->setTrack(track);
     }
     if(albumCheck->isChecked()) {
-        TagLib::String str(albumEdit->text().toStdString());
-        tag->setAlbum(str);
+        tag->setAlbum(album);
     }
     if(artistCheck->isChecked()) {
-        TagLib::String str(artistEdit->text().toStdString());
-        tag->setArtist(str);
+        tag->setArtist(artist);
     }
     if(commentCheck->isChecked()) {
-        TagLib::String str(commentEdit->text().toStdString());
-        tag->setComment(str);
+        tag->setComment(comment);
     }
     if(genreCheck->isChecked()) {
-        TagLib::String str(genreEdit->currentText().toStdString());
-        tag->setGenre(str);
+        tag->setGenre(genre);
     }
     if(yearCheck->isChecked()) {
-        tag->setYear(yearEdit->text().toInt());
+        tag->setYear(year);
     }
 
     QString s(NamesOfTags::ID3V2.c_str());
@@ -250,14 +238,14 @@ void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
         TagLib::ID3v2::Tag* id3Tag = (TagLib::ID3v2::Tag*) tag;
         id3Tag->removeFrames("APIC");
 
-        if(coverEdit->text() != coverEditDefaultText) {
+        if(cover != coverEditDefaultText) {
             TagLib::ID3v2::AttachedPictureFrame* frame = new TagLib::ID3v2::AttachedPictureFrame();
-            if(coverEdit->text().endsWith(".jpeg", Qt::CaseInsensitive) ||
-                    coverEdit->text().endsWith(".jpg", Qt::CaseInsensitive))
+            if(cover.endsWith(".jpeg", Qt::CaseInsensitive) ||
+                    cover.endsWith(".jpg", Qt::CaseInsensitive))
                 frame->setMimeType("image/jpeg");
-            else if(coverEdit->text().endsWith(".png", Qt::CaseInsensitive))
+            else if(cover.endsWith(".png", Qt::CaseInsensitive))
                 frame->setMimeType("image/png");
-            PictureFile pictureFile(coverEdit->text().toStdString().c_str());
+            PictureFile pictureFile(cover.toStdString().c_str());
             frame->setPicture(pictureFile.getData());
             id3Tag->addFrame(frame);
         }
@@ -269,6 +257,15 @@ void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
 }
 
 void MultipleTaggingDialog::startTagging() {
+
+    title = TagLib::String(titleEdit->text().toStdString());
+    track = trackEdit->text().toInt();
+    album = TagLib::String(albumEdit->text().toStdString());
+    artist = TagLib::String(artistEdit->text().toStdString());
+    year = yearEdit->text().toInt();
+    comment = TagLib::String(commentEdit->text().toStdString());
+    genre = TagLib::String(genreEdit->currentText().toStdString());
+    cover = coverEdit->text();
 
     QMessageBox* message = new QMessageBox(this);
     message->setWindowTitle(windowTitle());

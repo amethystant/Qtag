@@ -72,6 +72,15 @@ private:
 
     QString coverEditDefaultText;
 
+    TagLib::String title;
+    int track;
+    TagLib::String album;
+    TagLib::String artist;
+    TagLib::String genre;
+    int year;
+    TagLib::String comment;
+    QString cover;
+
     void createLayout();
     void saveTagsTo(QString nameOfTag, QString path);
 
