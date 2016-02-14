@@ -291,9 +291,8 @@ void MultipleTaggingDialog::startTagging() {
 
     }
 
-    message->setText("Done.");
-    message->setStandardButtons(QMessageBox::Ok);
-    message->update();
+    message->close();
+    delete message;
     close();
 
 }

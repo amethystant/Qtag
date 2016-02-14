@@ -187,9 +187,8 @@ void CopyTagsDialog::startCopying() {
 
     targetFile->save();
 
-    message->setText("Done.");
-    message->setStandardButtons(QMessageBox::Ok);
-    message->update();
+    message->close();
+    delete message;
     close();
 
 }
