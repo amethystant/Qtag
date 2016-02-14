@@ -127,11 +127,6 @@ void CreateAlbumDialog::openDirectorySelection() {
     QFileDialog d(this);
     d.setFileMode(QFileDialog::DirectoryOnly);
     d.setOption(QFileDialog::DontUseNativeDialog);
-#ifdef WIN32
-    d.setDirectory("C:/");
-#else
-    d.setDirectory("/home");
-#endif
     d.setViewMode(QFileDialog::Detail);
     d.show();
     if(d.exec()) {

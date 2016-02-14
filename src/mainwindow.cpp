@@ -124,11 +124,6 @@ void MainWindow::openFileDialog() {
 
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::ExistingFiles);
-#ifdef WIN32
-    dialog.setDirectory("C:/");
-#else
-    dialog.setDirectory("/home");
-#endif
     dialog.setNameFilter(
                 tr(NAME_FILTER.c_str()));
     dialog.setViewMode(QFileDialog::Detail);
