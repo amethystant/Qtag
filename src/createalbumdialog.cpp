@@ -338,14 +338,8 @@ void CreateAlbumDialog::startTagging() {
     for(i = 0; i < files->length(); i++) {
 
         QString path = files->at(i);
-        AudioFile* file = NULL;
-        for(int i = 0; i < fileList->length(); i++) {
-            AudioFile* f = fileList->at(i);
-            if(f->getPath() == path) {
-                file = f;
-                i = fileList->length();
-            }
-        }
+
+        AudioFile* file = fileList->getFileByPath(path);
         if(file == NULL) {
             for(int i = 0; i < fileList->closed_length(); i++) {
                 AudioFile* f = fileList->closed_at(i);
@@ -356,8 +350,8 @@ void CreateAlbumDialog::startTagging() {
             }
         }
         if(file == NULL) {
-            file = new AudioFile(path, this);
             fileList->addFileToList(path);
+            file = fileList->getFileByPath(path);
         }
 
         QString currentFile = files->at(i);
