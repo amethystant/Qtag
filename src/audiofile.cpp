@@ -172,7 +172,7 @@ void AudioFile::save() {
     if(format == ASF) {
         file->asfFile->save();
     } else if(format == MPEG) {
-        file->mpegFile->save();
+        file->mpegFile->save(TagLib::MPEG::File::AllTags, false, 4, false);
     } else if(format == FLAC) {
         file->flacFile->save();
     } else if(format == WAV) {
