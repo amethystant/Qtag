@@ -13,7 +13,6 @@
 */
 
 #include "id3v2editor.h"
-#include <tstring.h>
 
 Id3v2Editor::Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent) :
     TagEditor(tag, "ID3v2 tag", parent) {

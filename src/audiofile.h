@@ -30,7 +30,6 @@
 #include <xiphcomment.h>
 #include <asftag.h>
 #include <apetag.h>
-#include <tstring.h>
 
 enum AudioFormat {
     MPEG, OggVorbis, FLAC, WAV, ASF, WavPack

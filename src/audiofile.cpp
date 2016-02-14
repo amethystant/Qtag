@@ -16,6 +16,7 @@
 #include "main.h"
 #include <QFile>
 #include <audioproperties.h>
+#include <tstring.h>
 
 AudioFile::AudioFile(QString path, QObject* parent) : QObject(parent) {
 
