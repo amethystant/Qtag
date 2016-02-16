@@ -89,12 +89,10 @@ void AudioFile::open(QString path) {
         TagLib::RIFF::WAV::File *f = new TagLib::RIFF::WAV::File(fileName);
         properties = f->audioProperties();
         file->wavFile = f;
-        hasFileId3v2 = f->hasID3v2Tag();
-        hasFileInfoTag = f->hasInfoTag();
-        if(hasFileId3v2)
-            id3v2 = f->ID3v2Tag();
-        if(hasFileInfoTag)
-            infoTag = f->InfoTag();
+        hasFileId3v2 = true;
+        hasFileInfoTag = true;
+        id3v2 = f->ID3v2Tag();
+        infoTag = f->InfoTag();
 
     } else if(path.endsWith(".asf", Qt::CaseInsensitive) ||
               path.endsWith(".wma", Qt::CaseInsensitive)) {
