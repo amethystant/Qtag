@@ -427,9 +427,8 @@ void MainWindow::saveAll() {
 
     updateViews();
 
-    message->setText("Done.");
-    message->setStandardButtons(QMessageBox::Ok);
-    message->update();
+    message->close();
+    delete message;
     updateWindowTitle();
 
 }
@@ -490,11 +489,8 @@ void MainWindow::saveCurrentFile() {
     openedFile->save();
     updateViews();
 
-    label->setText("Saved.");
-    QPushButton* button = new QPushButton("OK", dialog);
-    QObject::connect(button, SIGNAL(clicked()),dialog, SLOT(close()));
-    layout->addWidget(button, 1, 1);
-    dialog->update();
+    dialog->close();
+    delete dialog;
     updateWindowTitle();
 
 }
