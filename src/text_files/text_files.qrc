@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/text_files">
-        <file>LICENSE_MPL</file>
+        <file>LICENSE_GPL</file>
     </qresource>
 </RCC>
