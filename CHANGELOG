@@ -1,3 +1,22 @@
+2/17/16 *Qtag 0.1.2
+        - Changed license back to GPL
+        - Removed the annoying dialogs that were appearing after some operations were completed
+        - Improved support for WAV files
+        - Added a new application icon
+        - Bug fixed - ID3v1 and ID3v2 tags in MPEG files were copied to each other when saving
+        - Fixed some bugs in the dialog for multiple tagging
+        - Fixed some warnings in the commandline
+        - Fixed some bugs in creating album from path
+        - Fixed some bugs in copying tags
+        - Changed the layout of the checkboxes in dialogs for multiple tagging and creating albums
+        - Bug fixed - the preview of opened files was not updating after saving
+        - Bug fixed - application crashed when trying to close a file and no file was opened
+        - Improved the layout of the tag editor
+        - Bug fixed - application crashed when trying to open files under Windows
+        - Added files for Android deployment, however, the application doesn't have an UI suitable for Android yet
+        - Added support for multiple adding or removing the cover art
+        - ...and more
+
 6/17/15 *Qtag 0.1.1
         - Fixed pointless install targets in Qtag.pro
         - Removed the install targets for Windows in Qtag.pro

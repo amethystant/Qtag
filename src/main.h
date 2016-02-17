@@ -42,7 +42,7 @@ QString capitalized(QString s);
 
 
 const std::string NAME_FILTER = "Audio files (*.mp3 *.wav *.wave *.flac *.ogg *.wma *.asf *.wv)";
-const std::string VERSION = "0.1.1";
+const std::string VERSION = "0.1.2";
 
 namespace NamesOfTags {
 
