@@ -1,7 +1,9 @@
 Qtag is a cross-platform Qt-based application for editing audio tags.
 Supports ID3v1, ID3v2, Xiph Comments and various other tag formats.
 Includes some advanced options like multiple tagging, copying tags, tagging from path/filename...
-It is licensed under the Mozzila Public License v2.0. ( https://www.mozilla.org/MPL/2.0/index.txt )
+Licensed under GPLv2
+
+Copyright (C) 2015 - 2016 Karel Patlejch <kaja.patlejch@gmail.com>
 
 
 **Linux:**
@@ -17,11 +19,11 @@ If you want to compile it, install Qt 5 and TagLib (and obviously GCC and Git) a
   $make
   #make install
 
+Note: it is strongly recommended that you use the latest version of TagLib (at least 1.10) to avoid some bugs.
 
 **Windows:**
 
 Download an installer here: https://github.com/amethystAnt/Qtag-installer/releases/
-
 
 **Others:**
 
