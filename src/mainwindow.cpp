@@ -638,10 +638,11 @@ void MainWindow::openAboutDialog() {
     QLabel iconLabel(&dialog);
     iconLabel.setPixmap(QPixmap::fromImage(QImage(":/images/Qtag.png").scaled(150, 150)));
     QLabel descriptionLabel("<b>Qtag v" + QString::fromStdString(VERSION) +"</b><br>"
-                                              "Qtag is an audio tag editor based on Qt and TagLib.<br>"
-                                              "It is developed for Linux and it is also compatible with MS Windows<br>"
+                                              "Qtag is an audio tag editor based on Qt and TagLib<br>"
+                                              "It's developed for Linux and Microsoft Windows<br>"
                                               "Supported formats: MP3, Ogg Vorbis, FLAC, ASF, WavPack, and WAV<br><br>"
-                                              "© 2015 by Karel Patlejch<br>Licensed under Mozzila Public License 2.0<br>",
+                                              "© 2015 - 2016 by Karel Patlejch<br>"
+                                              "Licensed under GNU General Public License 2.0<br>",
                             &dialog);
     QPushButton closeButton("Close", &dialog);
     QObject::connect(&closeButton, SIGNAL(clicked()), &dialog, SLOT(close()));
