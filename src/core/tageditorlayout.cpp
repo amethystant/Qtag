@@ -25,11 +25,11 @@
 
 #include "tageditorlayout.h"
 
-#include "mainwindow.h"
-#include "audiofile.h"
-#include "id3v1editor.h"
-#include "id3v2editor.h"
-#include "commontageditor.h"
+#include "core/mainwindow.h"
+#include "core/audiofile.h"
+#include "editors/id3v1editor.h"
+#include "editors/id3v2editor.h"
+#include "editors/commontageditor.h"
 #include "ui_mainwindow.h"
 
 TagEditorLayout::TagEditorLayout(MainWindow *window, AudioFile* file) : QVBoxLayout() {

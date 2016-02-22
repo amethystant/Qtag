@@ -23,7 +23,7 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "filelist.h"
+#include "core/filelist.h"
 #include <QFile>
 
 FileList::FileList(QObject *parent, QStringList *listOfFiles) : QObject(parent) {

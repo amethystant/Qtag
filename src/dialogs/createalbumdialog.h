@@ -23,30 +23,44 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MULTIPLETAGGINGDIALOG_H
-#define MULTIPLETAGGINGDIALOG_H
+#ifndef CREATEALBUMDIALOG_H
+#define CREATEALBUMDIALOG_H
 
-#include <QDialog>
-#include <QLabel>
-#include <QLineEdit>
-#include <QGroupBox>
 #include <QCheckBox>
-#include "audiofile.h"
-#include "id3genreselection.h"
-#include "filelist.h"
+#include <QDialog>
+#include <QGroupBox>
+#include <QLabel>
+#include <QPushButton>
+#include <QLineEdit>
+#include "core/audiofile.h"
+#include "core/filelist.h"
 
-class MultipleTaggingDialog : public QDialog {
+class CreateAlbumDialog : public QDialog {
 
     Q_OBJECT
 
 public:
-    MultipleTaggingDialog(QWidget* parent, FileList *list);
+    CreateAlbumDialog(QWidget* parent, FileList *list);
 
 private:
-    QLabel* filesLabel;
-    QLineEdit* filesEdit;
-    QPushButton* selectFilesButton;
-    QGroupBox* filesGroup;
+    FileList* fileList;
+
+    QLabel* directoryLabel;
+    QLineEdit* directoryEdit;
+    QPushButton* directorySelectionButton;
+    QGroupBox* directoryGroup;
+
+    QLabel* tagFormatLabel;
+    QLineEdit* tagFormatEdit;
+    QPushButton* hintButton;
+    QGroupBox* tagFormatGroup;
+
+    QCheckBox* makeCapitalLettersCheck;
+    QLabel* replaceStringLabel;
+    QLineEdit* replaceStringEdit;
+    QLabel* replaceByLabel;
+    QLineEdit* replaceByEdit;
+    QGroupBox* additionalChangesGroup;
 
     QCheckBox* apeCheck;
     QCheckBox* asfCheck;
@@ -56,50 +70,19 @@ private:
     QCheckBox* xiphCommentCheck;
     QGroupBox* tagsGroup;
 
-    QCheckBox* titleCheck;
-    QCheckBox* trackCheck;
-    QCheckBox* albumCheck;
-    QCheckBox* artistCheck;
-    QCheckBox* genreCheck;
-    QCheckBox* yearCheck;
-    QCheckBox* commentCheck;
-    QCheckBox* coverCheck;
-    QLineEdit* titleEdit;
-    QLineEdit* trackEdit;
-    QLineEdit* albumEdit;
-    QLineEdit* artistEdit;
-    Id3GenreSelection* genreEdit;
-    QLineEdit* yearEdit;
-    QLineEdit* commentEdit;
-    QLineEdit* coverEdit;
-    QPushButton* selectCoverButton;
-    QGroupBox* editorGroup;
-
-    QPushButton* okButton;
+    QPushButton* startTaggingButton;
     QPushButton* cancelButton;
 
-    FileList* fileList;
-    QStringList listOfFiles;
-
-    QString coverEditDefaultText;
-
-    TagLib::String title;
-    int track;
-    TagLib::String album;
-    TagLib::String artist;
-    TagLib::String genre;
-    int year;
-    TagLib::String comment;
-    QString cover;
-
     void createLayout();
-    void saveTagsTo(QString nameOfTag, QString path);
+    void tagFormatError();
+    void saveTagsTo(AudioFile* f, std::string nameOfTag,
+                    QString title, QString track, QString album, QString artist);
 
 private slots:
+    void openDirectorySelection();
+    void showHint();
     void startTagging();
-    void openFiles();
-    void selectCover();
 
 };
 
-#endif // MULTIPLETAGGINGDIALOG_H
+#endif // CREATEALBUMDIALOG_H

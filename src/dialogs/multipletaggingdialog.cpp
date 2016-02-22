@@ -24,9 +24,9 @@
  */
 
 
-#include "multipletaggingdialog.h"
-#include "main.h"
-#include "picturefile.h"
+#include "dialogs/multipletaggingdialog.h"
+#include "core/main.h"
+#include "editors/assistant_classes/picturefile.h"
 #include <attachedpictureframe.h>
 #include <QPushButton>
 #include <QFileDialog>

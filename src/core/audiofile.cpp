@@ -23,8 +23,8 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "audiofile.h"
-#include "main.h"
+#include "core/audiofile.h"
+#include "core/main.h"
 #include <QFile>
 #include <audioproperties.h>
 #include <tstring.h>

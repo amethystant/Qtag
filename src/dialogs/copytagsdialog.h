@@ -23,41 +23,45 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#ifndef COPYTAGSDIALOG_H
+#define COPYTAGSDIALOG_H
 
-#include "commontageditor.h"
-#include <tstring.h>
+#include <QDialog>
+#include <QLabel>
+#include <QComboBox>
+#include "core/audiofile.h"
+#include "core/filelist.h"
+#include <string>
 
-CommonTagEditor::CommonTagEditor(TagLib::Tag *tag, QString nameOfTag, QWidget *parent) :
-    TagEditor(tag, nameOfTag, parent) {
+class CopyTagsDialog : public QDialog {
 
-    genreEdit = new QLineEdit(this);
-    genreEdit->setText(QString::fromLocal8Bit(tag->genre().toCString(true)));
-    genreLabel = new QLabel("Genre:", this);
+    Q_OBJECT
 
-    createLayout();
-    QObject::connect(genreEdit, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
+public:
+    CopyTagsDialog(QWidget *parent, FileList *listOfFiles);
 
-}
+private:
+    FileList* listOfFiles;
+    QLabel* sourceFileLabel;
+    QLabel* sourceTagLabel;
+    QLabel* targetFileLabel;
+    QLabel* targetTagLabel;
+    QComboBox* sourceFileSelection;
+    QComboBox* sourceTagSelection;
+    QComboBox* targetFileSelection;
+    QComboBox* targetTagSelection;
+    QPushButton* okButton;
+    QPushButton* cancelButton;
+    AudioFile* sourceFile;
+    AudioFile* targetFile;
+    void createLayout();
+    void initComboBoxes();
+    void copyTags(TagLib::Tag* sourceTag, TagLib::Tag* targetTag);
 
-/*
- *Overrides TagEditor::saveTags() and updates the genre tag
-*/
-void CommonTagEditor::updateTags() {
+private slots:
+    void startCopying();
+    void updateComboBoxes();
 
-    TagEditor::updateTags();
-    tag->setGenre(genreEdit->text().toStdString());
+};
 
-}
-
-/*
- *Overrides TagEditor::createLayout() and adds the genre editor
- *to the layout
-*/
-void CommonTagEditor::createLayout() {
-
-    TagEditor::createLayout();
-    int i = layout->rowCount();
-    layout->addWidget(genreLabel, i, 0);
-    layout->addWidget(genreEdit, i, 1);
-
-}
+#endif // COPYTAGSDIALOG_H

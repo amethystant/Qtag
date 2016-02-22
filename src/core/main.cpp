@@ -24,13 +24,13 @@
  */
 
 
-#include "mainwindow.h"
+#include "core/mainwindow.h"
 #include <QApplication>
 #include <QFile>
 #include <QTextStream>
 #include <QStringList>
 #include <QStyle>
-#include "main.h"
+#include "core/main.h"
 
 int main(int argc, char *argv[]) {
 

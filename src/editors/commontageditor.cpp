@@ -23,40 +23,41 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "id3v1editor.h"
 
-Id3v1Editor::Id3v1Editor(TagLib::ID3v1::Tag *tag, QWidget *parent) :
-    TagEditor(tag, "ID3v1 tag", parent) {
+#include "editors/commontageditor.h"
+#include <tstring.h>
 
-    id3v1Tag = tag;
-    genreEdit = new Id3GenreSelection(this);
-    int i = genreEdit->findText(QString::fromLocal8Bit(id3v1Tag->genre().toCString()));
-    genreEdit->setCurrentIndex(i);
+CommonTagEditor::CommonTagEditor(TagLib::Tag *tag, QString nameOfTag, QWidget *parent) :
+    TagEditor(tag, nameOfTag, parent) {
+
+    genreEdit = new QLineEdit(this);
+    genreEdit->setText(QString::fromLocal8Bit(tag->genre().toCString(true)));
     genreLabel = new QLabel("Genre:", this);
-    QObject::connect(genreEdit, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTags()));
+
     createLayout();
+    QObject::connect(genreEdit, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
 
 }
 
 /*
- *Overrides TagEditor::createLayout() and adds some ID3v1 specific
- *widgets to the layout
+ *Overrides TagEditor::saveTags() and updates the genre tag
 */
-void Id3v1Editor::createLayout() {
+void CommonTagEditor::updateTags() {
+
+    TagEditor::updateTags();
+    tag->setGenre(genreEdit->text().toStdString());
+
+}
+
+/*
+ *Overrides TagEditor::createLayout() and adds the genre editor
+ *to the layout
+*/
+void CommonTagEditor::createLayout() {
 
     TagEditor::createLayout();
     int i = layout->rowCount();
     layout->addWidget(genreLabel, i, 0);
     layout->addWidget(genreEdit, i, 1);
-
-}
-
-/*
- *Overrides TagEditor::saveTags() and updates some ID3v1 specific tags
-*/
-void Id3v1Editor::updateTags() {
-
-    TagEditor::updateTags();
-    id3v1Tag->setGenre(genreEdit->currentText().toStdString());
 
 }

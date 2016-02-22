@@ -34,7 +34,7 @@
 #include <infotag.h>
 #include <xiphcomment.h>
 #include <sstream>
-#include "main.h"
+#include "core/main.h"
 
 class MainWindow;
 class AudioFile;

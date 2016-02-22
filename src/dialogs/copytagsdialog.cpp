@@ -24,8 +24,8 @@
  */
 
 
-#include "copytagsdialog.h"
-#include "main.h"
+#include "dialogs/copytagsdialog.h"
+#include "core/main.h"
 #include <QPushButton>
 #include <QGridLayout>
 #include <QMessageBox>

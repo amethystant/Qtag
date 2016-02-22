@@ -23,41 +23,39 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#ifndef FILELIST_H
+#define FILELIST_H
 
-#include "pictureselectionbutton.h"
+#include <QObject>
+#include <QList>
+#include <QStringList>
+#include "core/audiofile.h"
 
-PictureSelectionButton::PictureSelectionButton(QWidget* parent, QString* path, QLabel* preview) : QPushButton("Select a picture...", parent) {
+class FileList : public QObject {
 
-    QObject::connect(this, SIGNAL(clicked()), this, SLOT(selectPicture()));
-    picturePath = path;
-    picturePreview = preview;
+    Q_OBJECT
 
-}
+public:
+    explicit FileList(QObject *parent, QStringList *listOfFiles = NULL);
+    AudioFile* at(int index);
+    AudioFile* closed_at(int inedex);
+    AudioFile* getFileByPath(QString path);
+    int length();
+    int closed_length();
+    bool isEmpty();
+    bool closed_isEmpty();
+    int indexOf(AudioFile* f);
+    int closed_indexOf(AudioFile* f);
+    void addFileToList(QString path);
+    void closeFile(QString path);
+    void closeFile(int i);
+    bool isFileOpened(QString path);
+    bool isFileClosed(QString path);
 
-void PictureSelectionButton::selectPicture() {
+private:
+    QList<AudioFile*> listOfOpenedFiles;
+    QList<AudioFile*> listOfClosedFiles;
 
-    QFileDialog dialog(this);
-    dialog.setOption(QFileDialog::DontUseNativeDialog);
-#ifdef WIN32
-    dialog.setDirectory("C:/");
-#else
-    dialog.setDirectory("/home");
-#endif
-    dialog.setNameFilter("Images (*.jpeg *.jpg *.png)");
-    dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setViewMode(QFileDialog::Detail);
-    dialog.show();
-    if(dialog.exec()) {
-        QStringList nameList = dialog.selectedFiles();
-        QString name = nameList.join("");
-        QImage image(name);
-        image = image.scaled(100, 100);
-        picturePath->clear();
-        picturePath->append(name);
-        picturePreview->setPixmap(QPixmap::fromImage(image));
-        emit pictureChanged();
+};
 
-    }
-
-}
-
+#endif // FILELIST_H

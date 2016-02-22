@@ -24,7 +24,7 @@
  */
 
 
-#include "tageditor.h"
+#include "editors/tageditor.h"
 #include <tstring.h>
 
 TagEditor::TagEditor(TagLib::Tag* tag, QString nameOfTag, QWidget *parent) : QGroupBox(nameOfTag, parent) {

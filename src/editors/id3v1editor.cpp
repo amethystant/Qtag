@@ -23,45 +23,40 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef COPYTAGSDIALOG_H
-#define COPYTAGSDIALOG_H
+#include "editors/id3v1editor.h"
 
-#include <QDialog>
-#include <QLabel>
-#include <QComboBox>
-#include "audiofile.h"
-#include "filelist.h"
-#include <string>
+Id3v1Editor::Id3v1Editor(TagLib::ID3v1::Tag *tag, QWidget *parent) :
+    TagEditor(tag, "ID3v1 tag", parent) {
 
-class CopyTagsDialog : public QDialog {
+    id3v1Tag = tag;
+    genreEdit = new Id3GenreSelection(this);
+    int i = genreEdit->findText(QString::fromLocal8Bit(id3v1Tag->genre().toCString()));
+    genreEdit->setCurrentIndex(i);
+    genreLabel = new QLabel("Genre:", this);
+    QObject::connect(genreEdit, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTags()));
+    createLayout();
 
-    Q_OBJECT
+}
 
-public:
-    CopyTagsDialog(QWidget *parent, FileList *listOfFiles);
+/*
+ *Overrides TagEditor::createLayout() and adds some ID3v1 specific
+ *widgets to the layout
+*/
+void Id3v1Editor::createLayout() {
 
-private:
-    FileList* listOfFiles;
-    QLabel* sourceFileLabel;
-    QLabel* sourceTagLabel;
-    QLabel* targetFileLabel;
-    QLabel* targetTagLabel;
-    QComboBox* sourceFileSelection;
-    QComboBox* sourceTagSelection;
-    QComboBox* targetFileSelection;
-    QComboBox* targetTagSelection;
-    QPushButton* okButton;
-    QPushButton* cancelButton;
-    AudioFile* sourceFile;
-    AudioFile* targetFile;
-    void createLayout();
-    void initComboBoxes();
-    void copyTags(TagLib::Tag* sourceTag, TagLib::Tag* targetTag);
+    TagEditor::createLayout();
+    int i = layout->rowCount();
+    layout->addWidget(genreLabel, i, 0);
+    layout->addWidget(genreEdit, i, 1);
 
-private slots:
-    void startCopying();
-    void updateComboBoxes();
+}
 
-};
+/*
+ *Overrides TagEditor::saveTags() and updates some ID3v1 specific tags
+*/
+void Id3v1Editor::updateTags() {
 
-#endif // COPYTAGSDIALOG_H
+    TagEditor::updateTags();
+    id3v1Tag->setGenre(genreEdit->currentText().toStdString());
+
+}

@@ -30,9 +30,9 @@
 #include <QtCore>
 #include <QSpacerItem>
 
-#include "audiofile.h"
-#include "tageditorlayout.h"
-#include "filelist.h"
+#include "core/audiofile.h"
+#include "core/tageditorlayout.h"
+#include "core/filelist.h"
 
 namespace Ui {
 class MainWindow;

@@ -23,33 +23,24 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef ID3V1EDITOR_H
-#define ID3V1EDITOR_H
 
-#include <id3v1tag.h>
-#include "id3genreselection.h"
-#include "tageditor.h"
+#include "editors/assistant_classes/picturefile.h"
 
-/*
-The Id3v1 implementation of TagEditor class
-*/
-class Id3v1Editor : public TagEditor {
+PictureFile::PictureFile(const char* path) : TagLib::File(path) {
+}
 
-    Q_OBJECT
+TagLib::ByteVector PictureFile::getData() {
+    return readBlock(length());
+}
 
-public:
-    Id3v1Editor(TagLib::ID3v1::Tag* tag, QWidget *parent);
+TagLib::Tag* PictureFile::tag() const {
+    return 0;
+}
 
-private:
-    TagLib::ID3v1::Tag* id3v1Tag;
-    Id3GenreSelection* genreEdit;
-    QLabel* genreLabel;
+TagLib::AudioProperties* PictureFile::audioProperties() const {
+    return 0;
+}
 
-protected:
-    virtual void createLayout();
-
-protected slots:
-    virtual void updateTags();
-};
-
-#endif // ID3V1EDITOR_H
+bool PictureFile::save() {
+    return false;
+}

@@ -23,39 +23,33 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef FILELIST_H
-#define FILELIST_H
+#ifndef ID3V1EDITOR_H
+#define ID3V1EDITOR_H
 
-#include <QObject>
-#include <QList>
-#include <QStringList>
-#include "audiofile.h"
+#include <id3v1tag.h>
+#include "editors/assistant_classes/id3genreselection.h"
+#include "editors/tageditor.h"
 
-class FileList : public QObject {
+/*
+The Id3v1 implementation of TagEditor class
+*/
+class Id3v1Editor : public TagEditor {
 
     Q_OBJECT
 
 public:
-    explicit FileList(QObject *parent, QStringList *listOfFiles = NULL);
-    AudioFile* at(int index);
-    AudioFile* closed_at(int inedex);
-    AudioFile* getFileByPath(QString path);
-    int length();
-    int closed_length();
-    bool isEmpty();
-    bool closed_isEmpty();
-    int indexOf(AudioFile* f);
-    int closed_indexOf(AudioFile* f);
-    void addFileToList(QString path);
-    void closeFile(QString path);
-    void closeFile(int i);
-    bool isFileOpened(QString path);
-    bool isFileClosed(QString path);
+    Id3v1Editor(TagLib::ID3v1::Tag* tag, QWidget *parent);
 
 private:
-    QList<AudioFile*> listOfOpenedFiles;
-    QList<AudioFile*> listOfClosedFiles;
+    TagLib::ID3v1::Tag* id3v1Tag;
+    Id3GenreSelection* genreEdit;
+    QLabel* genreLabel;
 
+protected:
+    virtual void createLayout();
+
+protected slots:
+    virtual void updateTags();
 };
 
-#endif // FILELIST_H
+#endif // ID3V1EDITOR_H

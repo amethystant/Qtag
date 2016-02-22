@@ -23,24 +23,33 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#ifndef COMMONTAGEDITOR_H
+#define COMMONTAGEDITOR_H
 
-#include "picturefile.h"
+#include "editors/tageditor.h"
+#include <tag.h>
 
-PictureFile::PictureFile(const char* path) : TagLib::File(path) {
-}
+/*
+ * An implementation of the TagEditor class, which is common to all tags
+ * that don't specify a fixed list of genres.
+*/
+class CommonTagEditor : public TagEditor {
 
-TagLib::ByteVector PictureFile::getData() {
-    return readBlock(length());
-}
+    Q_OBJECT
 
-TagLib::Tag* PictureFile::tag() const {
-    return 0;
-}
+public:
+    CommonTagEditor(TagLib::Tag* tag, QString nameOfTag, QWidget* parent);
 
-TagLib::AudioProperties* PictureFile::audioProperties() const {
-    return 0;
-}
+private:
+    QLabel* genreLabel;
+    QLineEdit* genreEdit;
 
-bool PictureFile::save() {
-    return false;
-}
+protected:
+    virtual void createLayout();
+
+protected slots:
+    virtual void updateTags();
+
+};
+
+#endif // COMMONTAGEDITOR_H

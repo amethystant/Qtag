@@ -29,11 +29,11 @@
 #include <QImage>
 #include <id3v2tag.h>
 #include <attachedpictureframe.h>
-#include "pictureselectionbutton.h"
-#include "picturefile.h"
-#include "tageditor.h"
-#include "id3genreselection.h"
-#include "coverartactions.h"
+#include "editors/assistant_classes/pictureselectionbutton.h"
+#include "editors/assistant_classes/picturefile.h"
+#include "editors/tageditor.h"
+#include "editors/assistant_classes/id3genreselection.h"
+#include "editors/assistant_classes/coverartactions.h"
 
 class Id3v2Editor : public TagEditor {
 

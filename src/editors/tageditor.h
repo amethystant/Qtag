@@ -28,7 +28,7 @@
 
 #include <QtWidgets>
 #include <tag.h>
-#include "main.h"
+#include "core/main.h"
 #include <fileref.h>
 
 /*

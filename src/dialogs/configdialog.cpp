@@ -23,8 +23,8 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "configdialog.h"
-#include "main.h"
+#include "dialogs/configdialog.h"
+#include "core/main.h"
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>

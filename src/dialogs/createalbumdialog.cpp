@@ -24,9 +24,8 @@
  */
 
 
-#include "createalbumdialog.h"
-#include "main.h"
-
+#include "dialogs/createalbumdialog.h"
+#include "core/main.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QGridLayout>

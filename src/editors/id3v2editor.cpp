@@ -24,7 +24,7 @@
  */
 
 
-#include "id3v2editor.h"
+#include "editors/id3v2editor.h"
 
 Id3v2Editor::Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent) :
     TagEditor(tag, "ID3v2 tag", parent) {

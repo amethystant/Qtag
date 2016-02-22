@@ -24,13 +24,13 @@
  */
 
 
-#include "mainwindow.h"
+#include "core/mainwindow.h"
 #include "ui_mainwindow.h"
-#include "copytagsdialog.h"
-#include "multipletaggingdialog.h"
-#include "main.h"
-#include "createalbumdialog.h"
-#include "configdialog.h"
+#include "dialogs/copytagsdialog.h"
+#include "dialogs/multipletaggingdialog.h"
+#include "core/main.h"
+#include "dialogs/createalbumdialog.h"
+#include "dialogs/configdialog.h"
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QGridLayout>
