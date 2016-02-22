@@ -341,7 +341,7 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset resource="images/images.qrc">
+    <iconset resource="../images/images.qrc">
      <normaloff>:/images/info.png</normaloff>:/images/info.png</iconset>
    </property>
    <property name="text">
@@ -350,7 +350,7 @@
   </action>
   <action name="actionLicense">
    <property name="icon">
-    <iconset resource="images/images.qrc">
+    <iconset resource="../images/images.qrc">
      <normaloff>:/images/info.png</normaloff>:/images/info.png</iconset>
    </property>
    <property name="text">
@@ -359,7 +359,7 @@
   </action>
   <action name="actionSettings">
    <property name="icon">
-    <iconset resource="images/images.qrc">
+    <iconset resource="../images/images.qrc">
      <normaloff>:/images/settings.png</normaloff>:/images/settings.png</iconset>
    </property>
    <property name="text">
@@ -393,7 +393,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="images/images.qrc"/>
+  <include location="../images/images.qrc"/>
  </resources>
  <connections/>
 </ui>
