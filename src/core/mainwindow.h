@@ -34,6 +34,8 @@
 #include "core/tageditorlayout.h"
 #include "core/filelist.h"
 
+class QtagApp;
+
 namespace Ui {
 class MainWindow;
 }
@@ -43,13 +45,14 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QStringList files);
+    explicit MainWindow(QtagApp* app);
     ~MainWindow();
     Ui::MainWindow* getUI();
 
 private:
     Ui::MainWindow *ui;
-    FileList listOfFiles;
+    QtagApp* app;
+    FileList* listOfFiles;
 
     /*
      * List of all tag editor layouts. When the user clicks to open a file in the editor,
@@ -59,16 +62,12 @@ private:
 
     TagEditorLayout* findLayout(AudioFile* file, bool create = true);
     void setIcons();
-    void openFilesFromArguments(QStringList files);
-    void updateViews();
-    void updateEditor();
     void closeEditor();
-    void openFile(QString path, bool update = true);
-    void closeFile(QString path);
-    void closeFile(int i);
     bool unsavedChanges();
     void saveSession();
     void openLastSession();
+    void updateViews();
+    void updateEditor();
     AudioFile* openedFile; //the file that is viewed in the tag editor
     QSpacerItem* spacer;
 
@@ -87,6 +86,7 @@ public slots:
     void openSettingsDialog();
     void openAboutDialog();
     void openLicenseDialog();
+    void fileListChangeUpdate();
 
 };
 

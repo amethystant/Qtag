@@ -25,6 +25,7 @@
 
 #include "dialogs/configdialog.h"
 #include "core/main.h"
+#include "core/qtagapp.h"
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -196,7 +197,7 @@ void ConfigDialog::applyChanges() {
         settings->setValue("icons", "oxygen");
     }
 
-    QApplication::setStyle(getStyleFromSettings());
+    QApplication::setStyle(QtagApp::getStyleFromSettings());
     settings->sync();
 
     close();

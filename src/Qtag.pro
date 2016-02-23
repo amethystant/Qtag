@@ -44,7 +44,8 @@ SOURCES += core/main.cpp                                         \
     dialogs/createalbumdialog.cpp                                \
     core/filelist.cpp                                            \
     dialogs/configdialog.cpp                                     \
-    editors/assistant_classes/coverartactions.cpp
+    editors/assistant_classes/coverartactions.cpp \
+    core/qtagapp.cpp
 
 HEADERS += editors/assistant_classes/picturefile.h               \
     editors/id3v2editor.h                                        \
@@ -62,7 +63,8 @@ HEADERS += editors/assistant_classes/picturefile.h               \
     dialogs/createalbumdialog.h                                  \
     core/filelist.h                                              \
     dialogs/configdialog.h                                       \
-    editors/assistant_classes/coverartactions.h
+    editors/assistant_classes/coverartactions.h \
+    core/qtagapp.h
 
 FORMS += ui/mainwindow.ui
 

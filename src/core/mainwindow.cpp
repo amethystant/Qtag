@@ -31,32 +31,28 @@
 #include "core/main.h"
 #include "dialogs/createalbumdialog.h"
 #include "dialogs/configdialog.h"
+#include "core/qtagapp.h"
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QGridLayout>
 
-MainWindow::MainWindow(QStringList files) :
+MainWindow::MainWindow(QtagApp *app) :
     QMainWindow(),
-    ui(new Ui::MainWindow),
-    listOfFiles(this) {
+    ui(new Ui::MainWindow) {
 
+    listOfFiles = app->getFileList();
+    this->app = app;
     openedFile = NULL;
     ui->setupUi(this);
     ui->lineEdit_path->setReadOnly(true);
     setIcons();
 
-    QSettings settings;
-
-    if(!files.isEmpty()) {
-        openFilesFromArguments(files);
-    } else if(settings.value("openfiles", QVariant(false)).toBool()) {
-        openLastSession();
-    }
     updateViews();
 
     spacer = new QSpacerItem(1, 100000, QSizePolicy::Maximum, QSizePolicy::Maximum);
     ui->gridLayout_3->addItem(spacer, ui->gridLayout_3->rowCount()+1, 1);
 
+    QObject::connect(app, SIGNAL(fileListChanged()), this, SLOT(fileListChangeUpdate()));
     QObject::connect(ui->actionOpenFile, SIGNAL(triggered()), this, SLOT(openFileDialog()));
     QObject::connect(ui->actionOpenDirectory, SIGNAL(triggered()), this, SLOT(openDirectory()));
     QObject::connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
@@ -80,7 +76,6 @@ MainWindow::MainWindow(QStringList files) :
 }
 
 MainWindow::~MainWindow() {
-    saveSession();
     delete ui;
 }
 
@@ -120,15 +115,6 @@ void MainWindow::setIcons() {
 
 }
 
-void MainWindow::openFilesFromArguments(QStringList files) {
-    for(int i = 0; i < files.length(); i++) {
-        QFileInfo f(files.at(i));
-        if(f.exists()) {
-            openFile(files.at(i), false);
-        }
-    }
-}
-
 /*
 Opens the file dialog and then calls a method to update the tree widget
 */
@@ -148,7 +134,7 @@ void MainWindow::openFileDialog() {
         for(i = 0; i < numOfFiles; i++) {
 
             QString path = selectedFiles.value(i);
-            openFile(path, false);
+            app->openFile(path, false);
 
         }
 
@@ -181,9 +167,9 @@ void MainWindow::updateViews() {
     ui->treeWidget->clear();
     QList<Artist> listOfArtists;
     int i;
-    for(i = 0; i < listOfFiles.length(); i++) {
+    for(i = 0; i < listOfFiles->length(); i++) {
 
-        AudioFile *f = listOfFiles.at(i);
+        AudioFile *f = listOfFiles->at(i);
         int i1 = 0;
         bool isArtistOnList = false;
         while(i1 < listOfArtists.length() && !isArtistOnList) {
@@ -307,7 +293,7 @@ void MainWindow::openDirectory() {
                           s.endsWith(".wma", Qt::CaseInsensitive) ||
                           s.endsWith(".asf", Qt::CaseInsensitive) ||
                           s.endsWith(".wave", Qt::CaseInsensitive)) {
-                openFile(s, false);
+                app->openFile(s, false);
             }
         }
 
@@ -322,11 +308,11 @@ void MainWindow::openInEditor(QTreeWidgetItem *file) {
     int i = 0;
     if(file->childCount()>0)
         return;
-    while(i < listOfFiles.length()) {
+    while(i < listOfFiles->length()) {
 
-        if(file->text(1).compare(listOfFiles.at(i)->getPath()) == 0) {
-            openedFile = listOfFiles.at(i);
-            i = listOfFiles.length();
+        if(file->text(1).compare(listOfFiles->at(i)->getPath()) == 0) {
+            openedFile = listOfFiles->at(i);
+            i = listOfFiles->length();
         } else {
             i++;
         }
@@ -384,6 +370,32 @@ void MainWindow::updateEditor() {
     scrollArea->setWidgetResizable(true);
     ui->dockWidget_tags->setWidget(scrollArea);
     ui->dockWidget_tags->show();
+
+}
+
+/*
+ * This slot is called whenever a file is opened or closed.
+ * Checks wheter the opened file is still on the list,
+ * checks wheter all tag editor layouts still have their files on the list,
+ * calls updateViews() and updateEditor()
+ */
+void MainWindow::fileListChangeUpdate() {
+
+    if(openedFile && !listOfFiles->isFileOpened(openedFile->getPath())) {
+        openedFile = NULL;
+    }
+
+    int i = 0;
+    while(i < listOfLayouts.length()) {
+        if(!listOfFiles->isFileOpened(listOfLayouts.at(i)->getFile()->getPath())) {
+            listOfLayouts.removeAt(i);
+        } else {
+            i++;
+        }
+    }
+
+    updateEditor();
+    updateViews();
 
 }
 
@@ -454,7 +466,7 @@ void MainWindow::openCopyTagsDialog() {
     }
     closeEditor();
     listOfLayouts.clear();
-    CopyTagsDialog* dialog = new CopyTagsDialog(this, &listOfFiles);
+    CopyTagsDialog* dialog = new CopyTagsDialog(this, listOfFiles);
     dialog->exec();
     updateViews();
 
@@ -462,7 +474,7 @@ void MainWindow::openCopyTagsDialog() {
 
 void MainWindow::closeCurrentFile() {
     if(openedFile)
-        closeFile(listOfFiles.indexOf(openedFile));
+        app->closeFile(listOfFiles->indexOf(openedFile));
 }
 
 void MainWindow::closeAll() {
@@ -475,12 +487,12 @@ void MainWindow::closeAll() {
 
     }
 
-    if(listOfFiles.isEmpty()) {
+    if(listOfFiles->isEmpty()) {
         return;
     }
 
-    while(listOfFiles.length() > 0) {
-        closeFile(0);
+    while(listOfFiles->length() > 0) {
+        app->closeFile(0);
     }
 }
 
@@ -516,7 +528,7 @@ void MainWindow::openMultipleTaggingDialog() {
     }
     closeEditor();
     listOfLayouts.clear();
-    MultipleTaggingDialog* dialog = new MultipleTaggingDialog(this, &listOfFiles);
+    MultipleTaggingDialog* dialog = new MultipleTaggingDialog(this, listOfFiles);
     dialog->exec();
     updateViews();
 
@@ -531,7 +543,7 @@ void MainWindow::openCreateAlbumDialog() {
     }
     closeEditor();
     listOfLayouts.clear();
-    CreateAlbumDialog* dialog = new CreateAlbumDialog(this, &listOfFiles);
+    CreateAlbumDialog* dialog = new CreateAlbumDialog(this, listOfFiles);
     dialog->exec();
     updateViews();
 
@@ -552,33 +564,6 @@ void MainWindow::updateWindowTitle() {
         setWindowTitle(fileName + " - Qtag");
     }
 
-}
-
-void MainWindow::openFile(QString path, bool update) {
-    listOfFiles.addFileToList(path);
-    if(update) {
-        updateViews();
-    }
-}
-
-void MainWindow::closeFile(int i) {
-    AudioFile* f = listOfFiles.at(i);
-    TagEditorLayout* l = findLayout(f, false);
-    if(l != NULL) {
-        listOfLayouts.removeOne(l);
-    }
-    if(openedFile == f) {
-        openedFile = NULL;
-    }
-    listOfFiles.closeFile(i);
-    updateEditor();
-    updateViews();
-}
-
-void MainWindow::closeFile(QString path) {
-    listOfFiles.closeFile(path);
-    updateEditor();
-    updateViews();
 }
 
 void MainWindow::closeEditor() {
@@ -603,29 +588,6 @@ bool MainWindow::unsavedChanges() {
 
     return false;
 
-}
-
-void MainWindow::saveSession() {
-
-    QList<QVariant> list;
-    for(int i = 0; i < listOfFiles.length(); i++) {
-        QVariant member(listOfFiles.at(i)->getPath());
-        list.append(member);
-    }
-
-    QSettings settings;
-    settings.setValue("lastfiles", list);
-    settings.sync();
-
-}
-
-void MainWindow::openLastSession() {
-    QSettings settings;
-    QList<QVariant> list = settings.value("lastfiles").toList();
-    for(int i = 0; i < list.length(); i++) {
-        openFile(list.at(i).toString(), false);
-    }
-    updateViews();
 }
 
 void MainWindow::openAboutDialog() {

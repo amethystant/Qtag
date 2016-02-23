@@ -23,40 +23,47 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#ifndef QTAGAPP_H
+#define QTAGAPP_H
 
-#include "core/mainwindow.h"
-#include <QFile>
-#include <QTextStream>
-#include <QStringList>
+#include <QApplication>
 #include <QStyle>
-#include "core/main.h"
-#include "core/qtagapp.h"
+#include "core/filelist.h"
+#include "core/mainwindow.h"
 
-int main(int argc, char *argv[]) {
+/*
+ * This class is NOT inherited from QApplication and has
+ * not the same purpose. While QApplication controls the application loop,
+ * this class only holds some basic variables and methods for handling files
+ * and the UI.
+ */
 
-    QApplication* qtApp = new QApplication(argc, argv);
-    QtagApp *app = new QtagApp(qtApp);
-    return qtApp->exec();
+class QtagApp : public QObject {
 
-}
+    Q_OBJECT
 
-QString intToString(int i) {
+public:
+    QtagApp(QApplication* app);
+    ~QtagApp();
+    QApplication* qtApp;
+    void openFile(QString path, bool update = true);
+    void closeFile(QString path);
+    void closeFile(int i);
+    FileList* getFileList();
+    static QStyle* getStyleFromSettings();
 
-    QString value;
-    std::ostringstream convert;
-    convert << i;
-    value = QString::fromStdString(convert.str());
-    return value;
+private:
+    MainWindow* window;
+    FileList* fileList;
+    void openFilesFromArguments(QStringList files);
+    void openLastSession();
 
-}
+private slots:
+    void saveSession();
 
-QString capitalized(QString s) {
-    s.replace(0, 1, s.at(0).toUpper());
-    int index = 0;
-    for(int i = 0; i < s.count(' '); i++) {
-        index = s.indexOf(' ', index) + 1;
-        if(s.length() > index)
-            s.replace(index, 1, s.at(index).toUpper());
-    }
-    return s;
-}
+signals:
+    void fileListChanged();
+
+};
+
+#endif // QTAGAPP_H
