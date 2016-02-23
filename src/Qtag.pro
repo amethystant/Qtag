@@ -28,42 +28,42 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TEMPLATE = app
 
-SOURCES += core/main.cpp                                         \
-    core/mainwindow.cpp                                          \
-    core/audiofile.cpp                                           \
-    core/tageditorlayout.cpp                                     \
-    editors/tageditor.cpp                                        \
-    editors/id3v1editor.cpp                                      \
-    editors/assistant_classes/id3genreselection.cpp              \
-    editors/id3v2editor.cpp                                      \
-    editors/assistant_classes/pictureselectionbutton.cpp         \
-    editors/assistant_classes/picturefile.cpp                    \
-    editors/commontageditor.cpp                                  \
-    dialogs/copytagsdialog.cpp                                   \
-    dialogs/multipletaggingdialog.cpp                            \
-    dialogs/createalbumdialog.cpp                                \
-    core/filelist.cpp                                            \
-    dialogs/configdialog.cpp                                     \
-    editors/assistant_classes/coverartactions.cpp \
+SOURCES += core/main.cpp                                        \
+    core/mainwindow.cpp                                         \
+    core/audiofile.cpp                                          \
+    core/tageditorlayout.cpp                                    \
+    editors/tageditor.cpp                                       \
+    editors/id3v1editor.cpp                                     \
+    editors/assistant_classes/id3genreselection.cpp             \
+    editors/id3v2editor.cpp                                     \
+    editors/assistant_classes/pictureselectionbutton.cpp        \
+    editors/assistant_classes/picturefile.cpp                   \
+    editors/commontageditor.cpp                                 \
+    dialogs/copytagsdialog.cpp                                  \
+    dialogs/multipletaggingdialog.cpp                           \
+    dialogs/createalbumdialog.cpp                               \
+    core/filelist.cpp                                           \
+    dialogs/configdialog.cpp                                    \
+    editors/assistant_classes/coverartactions.cpp               \
     core/qtagapp.cpp
 
-HEADERS += editors/assistant_classes/picturefile.h               \
-    editors/id3v2editor.h                                        \
-    editors/id3v1editor.h                                        \
-    core/mainwindow.h                                            \
-    core/audiofile.h                                             \
-    core/tageditorlayout.h                                       \
-    editors/tageditor.h                                          \
-    core/main.h                                                  \
-    editors/assistant_classes/id3genreselection.h                \
-    editors/assistant_classes/pictureselectionbutton.h           \
-    editors/commontageditor.h                                    \
-    dialogs/copytagsdialog.h                                     \
-    dialogs/multipletaggingdialog.h                              \
-    dialogs/createalbumdialog.h                                  \
-    core/filelist.h                                              \
-    dialogs/configdialog.h                                       \
-    editors/assistant_classes/coverartactions.h \
+HEADERS += editors/assistant_classes/picturefile.h              \
+    editors/id3v2editor.h                                       \
+    editors/id3v1editor.h                                       \
+    core/mainwindow.h                                           \
+    core/audiofile.h                                            \
+    core/tageditorlayout.h                                      \
+    editors/tageditor.h                                         \
+    core/main.h                                                 \
+    editors/assistant_classes/id3genreselection.h               \
+    editors/assistant_classes/pictureselectionbutton.h          \
+    editors/commontageditor.h                                   \
+    dialogs/copytagsdialog.h                                    \
+    dialogs/multipletaggingdialog.h                             \
+    dialogs/createalbumdialog.h                                 \
+    core/filelist.h                                             \
+    dialogs/configdialog.h                                      \
+    editors/assistant_classes/coverartactions.h                 \
     core/qtagapp.h
 
 FORMS += ui/mainwindow.ui
