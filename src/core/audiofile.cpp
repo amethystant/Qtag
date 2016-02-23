@@ -33,8 +33,6 @@ AudioFile::AudioFile(QString path, QObject* parent) : QObject(parent) {
 
     this->path = path;
 
-    file = new File;
-
     hasFileApeTag = false;
     hasFileAsfTag = false;
     hasFileId3v1 = false;
@@ -72,7 +70,7 @@ void AudioFile::open(QString path) {
         format = MPEG;
         TagLib::MPEG::File* f = new TagLib::MPEG::File(fileName);
         properties = f->audioProperties();
-        file->mpegFile = f;
+        file = f;
         hasFileId3v1 = true;
         hasFileId3v2 = true;
         hasFileApeTag = true;
@@ -85,7 +83,7 @@ void AudioFile::open(QString path) {
         format = FLAC;
         TagLib::FLAC::File *f = new TagLib::FLAC::File(fileName);
         properties = f->audioProperties();
-        file->flacFile = f;
+        file = f;
         hasFileId3v1 = true;
         hasFileId3v2 = true;
         hasFileXiphComment = true;
@@ -99,7 +97,7 @@ void AudioFile::open(QString path) {
         format = WAV;
         TagLib::RIFF::WAV::File *f = new TagLib::RIFF::WAV::File(fileName);
         properties = f->audioProperties();
-        file->wavFile = f;
+        file = f;
         hasFileId3v2 = true;
         hasFileInfoTag = true;
         id3v2 = f->ID3v2Tag();
@@ -112,7 +110,7 @@ void AudioFile::open(QString path) {
         hasFileAsfTag = true;
         TagLib::ASF::File *f = new TagLib::ASF::File(fileName);
         properties = f->audioProperties();
-        file->asfFile = f;
+        file = f;
         asfTag = f->tag();
 
     } else if(path.endsWith(".wv", Qt::CaseInsensitive)) {
@@ -120,7 +118,7 @@ void AudioFile::open(QString path) {
         format = WavPack;
         TagLib::WavPack::File *f = new TagLib::WavPack::File(fileName);
         properties = f->audioProperties();
-        file->wavPackFile = f;
+        file = f;
         hasFileApeTag = true;
         hasFileId3v1 = true;
         apeTag = f->APETag(true);
@@ -132,7 +130,7 @@ void AudioFile::open(QString path) {
         hasFileXiphComment = true;
         TagLib::Ogg::Vorbis::File *f = new TagLib::Ogg::Vorbis::File(fileName);
         properties = f->audioProperties();
-        file->vorbisFile = f;
+        file = f;
         xiphComment = f->tag();
 
     }
@@ -178,18 +176,11 @@ void AudioFile::open(QString path) {
 /*Saves the tags in the file*/
 void AudioFile::save() {
 
-    if(format == ASF) {
-        file->asfFile->save();
-    } else if(format == MPEG) {
-        file->mpegFile->save(TagLib::MPEG::File::AllTags, false, 4, false);
-    } else if(format == FLAC) {
-        file->flacFile->save();
-    } else if(format == WAV) {
-        file->wavFile->save();
-    } else if(format == WavPack) {
-        file->wavPackFile->save();
-    } else if(format == OggVorbis) {
-        file->vorbisFile->save();
+    if(format == MPEG) {
+        TagLib::MPEG::File* f = (TagLib::MPEG::File*) file;
+        f->save(TagLib::MPEG::File::AllTags, false, 4, false);
+    } else {
+        file->save();
     }
 
     updateBasicInfo();
