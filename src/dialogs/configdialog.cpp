@@ -44,8 +44,9 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
     generalSettingsWidget = new QWidget(this);
     appearanceSettingsWidget = new QWidget(this);
 
-    filesGroup = new QGroupBox("Files", generalSettingsWidget);
+    behaviorGroup = new QGroupBox("Behavior", generalSettingsWidget);
     openLastFilesCheck = new QCheckBox("Open files from last session at startup", generalSettingsWidget);
+    warnBeforeClosingCheck = new QCheckBox("Warn me before I close unsaved files", generalSettingsWidget);
     viewGroup = new QGroupBox("View", generalSettingsWidget);
     coverPreviewSizeLabel = new QLabel("Cover art preview size:", generalSettingsWidget);
     coverPreviewSizeEdit = new QLineEdit(generalSettingsWidget);
@@ -83,6 +84,11 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
         openLastFilesCheck->setChecked(true);
     }
 
+    bool warnBeforeClosing = settings->value("warnbeforeclosing", QVariant(true)).toBool();
+    if(warnBeforeClosing) {
+        warnBeforeClosingCheck->setChecked(true);
+    }
+
     int previewSize = settings->value("previewsize", QVariant(150)).toInt();
     coverPreviewSizeEdit->setText(intToString(previewSize));
 
@@ -114,9 +120,10 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
 void ConfigDialog::createLayout() {
 
 
-    QVBoxLayout* filesGroupLayout = new QVBoxLayout(filesGroup);
-    filesGroupLayout->addWidget(openLastFilesCheck);
-    filesGroup->setLayout(filesGroupLayout);
+    QVBoxLayout* behaviorGroupLayout = new QVBoxLayout(behaviorGroup);
+    behaviorGroupLayout->addWidget(openLastFilesCheck);
+    behaviorGroupLayout->addWidget(warnBeforeClosingCheck);
+    behaviorGroup->setLayout(behaviorGroupLayout);
 
     QHBoxLayout* viewGroupLayout = new QHBoxLayout(viewGroup);
     viewGroupLayout->addWidget(coverPreviewSizeLabel);
@@ -124,7 +131,7 @@ void ConfigDialog::createLayout() {
     viewGroup->setLayout(viewGroupLayout);
 
     QVBoxLayout* generalSettingsLayout = new QVBoxLayout(generalSettingsWidget);
-    generalSettingsLayout->addWidget(filesGroup);
+    generalSettingsLayout->addWidget(behaviorGroup);
     generalSettingsLayout->addWidget(viewGroup);
     generalSettingsWidget->setLayout(generalSettingsLayout);
 
@@ -196,6 +203,8 @@ void ConfigDialog::applyChanges() {
     } else {
         settings->setValue("icons", "oxygen");
     }
+
+    settings->setValue("warnbeforeclosing", QVariant(warnBeforeClosingCheck->isChecked()));
 
     QApplication::setStyle(QtagApp::getStyleFromSettings());
     settings->sync();

@@ -57,8 +57,9 @@ private:
     QWidget* generalSettingsWidget;
     QWidget* appearanceSettingsWidget;
 
-    QGroupBox* filesGroup;
+    QGroupBox* behaviorGroup;
     QCheckBox* openLastFilesCheck;
+    QCheckBox* warnBeforeClosingCheck;
     QGroupBox* viewGroup;
     QLabel* coverPreviewSizeLabel;
     QLineEdit* coverPreviewSizeEdit;

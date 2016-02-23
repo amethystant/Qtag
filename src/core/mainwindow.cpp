@@ -36,9 +36,7 @@
 #include <QMessageBox>
 #include <QGridLayout>
 
-MainWindow::MainWindow(QtagApp *app) :
-    QMainWindow(),
-    ui(new Ui::MainWindow) {
+MainWindow::MainWindow(QtagApp *app) : QMainWindow(), ui(new Ui::MainWindow) {
 
     listOfFiles = app->getFileList();
     this->app = app;
@@ -458,12 +456,7 @@ void MainWindow::saveAll() {
 }
 
 void MainWindow::openCopyTagsDialog() {
-    if(unsavedChanges()) {
-        if(QMessageBox::question(this, "Copying tags",
-                                 "Do you want to save all files before copying tags?") == QMessageBox::Yes)
-            saveAll();
 
-    }
     closeEditor();
     listOfLayouts.clear();
     CopyTagsDialog* dialog = new CopyTagsDialog(this, listOfFiles);
@@ -479,12 +472,8 @@ void MainWindow::closeCurrentFile() {
 
 void MainWindow::closeAll() {
 
-    if(unsavedChanges()) {
-        if(QMessageBox::question(this, "Save all?", "There are some unsaved changes\n"
-                                                 "Save all?") == QMessageBox::Yes) {
-            saveAll();
-        }
-
+    if(unsavedChanges() && askBeforeClosing() == QMessageBox::Cancel) {
+        return;
     }
 
     if(listOfFiles->isEmpty()) {
@@ -495,6 +484,34 @@ void MainWindow::closeAll() {
         app->closeFile(0, false);
     }
     fileListChangeUpdate();
+}
+
+int MainWindow::askBeforeClosing() {
+
+    QSettings settings;
+    if(!settings.value("warnbeforeclosing", true).toBool())
+        return QMessageBox::Discard;
+    QMessageBox *msg = new QMessageBox(this);
+    msg->setText("You are going to loose all unsaved changes. \n"
+                 "Would you like to save all files?");
+    msg->setWindowTitle("Save changes?");
+    msg->setStandardButtons(QMessageBox::SaveAll | QMessageBox::Discard | QMessageBox::Cancel);
+    QCheckBox* dontAskCheck = new QCheckBox("Don't ask me next time");
+    msg->setCheckBox(dontAskCheck);
+    msg->setDefaultButton(QMessageBox::SaveAll);
+    msg->setEscapeButton(QMessageBox::Cancel);
+    int response = msg->exec();
+    if(response == QMessageBox::SaveAll) {
+        saveAll();
+    }
+
+    if(dontAskCheck->isChecked()) {
+        settings.setValue("warnbeforeclosing", false);
+        settings.sync();
+    }
+
+    return response;
+
 }
 
 void MainWindow::saveCurrentFile() {
@@ -522,11 +539,6 @@ void MainWindow::saveCurrentFile() {
 
 void MainWindow::openMultipleTaggingDialog() {
 
-    if(unsavedChanges()) {
-        if(QMessageBox::question(this, "Copying tags",
-                                 "Do you want to save all files before multiple tagging?") == QMessageBox::Yes)
-            saveAll();
-    }
     closeEditor();
     listOfLayouts.clear();
     MultipleTaggingDialog* dialog = new MultipleTaggingDialog(this, listOfFiles);
@@ -537,11 +549,6 @@ void MainWindow::openMultipleTaggingDialog() {
 
 void MainWindow::openCreateAlbumDialog() {
 
-    if(unsavedChanges()) {
-        if(QMessageBox::question(this, "Create album",
-                                 "Do you want to save all files before creating an album?") == QMessageBox::Yes)
-            saveAll();
-    }
     closeEditor();
     listOfLayouts.clear();
     CreateAlbumDialog* dialog = new CreateAlbumDialog(this, listOfFiles);

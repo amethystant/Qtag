@@ -68,6 +68,7 @@ private:
     void openLastSession();
     void updateViews();
     void updateEditor();
+    int askBeforeClosing();
     AudioFile* openedFile; //the file that is viewed in the tag editor
     QSpacerItem* spacer;
 
