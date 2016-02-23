@@ -492,8 +492,9 @@ void MainWindow::closeAll() {
     }
 
     while(listOfFiles->length() > 0) {
-        app->closeFile(0);
+        app->closeFile(0, false);
     }
+    fileListChangeUpdate();
 }
 
 void MainWindow::saveCurrentFile() {

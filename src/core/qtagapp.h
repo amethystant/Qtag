@@ -47,8 +47,8 @@ public:
     ~QtagApp();
     QApplication* qtApp;
     void openFile(QString path, bool update = true);
-    void closeFile(QString path);
-    void closeFile(int i);
+    void closeFile(QString path, bool update = true);
+    void closeFile(int i, bool update = true);
     FileList* getFileList();
     static QStyle* getStyleFromSettings();
 

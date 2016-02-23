@@ -72,14 +72,16 @@ void QtagApp::openFile(QString path, bool update) {
         emit fileListChanged();
 }
 
-void QtagApp::closeFile(int i) {
+void QtagApp::closeFile(int i, bool update) {
     fileList->closeFile(i);
-    emit fileListChanged();
+    if(update)
+        emit fileListChanged();
 }
 
-void QtagApp::closeFile(QString path) {
+void QtagApp::closeFile(QString path, bool update) {
     fileList->closeFile(path);
-    emit fileListChanged();
+    if(update)
+        emit fileListChanged();
 }
 
 void QtagApp::openFilesFromArguments(QStringList files) {
