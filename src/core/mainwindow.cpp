@@ -77,6 +77,14 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+void MainWindow::closeEvent(QCloseEvent *event) {
+
+    if(unsavedChanges() && askBeforeClosing() == QMessageBox::Cancel)
+        return;
+    QMainWindow::closeEvent(event);
+
+}
+
 void MainWindow::setIcons() {
 
     QSettings settings;
