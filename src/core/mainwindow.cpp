@@ -368,6 +368,8 @@ void MainWindow::updateEditor() {
     ui->label_length_value->setText(length);
     ui->label_sampleRate_value->setText(sampleRate);
 
+    QObject::connect(openedFile, SIGNAL(editedOrSaved()), this, SLOT(updateWindowTitle()));
+
     TagEditorLayout* editorLayout = findLayout(openedFile);
     QWidget* w = new QWidget(ui->dockWidget_tags);
     w->setLayout(editorLayout);
@@ -424,7 +426,6 @@ TagEditorLayout* MainWindow::findLayout(AudioFile *file, bool create) {
         return NULL;
     } else {
         TagEditorLayout* l = new TagEditorLayout(this, file);
-        QObject::connect(l, SIGNAL(fileEdited()), this, SLOT(updateWindowTitle()));
         listOfLayouts.append(l);
         return l;
     }
@@ -567,14 +568,14 @@ void MainWindow::openCreateAlbumDialog() {
 
 void MainWindow::updateWindowTitle() {
 
-    if(ui->lineEdit_path->text().isEmpty()) {
+    if(!openedFile) {
         setWindowTitle("Qtag");
     } else {
         int i = ui->lineEdit_path->text().lastIndexOf('/');
-        QString fileName = ui->lineEdit_path->text();
-        fileName.remove(0, i+1);
-        TagEditorLayout* layout = findLayout(openedFile, false);
-        if(layout != NULL && layout->isEdited()) {
+        QString fileName = openedFile->getPath();
+        fileName.remove(0, i + 1);
+        AudioFile* file = listOfFiles->at(listOfFiles->indexOf(openedFile));
+        if(file->isEdited()) {
             fileName.append('*');
         }
         setWindowTitle(fileName + " - Qtag");
@@ -595,9 +596,9 @@ void MainWindow::openSettingsDialog() {
 
 bool MainWindow::unsavedChanges() {
 
-    for(int i = 0; i < listOfLayouts.length(); i++) {
-        TagEditorLayout* l = listOfLayouts.at(i);
-        if(l->isEdited()) {
+    for(int i = 0; i < listOfFiles->length(); i++) {
+        AudioFile *f = listOfFiles->at(i);
+        if(f->isEdited()) {
             return true;
         }
     }

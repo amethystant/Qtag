@@ -87,6 +87,7 @@ public:
     int getChannels();
     int getSampleRate();
     int getLength();
+    bool isEdited();
 
 private:
     TagLib::File* file;
@@ -110,7 +111,9 @@ private:
     bool hasFileApeTag;
     bool hasFileAsfTag;
     bool hasFileInfoTag;
-    
+
+    bool edited;
+
     AudioFormat format;
     
     //Some basic info
@@ -125,11 +128,14 @@ private:
 
     void updateBasicInfo();
 
+signals:
+    void editedOrSaved();
+
 public slots:
     void save();
 
-signals:
-    void saved();
+private slots:
+    void updateEdited();
 
 };
 

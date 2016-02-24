@@ -48,13 +48,11 @@ class TagEditorLayout : public QVBoxLayout {
 public:
     explicit TagEditorLayout(MainWindow* window, AudioFile *file);
     AudioFile* getFile();
-    bool isEdited();
 
 private:
     MainWindow* window;
     AudioFile* file;
     QWidget* parent; //this widget is the parent of all the widgets in this layout
-    bool edited;
     void loadTagEditors();
     void loadAsfTags();
     void loadWavPackTags();
@@ -72,13 +70,6 @@ private:
     AudioTag *id3v2Tag;
     AudioTag *infoTag;
     AudioTag *xiphComment;
-
-signals:
-    void fileEdited();
-
-private slots:
-    void updateEdited();
-    void updateSaved();
 
 };
 

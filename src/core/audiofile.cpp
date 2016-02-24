@@ -40,6 +40,8 @@ AudioFile::AudioFile(QString path, QObject* parent) : QObject(parent) {
     hasFileXiphComment = false;
     hasFileInfoTag = false;
 
+    edited = false;
+
     xiphComment = NULL;
     id3v1 = NULL;
     id3v2 = NULL;
@@ -78,6 +80,10 @@ void AudioFile::open(QString path) {
         id3v2 = new AudioTag(this, f->ID3v2Tag(true), TagFormats::ID3V2);
         apeTag = new AudioTag(this, f->APETag(true), TagFormats::APE);
 
+        QObject::connect(id3v1, SIGNAL(edited()), this, SLOT(updateEdited()));
+        QObject::connect(id3v2, SIGNAL(edited()), this, SLOT(updateEdited()));
+        QObject::connect(apeTag, SIGNAL(edited()), this, SLOT(updateEdited()));
+
     } else if(path.endsWith(".flac", Qt::CaseInsensitive)) {
 
         format = FLAC;
@@ -91,6 +97,10 @@ void AudioFile::open(QString path) {
         id3v2 = new AudioTag(this, f->ID3v2Tag(true), TagFormats::ID3V2);
         xiphComment = new AudioTag(this, f->xiphComment(true), TagFormats::XIPH);
 
+        QObject::connect(id3v1, SIGNAL(edited()), this, SLOT(updateEdited()));
+        QObject::connect(id3v2, SIGNAL(edited()), this, SLOT(updateEdited()));
+        QObject::connect(xiphComment, SIGNAL(edited()), this, SLOT(updateEdited()));
+
     } else if(path.endsWith(".wav", Qt::CaseInsensitive) ||
               path.endsWith(".wave", Qt::CaseInsensitive)) {
 
@@ -103,6 +113,9 @@ void AudioFile::open(QString path) {
         id3v2 = new AudioTag(this, f->ID3v2Tag(), TagFormats::ID3V2);
         infoTag = new AudioTag(this, f->InfoTag(), TagFormats::INFO);
 
+        QObject::connect(id3v2, SIGNAL(edited()), this, SLOT(updateEdited()));
+        QObject::connect(infoTag, SIGNAL(edited()), this, SLOT(updateEdited()));
+
     } else if(path.endsWith(".asf", Qt::CaseInsensitive) ||
               path.endsWith(".wma", Qt::CaseInsensitive)) {
 
@@ -112,6 +125,8 @@ void AudioFile::open(QString path) {
         properties = f->audioProperties();
         file = f;
         asfTag = new AudioTag(this, f->tag(), TagFormats::ASF);
+
+        QObject::connect(asfTag, SIGNAL(edited()), this, SLOT(updateEdited()));
 
     } else if(path.endsWith(".wv", Qt::CaseInsensitive)) {
 
@@ -124,6 +139,9 @@ void AudioFile::open(QString path) {
         apeTag = new AudioTag(this, f->APETag(true), TagFormats::APE);
         id3v1 = new AudioTag(this, f->ID3v1Tag(true), TagFormats::ID3V1);
 
+        QObject::connect(apeTag, SIGNAL(edited()), this, SLOT(updateEdited()));
+        QObject::connect(id3v1, SIGNAL(edited()), this, SLOT(updateEdited()));
+
     } else if(path.endsWith(".ogg", Qt::CaseInsensitive)) {
 
         format = OggVorbis;
@@ -132,6 +150,8 @@ void AudioFile::open(QString path) {
         properties = f->audioProperties();
         file = f;
         xiphComment = new AudioTag(this, f->tag(), TagFormats::XIPH);
+
+        QObject::connect(xiphComment, SIGNAL(edited()), this, SLOT(updateEdited()));
 
     }
 
@@ -184,7 +204,8 @@ void AudioFile::save() {
     }
 
     updateBasicInfo();
-    emit saved();
+    edited = false;
+    emit editedOrSaved();
 
 }
 
@@ -209,6 +230,11 @@ void AudioFile::updateBasicInfo() {
     album = tag->getAlbum();
     artist = tag->getArtist();
 
+}
+
+void AudioFile::updateEdited() {
+    emit editedOrSaved();
+    edited = true;
 }
 
 QString AudioFile::getPath() {
@@ -352,4 +378,8 @@ int AudioFile::getChannels() {
 
 int AudioFile::getSampleRate() {
     return sampleRate;
+}
+
+bool AudioFile::isEdited() {
+    return edited;
 }

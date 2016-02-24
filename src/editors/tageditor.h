@@ -62,9 +62,6 @@ protected:
 protected slots:
     virtual void updateTags();
 
-signals:
-    void fileEdited();
-
 };
 
 #endif // TAGEDITOR_H
