@@ -28,9 +28,8 @@
 Id3v1Editor::Id3v1Editor(AudioTag *tag, QWidget *parent) :
     TagEditor(tag, "ID3v1 tag", parent) {
 
-    id3v1Tag = tag;
     genreEdit = new Id3GenreSelection(this);
-    int i = genreEdit->findText(id3v1Tag->getGenre());
+    int i = genreEdit->findText(tag->getGenre());
     genreEdit->setCurrentIndex(i);
     genreLabel = new QLabel("Genre:", this);
     QObject::connect(genreEdit, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTags()));
@@ -57,6 +56,6 @@ void Id3v1Editor::createLayout() {
 void Id3v1Editor::updateTags() {
 
     TagEditor::updateTags();
-    id3v1Tag->setGenre(genreEdit->currentText());
+    tag->setGenre(genreEdit->currentText());
 
 }

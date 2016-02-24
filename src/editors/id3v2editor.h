@@ -43,7 +43,6 @@ public:
     ~Id3v2Editor();
 
 private:
-    AudioTag* id3v2Tag;
     Id3GenreSelection* genreEdit;
     QLabel* genreLabel;
     QString* picturePath;

@@ -29,9 +29,8 @@
 Id3v2Editor::Id3v2Editor(AudioTag *tag, QWidget *parent) :
     TagEditor(tag, "ID3v2 tag", parent) {
 
-    id3v2Tag = tag;
     genreEdit = new Id3GenreSelection(this);
-    int i = genreEdit->findText(id3v2Tag->getGenre());
+    int i = genreEdit->findText(tag->getGenre());
     genreEdit->setCurrentIndex(i);
     genreLabel = new QLabel("Genre:", this);
     pictureLabel = new QLabel("Cover:", this);
@@ -90,10 +89,10 @@ void Id3v2Editor::createLayout() {
 void Id3v2Editor::updateTags() {
 
     TagEditor::updateTags();
-    id3v2Tag->setGenre(genreEdit->currentText());
+    tag->setGenre(genreEdit->currentText());
 
     if(!picturePath->isEmpty()) {
-        id3v2Tag->setCoverArt(*picturePath);
+        tag->setCoverArt(*picturePath);
     }
 
 }
@@ -116,6 +115,6 @@ void Id3v2Editor::removeCover() {
 
     picturePath->clear();
     picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
-    id3v2Tag->setCoverArt("");
+    tag->setCoverArt("");
 
 }

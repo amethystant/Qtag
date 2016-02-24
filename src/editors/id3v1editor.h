@@ -41,7 +41,6 @@ public:
     Id3v1Editor(AudioTag *tag, QWidget *parent);
 
 private:
-    AudioTag* id3v1Tag;
     Id3GenreSelection* genreEdit;
     QLabel* genreLabel;
 
