@@ -199,13 +199,13 @@ void CreateAlbumDialog::tagFormatError() {
 void CreateAlbumDialog::saveTagsTo(AudioFile* f, std::string nameOfTag,
                                    QString title, QString track, QString album, QString artist) {
 
-    TagLib::Tag* t = f->getTagByName(QString::fromStdString(nameOfTag));
+    AudioTag* t = f->getTagByName(QString::fromStdString(nameOfTag));
     if(t == NULL) {
         return;
     }
 
     if(!title.isEmpty()) {
-        t->setTitle(title.toLocal8Bit().toStdString());
+        t->setTitle(title);
     }
     if(!track.isEmpty()) {
         if(track.startsWith('0'))
@@ -213,10 +213,10 @@ void CreateAlbumDialog::saveTagsTo(AudioFile* f, std::string nameOfTag,
         t->setTrack(track.toInt());
     }
     if(!album.isEmpty()) {
-        t->setAlbum(album.toLocal8Bit().toStdString());
+        t->setAlbum(album);
     }
     if(!artist.isEmpty()) {
-        t->setArtist(artist.toLocal8Bit().toStdString());
+        t->setArtist(artist);
     }
 
     f->save();

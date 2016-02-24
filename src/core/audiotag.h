@@ -23,24 +23,49 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#ifndef AUDIOTAG_H
+#define AUDIOTAG_H
 
-#include "editors/assistant_classes/picturefile.h"
+#include <QObject>
+#include <QImage>
+#include <tag.h>
+#include "core/picturefile.h"
 
-PictureFile::PictureFile(const char* path) : TagLib::File(path) {
-}
+class AudioFile;
 
-TagLib::ByteVector PictureFile::getData() {
-    return readBlock(length());
-}
+class AudioTag : public QObject {
 
-TagLib::Tag* PictureFile::tag() const {
-    return 0;
-}
+    Q_OBJECT
 
-TagLib::AudioProperties* PictureFile::audioProperties() const {
-    return 0;
-}
+public:
+    explicit AudioTag(QObject *parent, TagLib::Tag* tag, std::string nameOfTag);
+    void setTitle(QString title);
+    void setTrack(int track);
+    void setAlbum(QString album);
+    void setArtist(QString artist);
+    void setGenre(QString genre);
+    void setComment(QString comment);
+    void setYear(int year);
+    void setCoverArt(QString picturePath);
 
-bool PictureFile::save() {
-    return false;
-}
+    QString getTitle();
+    int getTrack();
+    QString getAlbum();
+    QString getArtist();
+    QString getGenre();
+    QString getComment();
+    int getYear();
+    QImage* getCoverArt();
+
+    bool isEmpty();
+
+private:
+    TagLib::Tag* tag;
+    std::string type;
+
+signals:
+    void edited();
+
+};
+
+#endif // AUDIOTAG_H

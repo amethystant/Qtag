@@ -27,7 +27,7 @@
 #define COMMONTAGEDITOR_H
 
 #include "editors/tageditor.h"
-#include <tag.h>
+#include "core/audiotag.h"
 
 /*
  * An implementation of the TagEditor class, which is common to all tags
@@ -38,7 +38,7 @@ class CommonTagEditor : public TagEditor {
     Q_OBJECT
 
 public:
-    CommonTagEditor(TagLib::Tag* tag, QString nameOfTag, QWidget* parent);
+    CommonTagEditor(AudioTag *tag, QString nameOfTag, QWidget* parent);
 
 private:
     QLabel* genreLabel;

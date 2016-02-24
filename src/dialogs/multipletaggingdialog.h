@@ -83,13 +83,13 @@ private:
 
     QString coverEditDefaultText;
 
-    TagLib::String title;
+    QString title;
     int track;
-    TagLib::String album;
-    TagLib::String artist;
-    TagLib::String genre;
+    QString album;
+    QString artist;
+    QString genre;
     int year;
-    TagLib::String comment;
+    QString comment;
     QString cover;
 
     void createLayout();

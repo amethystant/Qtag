@@ -26,8 +26,8 @@
 
 #include "dialogs/multipletaggingdialog.h"
 #include "core/main.h"
-#include "editors/assistant_classes/picturefile.h"
-#include <attachedpictureframe.h>
+#include "core/picturefile.h"
+#include "core/audiotag.h"
 #include <QPushButton>
 #include <QFileDialog>
 #include <QGridLayout>
@@ -213,7 +213,7 @@ void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
     }
 
 
-    TagLib::Tag* tag = file->getTagByName(nameOfTag);
+    AudioTag* tag = file->getTagByName(nameOfTag);
     if(tag == NULL)
         return;
 
@@ -242,19 +242,10 @@ void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
     QString s(NamesOfTags::ID3V2.c_str());
     if(coverCheck->isChecked() && nameOfTag == s) {
 
-        TagLib::ID3v2::Tag* id3Tag = (TagLib::ID3v2::Tag*) tag;
-        id3Tag->removeFrames("APIC");
+        tag->setCoverArt("");
 
         if(cover != coverEditDefaultText) {
-            TagLib::ID3v2::AttachedPictureFrame* frame = new TagLib::ID3v2::AttachedPictureFrame();
-            if(cover.endsWith(".jpeg", Qt::CaseInsensitive) ||
-                    cover.endsWith(".jpg", Qt::CaseInsensitive))
-                frame->setMimeType("image/jpeg");
-            else if(cover.endsWith(".png", Qt::CaseInsensitive))
-                frame->setMimeType("image/png");
-            PictureFile pictureFile(cover.toStdString().c_str());
-            frame->setPicture(pictureFile.getData());
-            id3Tag->addFrame(frame);
+            tag->setCoverArt(cover);
         }
 
     }
@@ -265,13 +256,13 @@ void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
 
 void MultipleTaggingDialog::startTagging() {
 
-    title = TagLib::String(titleEdit->text().toStdString());
+    title = titleEdit->text();
     track = trackEdit->text().toInt();
-    album = TagLib::String(albumEdit->text().toStdString());
-    artist = TagLib::String(artistEdit->text().toStdString());
+    album = albumEdit->text();
+    artist = artistEdit->text();
     year = yearEdit->text().toInt();
-    comment = TagLib::String(commentEdit->text().toStdString());
-    genre = TagLib::String(genreEdit->currentText().toStdString());
+    comment = commentEdit->text();
+    genre = genreEdit->currentText();
     cover = coverEdit->text();
 
     QMessageBox* message = new QMessageBox(this);

@@ -26,12 +26,12 @@
 
 #include "editors/id3v2editor.h"
 
-Id3v2Editor::Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent) :
+Id3v2Editor::Id3v2Editor(AudioTag *tag, QWidget *parent) :
     TagEditor(tag, "ID3v2 tag", parent) {
 
     id3v2Tag = tag;
     genreEdit = new Id3GenreSelection(this);
-    int i = genreEdit->findText(QString::fromLocal8Bit(id3v2Tag->genre().toCString()));
+    int i = genreEdit->findText(id3v2Tag->getGenre());
     genreEdit->setCurrentIndex(i);
     genreLabel = new QLabel("Genre:", this);
     pictureLabel = new QLabel("Cover:", this);
@@ -90,20 +90,10 @@ void Id3v2Editor::createLayout() {
 void Id3v2Editor::updateTags() {
 
     TagEditor::updateTags();
-    id3v2Tag->setGenre(genreEdit->currentText().toStdString());
+    id3v2Tag->setGenre(genreEdit->currentText());
 
     if(!picturePath->isEmpty()) {
-
-        TagLib::ID3v2::AttachedPictureFrame* frame = new TagLib::ID3v2::AttachedPictureFrame();
-        if(picturePath->endsWith(".jpeg", Qt::CaseInsensitive) || picturePath->endsWith(".jpg", Qt::CaseInsensitive))
-            frame->setMimeType("image/jpeg");
-        else if(picturePath->endsWith(".png", Qt::CaseInsensitive))
-            frame->setMimeType("image/png");
-        id3v2Tag->removeFrames("APIC");
-        PictureFile pictureFile(picturePath->toStdString().c_str());
-        frame->setPicture(pictureFile.getData());
-        id3v2Tag->addFrame(frame);
-
+        id3v2Tag->setCoverArt(*picturePath);
     }
 
 }
@@ -116,18 +106,9 @@ void Id3v2Editor::showPictureFullSize() {
     coverArtActions->showPictureFullSize(getPictureFromTag());
 }
 
-QImage Id3v2Editor::getPictureFromTag() {
+QImage* Id3v2Editor::getPictureFromTag() {
 
-    QImage image;
-    TagLib::ID3v2::FrameList frameList = id3v2Tag->frameList("APIC");
-    if(frameList.isEmpty()) {
-        return image;
-     }
-    TagLib::ID3v2::AttachedPictureFrame *pictureFrame =
-        static_cast<TagLib::ID3v2::AttachedPictureFrame *>(frameList.front());
-    image.loadFromData((const uchar *) pictureFrame->picture().data(), pictureFrame->picture().size());
-
-    return image;
+    return tag->getCoverArt();
 
 }
 
@@ -135,6 +116,6 @@ void Id3v2Editor::removeCover() {
 
     picturePath->clear();
     picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
-    id3v2Tag->removeFrames("APIC");
+    id3v2Tag->setCoverArt("");
 
 }

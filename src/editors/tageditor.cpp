@@ -27,36 +27,36 @@
 #include "editors/tageditor.h"
 #include <tstring.h>
 
-TagEditor::TagEditor(TagLib::Tag* tag, QString nameOfTag, QWidget *parent) : QGroupBox(nameOfTag, parent) {
+TagEditor::TagEditor(AudioTag *tag, QString nameOfTag, QWidget *parent) : QGroupBox(nameOfTag, parent) {
 
     this->tag = tag;
     layout = new QGridLayout(this);
 
     titleLabel = new QLabel("Title:", this);
     titleEdit = new QLineEdit(this);
-    titleEdit->setText(QString::fromUtf8(tag->title().toCString(true)));
+    titleEdit->setText(tag->getTitle());
 
     trackLabel = new QLabel("Track:", this);
     trackEdit = new QLineEdit(this);
     trackEdit->setValidator(new QIntValidator(1, 10000, trackEdit));
-    trackEdit->setText(intToString(tag->track()));
+    trackEdit->setText(intToString(tag->getTrack()));
 
     albumLabel = new QLabel("Album:", this);
     albumEdit = new QLineEdit(this);
-    albumEdit->setText(QString::fromStdString(tag->album().to8Bit(true)));
+    albumEdit->setText(tag->getAlbum());
 
     yearLabel = new QLabel("Year:", this);
     yearEdit = new QLineEdit(this);
     yearEdit->setValidator(new QIntValidator(0, 10000, yearEdit));
-    yearEdit->setText(intToString(tag->year()));
+    yearEdit->setText(intToString(tag->getYear()));
 
     artistLabel = new QLabel("Artist:", this);
     artistEdit = new QLineEdit(this);
-    artistEdit->setText(QString::fromStdString(tag->artist().to8Bit(true)));
+    artistEdit->setText(tag->getArtist());
 
     commentLabel = new QLabel("Comment:", this);
     commentEdit = new QLineEdit(this);
-    commentEdit->setText(QString::fromStdString(tag->comment().to8Bit(true)));
+    commentEdit->setText(tag->getComment());
 
     QObject::connect(titleEdit, SIGNAL(textEdited(QString)), this, SIGNAL(fileEdited()));
     QObject::connect(trackEdit, SIGNAL(textEdited(QString)), this, SIGNAL(fileEdited()));
@@ -76,12 +76,12 @@ TagEditor::TagEditor(TagLib::Tag* tag, QString nameOfTag, QWidget *parent) : QGr
 */
 void TagEditor::updateTags() {
 
-    tag->setTitle(titleEdit->text().toStdString());
+    tag->setTitle(titleEdit->text());
     tag->setTrack(trackEdit->text().toInt());
-    tag->setAlbum(albumEdit->text().toStdString());
+    tag->setAlbum(albumEdit->text());
     tag->setYear(yearEdit->text().toInt());
-    tag->setArtist(artistEdit->text().toStdString());
-    tag->setComment(commentEdit->text().toStdString());
+    tag->setArtist(artistEdit->text());
+    tag->setComment(commentEdit->text());
 
 }
 

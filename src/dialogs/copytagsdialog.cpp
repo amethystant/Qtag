@@ -174,15 +174,15 @@ void CopyTagsDialog::updateComboBoxes() {
 
 }
 
-void CopyTagsDialog::copyTags(TagLib::Tag* sourceTag, TagLib::Tag* targetTag) {
+void CopyTagsDialog::copyTags(AudioTag *sourceTag, AudioTag *targetTag) {
 
-    targetTag->setTitle(sourceTag->title());
-    targetTag->setTrack(sourceTag->track());
-    targetTag->setGenre(sourceTag->genre());
-    targetTag->setComment(sourceTag->comment());
-    targetTag->setAlbum(sourceTag->album());
-    targetTag->setArtist(sourceTag->artist());
-    targetTag->setYear(sourceTag->year());
+    targetTag->setTitle(sourceTag->getTitle());
+    targetTag->setTrack(sourceTag->getTrack());
+    targetTag->setGenre(sourceTag->getGenre());
+    targetTag->setComment(sourceTag->getComment());
+    targetTag->setAlbum(sourceTag->getAlbum());
+    targetTag->setArtist(sourceTag->getArtist());
+    targetTag->setYear(sourceTag->getYear());
 
 }
 

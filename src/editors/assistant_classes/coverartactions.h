@@ -36,9 +36,9 @@ class CoverArtActions : public QObject {
 
 public:
     CoverArtActions(QWidget *parent, QLabel *preview);
-    void showPicturePreview(QImage image);
-    void savePictureAsFile(QImage image);
-    void showPictureFullSize(QImage image);
+    void showPicturePreview(QImage* image);
+    void savePictureAsFile(QImage* image);
+    void showPictureFullSize(QImage* image);
 
 private:
     QWidget* parent;

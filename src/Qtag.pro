@@ -37,7 +37,7 @@ SOURCES += core/main.cpp                                        \
     editors/assistant_classes/id3genreselection.cpp             \
     editors/id3v2editor.cpp                                     \
     editors/assistant_classes/pictureselectionbutton.cpp        \
-    editors/assistant_classes/picturefile.cpp                   \
+    core/picturefile.cpp                                        \
     editors/commontageditor.cpp                                 \
     dialogs/copytagsdialog.cpp                                  \
     dialogs/multipletaggingdialog.cpp                           \
@@ -45,9 +45,10 @@ SOURCES += core/main.cpp                                        \
     core/filelist.cpp                                           \
     dialogs/configdialog.cpp                                    \
     editors/assistant_classes/coverartactions.cpp               \
-    core/qtagapp.cpp
+    core/qtagapp.cpp \
+    core/audiotag.cpp
 
-HEADERS += editors/assistant_classes/picturefile.h              \
+HEADERS += core/picturefile.h                                   \
     editors/id3v2editor.h                                       \
     editors/id3v1editor.h                                       \
     core/mainwindow.h                                           \
@@ -64,7 +65,8 @@ HEADERS += editors/assistant_classes/picturefile.h              \
     core/filelist.h                                             \
     dialogs/configdialog.h                                      \
     editors/assistant_classes/coverartactions.h                 \
-    core/qtagapp.h
+    core/qtagapp.h                                              \
+    core/audiotag.h
 
 FORMS += ui/mainwindow.ui
 

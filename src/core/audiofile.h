@@ -42,10 +42,7 @@
 #include <xiphcomment.h>
 #include <asftag.h>
 #include <apetag.h>
-
-enum AudioFormat {
-    MPEG, OggVorbis, FLAC, WAV, ASF, WavPack
-};
+#include "core/audiotag.h"
 
 class MainWindow;
 
@@ -54,10 +51,17 @@ class MainWindow;
  * Contains all tags.
 */
 class AudioFile : public QObject {
+
     Q_OBJECT
+
 public:
     explicit AudioFile(QString path, QObject *parent);
     ~AudioFile();
+
+    enum AudioFormat {
+        MPEG, OggVorbis, FLAC, WAV, ASF, WavPack
+    };
+
     void open(QString path);
     QString getPath();
     QString getName();
@@ -70,14 +74,14 @@ public:
     bool hasId3v2();
     bool hasInfoTag();
     bool hasXiphComment();
-    TagLib::Ogg::XiphComment* getXiphComment();
-    TagLib::RIFF::Info::Tag* getInfoTag();
-    TagLib::ID3v2::Tag* getId3v2();
-    TagLib::ID3v1::Tag* getId3v1();
-    TagLib::ASF::Tag* getAsfTag();
-    TagLib::APE::Tag* getApeTag();
+    AudioTag* getXiphComment();
+    AudioTag* getInfoTag();
+    AudioTag* getId3v2();
+    AudioTag* getId3v1();
+    AudioTag* getAsfTag();
+    AudioTag* getApeTag();
     AudioFormat getFormat();
-    TagLib::Tag* getTagByName(QString name);
+    AudioTag* getTagByName(QString name);
     QString getType();
     int getBitrate();
     int getChannels();
@@ -88,20 +92,18 @@ private:
     TagLib::File* file;
 
     /*
-    Pointers to all possible tags, the value is NULL if the
-    file does not have the tag (e.g. a MPEG file has only id3v1 and id3v2)
-    */
-    TagLib::Ogg::XiphComment *xiphComment;
-    TagLib::RIFF::Info::Tag *infoTag;
-    TagLib::ID3v2::Tag *id3v2;
-    TagLib::ID3v1::Tag *id3v1;
-    TagLib::ASF::Tag *asfTag;
-    TagLib::APE::Tag *apeTag;
-    
-     // the full path to the file
+     * Pointers to all possible tags, the value is NULL if the
+     * file does not have the tag (e.g. a MPEG file has only id3v1 and id3v2)
+     */
+    AudioTag* xiphComment;
+    AudioTag* infoTag;
+    AudioTag* id3v2;
+    AudioTag* id3v1;
+    AudioTag* asfTag;
+    AudioTag* apeTag;
+
     QString path;
    
-      //this booleans indicate if the file has the tag. default value is false
     bool hasFileXiphComment;
     bool hasFileId3v1;
     bool hasFileId3v2;

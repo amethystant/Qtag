@@ -30,6 +30,7 @@
 #include <QLabel>
 #include <QComboBox>
 #include "core/audiofile.h"
+#include "core/audiotag.h"
 #include "core/filelist.h"
 #include <string>
 
@@ -56,7 +57,7 @@ private:
     AudioFile* targetFile;
     void createLayout();
     void initComboBoxes();
-    void copyTags(TagLib::Tag* sourceTag, TagLib::Tag* targetTag);
+    void copyTags(AudioTag* sourceTag, AudioTag* targetTag);
 
 private slots:
     void startCopying();

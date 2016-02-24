@@ -27,10 +27,9 @@
 #define ID3V2EDITOR_H
 
 #include <QImage>
-#include <id3v2tag.h>
-#include <attachedpictureframe.h>
 #include "editors/assistant_classes/pictureselectionbutton.h"
-#include "editors/assistant_classes/picturefile.h"
+#include "core/picturefile.h"
+#include "core/audiotag.h"
 #include "editors/tageditor.h"
 #include "editors/assistant_classes/id3genreselection.h"
 #include "editors/assistant_classes/coverartactions.h"
@@ -40,11 +39,11 @@ class Id3v2Editor : public TagEditor {
     Q_OBJECT
 
 public:
-    Id3v2Editor(TagLib::ID3v2::Tag *tag, QWidget *parent);
+    Id3v2Editor(AudioTag *tag, QWidget *parent);
     ~Id3v2Editor();
 
 private:
-    TagLib::ID3v2::Tag* id3v2Tag;
+    AudioTag* id3v2Tag;
     Id3GenreSelection* genreEdit;
     QLabel* genreLabel;
     QString* picturePath;
@@ -54,7 +53,7 @@ private:
     QPushButton* pictureFullSizeButton;
     QLabel* picturePreview;
     QLabel* pictureLabel;
-    QImage getPictureFromTag();
+    QImage *getPictureFromTag();
     CoverArtActions* coverArtActions;
 
 protected:

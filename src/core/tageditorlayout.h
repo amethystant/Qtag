@@ -38,6 +38,7 @@
 
 class MainWindow;
 class AudioFile;
+class AudioTag;
 
 
 /*
@@ -71,12 +72,12 @@ private:
     void addId3v2Editor();
     void addApeTagEditor();
     void addXiphCommentEditor();
-    TagLib::APE::Tag *apeTag;
-    TagLib::ASF::Tag *asfTag;
-    TagLib::ID3v1::Tag *id3v1Tag;
-    TagLib::ID3v2::Tag *id3v2Tag;
-    TagLib::RIFF::Info::Tag *infoTag;
-    TagLib::Ogg::XiphComment *xiphComment;
+    AudioTag *apeTag;
+    AudioTag *asfTag;
+    AudioTag *id3v1Tag;
+    AudioTag *id3v2Tag;
+    AudioTag *infoTag;
+    AudioTag *xiphComment;
 
 signals:
     void fileEdited();

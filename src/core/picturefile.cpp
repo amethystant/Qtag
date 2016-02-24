@@ -23,23 +23,25 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef PICTUREFILE_H
-#define PICTUREFILE_H
 
-#include <taglib.h>
-#include <tfile.h>
+#include "core/picturefile.h"
 
-class PictureFile : public TagLib::File {
+PictureFile::PictureFile(const char* path) : TagLib::File(path) {
 
-public:
-    PictureFile(const char* path);
-    TagLib::ByteVector getData();
+}
 
-private:
-    virtual TagLib::Tag *tag() const;
-    virtual TagLib::AudioProperties *audioProperties() const;
-    virtual bool save();
+TagLib::ByteVector PictureFile::getData() {
+    return readBlock(length());
+}
 
-};
+TagLib::Tag* PictureFile::tag() const {
+    return 0;
+}
 
-#endif // PICTUREFILE_H
+TagLib::AudioProperties* PictureFile::audioProperties() const {
+    return 0;
+}
+
+bool PictureFile::save() {
+    return false;
+}

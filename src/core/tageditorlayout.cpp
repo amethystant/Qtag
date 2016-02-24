@@ -54,17 +54,17 @@ Determines what method should be called to load the right tag editors to the lay
 */
 void TagEditorLayout::loadTagEditors() {
 
-    if(file->getFormat() == MPEG)
+    if(file->getFormat() == AudioFile::MPEG)
         loadMpegTags();
-    else if(file->getFormat() == WavPack)
+    else if(file->getFormat() == AudioFile::WavPack)
         loadWavPackTags();
-    else if(file->getFormat() == WAV)
+    else if(file->getFormat() == AudioFile::WAV)
         loadWavTags();
-    else if(file->getFormat() == FLAC)
+    else if(file->getFormat() == AudioFile::FLAC)
         loadFlacTags();
-    else if(file->getFormat() == OggVorbis)
+    else if(file->getFormat() == AudioFile::OggVorbis)
         loadOggVorbisTags();
-    else if(file->getFormat() == ASF)
+    else if(file->getFormat() == AudioFile::ASF)
         loadAsfTags();
 
 }

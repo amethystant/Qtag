@@ -27,9 +27,8 @@
 #define TAGEDITOR_H
 
 #include <QtWidgets>
-#include <tag.h>
 #include "core/main.h"
-#include <fileref.h>
+#include "core/audiotag.h"
 
 /*
 The base class for all tag editors (e.g. ID3v1 editor, XiphComment editor,...).
@@ -41,10 +40,10 @@ class TagEditor : public QGroupBox {
     Q_OBJECT
 
 public:
-    TagEditor(TagLib::Tag* tag, QString nameOfTag, QWidget *parent);
+    TagEditor(AudioTag* tag, QString nameOfTag, QWidget *parent);
 
 protected:
-    TagLib::Tag* tag;
+    AudioTag* tag;
     QGridLayout* layout;
     QLabel* titleLabel;
     QLabel* trackLabel;

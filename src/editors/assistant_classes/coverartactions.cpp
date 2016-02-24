@@ -37,37 +37,37 @@ CoverArtActions::CoverArtActions(QWidget *parent, QLabel *preview) : QObject(par
 
 }
 
-void CoverArtActions::showPicturePreview(QImage image) {
+void CoverArtActions::showPicturePreview(QImage* image) {
 
     QSettings settings;
     int size = settings.value("previewsize", QVariant(150)).toInt();
-    if(image.isNull()) {
+    if(!image || image->isNull()) {
         picturePreview->clear();
         picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
     } else {
-        image = image.scaled(size, size);
+        QImage scaledImage = image->scaled(size, size);
         picturePreview->clear();
-        picturePreview->setPixmap(QPixmap::fromImage(image));
+        picturePreview->setPixmap(QPixmap::fromImage(scaledImage));
     }
     picturePreview->update();
 
 }
 
-void CoverArtActions::savePictureAsFile(QImage image) {
+void CoverArtActions::savePictureAsFile(QImage* image) {
 
-    if(image.isNull()) {
+    if(!image || image->isNull()) {
         QMessageBox::warning(parent, "Warning", "There is no picture to save.");
         return;
     }
 
     QString fileName = QFileDialog::getSaveFileName(parent, "Save cover", 0, "PNG Images (*.png)");
-    image.save(fileName);
+    image->save(fileName);
 
 }
 
-void CoverArtActions::showPictureFullSize(QImage image) {
+void CoverArtActions::showPictureFullSize(QImage* image) {
 
-    if(image.isNull()) {
+    if(!image || image->isNull()) {
         QMessageBox::warning(parent, "Error", "There is no picture to show.");
         return;
     }
@@ -75,7 +75,7 @@ void CoverArtActions::showPictureFullSize(QImage image) {
     QDialog* dialog = new QDialog(parent);
     QScrollArea* scrollArea = new QScrollArea();
     QLabel* preview = new QLabel(scrollArea);
-    preview->setPixmap(QPixmap::fromImage(image));
+    preview->setPixmap(QPixmap::fromImage(*image));
     scrollArea->setWidget(preview);
     QHBoxLayout* l = new QHBoxLayout(dialog);
     l->addWidget(scrollArea);

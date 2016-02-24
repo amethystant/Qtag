@@ -25,12 +25,12 @@
 
 #include "editors/id3v1editor.h"
 
-Id3v1Editor::Id3v1Editor(TagLib::ID3v1::Tag *tag, QWidget *parent) :
+Id3v1Editor::Id3v1Editor(AudioTag *tag, QWidget *parent) :
     TagEditor(tag, "ID3v1 tag", parent) {
 
     id3v1Tag = tag;
     genreEdit = new Id3GenreSelection(this);
-    int i = genreEdit->findText(QString::fromLocal8Bit(id3v1Tag->genre().toCString()));
+    int i = genreEdit->findText(id3v1Tag->getGenre());
     genreEdit->setCurrentIndex(i);
     genreLabel = new QLabel("Genre:", this);
     QObject::connect(genreEdit, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTags()));
@@ -57,6 +57,6 @@ void Id3v1Editor::createLayout() {
 void Id3v1Editor::updateTags() {
 
     TagEditor::updateTags();
-    id3v1Tag->setGenre(genreEdit->currentText().toStdString());
+    id3v1Tag->setGenre(genreEdit->currentText());
 
 }

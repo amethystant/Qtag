@@ -23,41 +23,25 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#ifndef PICTUREFILE_H
+#define PICTUREFILE_H
 
-#include "editors/commontageditor.h"
-#include <tstring.h>
+#include <taglib.h>
+#include <tfile.h>
+#include <QString>
 
-CommonTagEditor::CommonTagEditor(AudioTag *tag, QString nameOfTag, QWidget *parent) :
-    TagEditor(tag, nameOfTag, parent) {
+class PictureFile : public TagLib::File {
 
-    genreEdit = new QLineEdit(this);
-    genreEdit->setText(tag->getGenre());
-    genreLabel = new QLabel("Genre:", this);
+public:
+    PictureFile(const char* path);
+    TagLib::ByteVector getData();
+    QString getPath();
 
-    createLayout();
-    QObject::connect(genreEdit, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
+private:
+    virtual TagLib::Tag *tag() const;
+    virtual TagLib::AudioProperties *audioProperties() const;
+    virtual bool save();
 
-}
+};
 
-/*
- *Overrides TagEditor::saveTags() and updates the genre tag
-*/
-void CommonTagEditor::updateTags() {
-
-    TagEditor::updateTags();
-    tag->setGenre(genreEdit->text());
-
-}
-
-/*
- *Overrides TagEditor::createLayout() and adds the genre editor
- *to the layout
-*/
-void CommonTagEditor::createLayout() {
-
-    TagEditor::createLayout();
-    int i = layout->rowCount();
-    layout->addWidget(genreLabel, i, 0);
-    layout->addWidget(genreEdit, i, 1);
-
-}
+#endif // PICTUREFILE_H
