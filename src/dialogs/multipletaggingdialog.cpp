@@ -195,7 +195,7 @@ void MultipleTaggingDialog::openFiles() {
 
 }
 
-void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
+void MultipleTaggingDialog::saveTagsTo(TagFormat nameOfTag, QString path) {
 
     AudioFile* file = fileList->getFileByPath(path);
     if(file == NULL) {
@@ -239,8 +239,7 @@ void MultipleTaggingDialog::saveTagsTo(QString nameOfTag, QString path) {
         tag->setYear(year);
     }
 
-    QString s(NamesOfTags::ID3V2.c_str());
-    if(coverCheck->isChecked() && nameOfTag == s) {
+    if(coverCheck->isChecked() && nameOfTag == TagFormats::ID3V2) {
 
         tag->setCoverArt("");
 
@@ -275,17 +274,17 @@ void MultipleTaggingDialog::startTagging() {
 
         QString path = listOfFiles.at(i);
         if(apeCheck->isChecked())
-            saveTagsTo(QString::fromStdString(NamesOfTags::APE), path);
+            saveTagsTo(TagFormats::APE, path);
         if(asfCheck->isChecked())
-            saveTagsTo(QString::fromStdString(NamesOfTags::ASF), path);
+            saveTagsTo(TagFormats::ASF, path);
         if(id3v1Check->isChecked())
-            saveTagsTo(QString::fromStdString(NamesOfTags::ID3V1), path);
+            saveTagsTo(TagFormats::ID3V1, path);
         if(id3v2Check->isChecked())
-            saveTagsTo(QString::fromStdString(NamesOfTags::ID3V2), path);
+            saveTagsTo(TagFormats::ID3V2, path);
         if(infoTagCheck->isChecked())
-            saveTagsTo(QString::fromStdString(NamesOfTags::INFO), path);
+            saveTagsTo(TagFormats::INFO, path);
         if(xiphCommentCheck->isChecked())
-            saveTagsTo(QString::fromStdString(NamesOfTags::XIPH), path);
+            saveTagsTo(TagFormats::XIPH, path);
 
     }
 

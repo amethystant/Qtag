@@ -93,7 +93,7 @@ private:
     QString cover;
 
     void createLayout();
-    void saveTagsTo(QString nameOfTag, QString path);
+    void saveTagsTo(TagFormat nameOfTag, QString path);
 
 private slots:
     void startTagging();

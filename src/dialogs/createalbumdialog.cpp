@@ -199,7 +199,7 @@ void CreateAlbumDialog::tagFormatError() {
 void CreateAlbumDialog::saveTagsTo(AudioFile* f, std::string nameOfTag,
                                    QString title, QString track, QString album, QString artist) {
 
-    AudioTag* t = f->getTagByName(QString::fromStdString(nameOfTag));
+    AudioTag* t = f->getTagByName(nameOfTag);
     if(t == NULL) {
         return;
     }
@@ -447,17 +447,17 @@ void CreateAlbumDialog::startTagging() {
         }
 
         if(apeCheck->isChecked())
-            saveTagsTo(file, NamesOfTags::APE, title, track, album, artist);
+            saveTagsTo(file, TagFormats::APE, title, track, album, artist);
         if(asfCheck->isChecked())
-            saveTagsTo(file, NamesOfTags::ASF, title, track, album, artist);
+            saveTagsTo(file, TagFormats::ASF, title, track, album, artist);
         if(xiphCommentCheck->isChecked())
-            saveTagsTo(file, NamesOfTags::XIPH, title, track, album, artist);
+            saveTagsTo(file, TagFormats::XIPH, title, track, album, artist);
         if(id3v1Check->isChecked())
-            saveTagsTo(file, NamesOfTags::ID3V1, title, track, album, artist);
+            saveTagsTo(file, TagFormats::ID3V1, title, track, album, artist);
         if(id3v2Check->isChecked())
-            saveTagsTo(file, NamesOfTags::ID3V2, title, track, album, artist);
+            saveTagsTo(file, TagFormats::ID3V2, title, track, album, artist);
         if(infoTagCheck->isChecked())
-            saveTagsTo(file, NamesOfTags::INFO, title, track, album, artist);
+            saveTagsTo(file, TagFormats::INFO, title, track, album, artist);
 
     }
 

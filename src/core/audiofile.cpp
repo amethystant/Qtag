@@ -74,9 +74,9 @@ void AudioFile::open(QString path) {
         hasFileId3v1 = true;
         hasFileId3v2 = true;
         hasFileApeTag = true;
-        id3v1 = new AudioTag(this, f->ID3v1Tag(true), NamesOfTags::ID3V1);
-        id3v2 = new AudioTag(this, f->ID3v2Tag(true), NamesOfTags::ID3V2);
-        apeTag = new AudioTag(this, f->APETag(true), NamesOfTags::APE);
+        id3v1 = new AudioTag(this, f->ID3v1Tag(true), TagFormats::ID3V1);
+        id3v2 = new AudioTag(this, f->ID3v2Tag(true), TagFormats::ID3V2);
+        apeTag = new AudioTag(this, f->APETag(true), TagFormats::APE);
 
     } else if(path.endsWith(".flac", Qt::CaseInsensitive)) {
 
@@ -87,9 +87,9 @@ void AudioFile::open(QString path) {
         hasFileId3v1 = true;
         hasFileId3v2 = true;
         hasFileXiphComment = true;
-        id3v1 = new AudioTag(this, f->ID3v1Tag(true), NamesOfTags::ID3V1);
-        id3v2 = new AudioTag(this, f->ID3v2Tag(true), NamesOfTags::ID3V2);
-        xiphComment = new AudioTag(this, f->xiphComment(true), NamesOfTags::XIPH);
+        id3v1 = new AudioTag(this, f->ID3v1Tag(true), TagFormats::ID3V1);
+        id3v2 = new AudioTag(this, f->ID3v2Tag(true), TagFormats::ID3V2);
+        xiphComment = new AudioTag(this, f->xiphComment(true), TagFormats::XIPH);
 
     } else if(path.endsWith(".wav", Qt::CaseInsensitive) ||
               path.endsWith(".wave", Qt::CaseInsensitive)) {
@@ -100,8 +100,8 @@ void AudioFile::open(QString path) {
         file = f;
         hasFileId3v2 = true;
         hasFileInfoTag = true;
-        id3v2 = new AudioTag(this, f->ID3v2Tag(), NamesOfTags::ID3V2);
-        infoTag = new AudioTag(this, f->InfoTag(), NamesOfTags::INFO);
+        id3v2 = new AudioTag(this, f->ID3v2Tag(), TagFormats::ID3V2);
+        infoTag = new AudioTag(this, f->InfoTag(), TagFormats::INFO);
 
     } else if(path.endsWith(".asf", Qt::CaseInsensitive) ||
               path.endsWith(".wma", Qt::CaseInsensitive)) {
@@ -111,7 +111,7 @@ void AudioFile::open(QString path) {
         TagLib::ASF::File *f = new TagLib::ASF::File(fileName);
         properties = f->audioProperties();
         file = f;
-        asfTag = new AudioTag(this, f->tag(), NamesOfTags::ASF);
+        asfTag = new AudioTag(this, f->tag(), TagFormats::ASF);
 
     } else if(path.endsWith(".wv", Qt::CaseInsensitive)) {
 
@@ -121,8 +121,8 @@ void AudioFile::open(QString path) {
         file = f;
         hasFileApeTag = true;
         hasFileId3v1 = true;
-        apeTag = new AudioTag(this, f->APETag(true), NamesOfTags::APE);
-        id3v1 = new AudioTag(this, f->ID3v1Tag(true), NamesOfTags::ID3V1);
+        apeTag = new AudioTag(this, f->APETag(true), TagFormats::APE);
+        id3v1 = new AudioTag(this, f->ID3v1Tag(true), TagFormats::ID3V1);
 
     } else if(path.endsWith(".ogg", Qt::CaseInsensitive)) {
 
@@ -131,7 +131,7 @@ void AudioFile::open(QString path) {
         TagLib::Ogg::Vorbis::File *f = new TagLib::Ogg::Vorbis::File(fileName);
         properties = f->audioProperties();
         file = f;
-        xiphComment = new AudioTag(this, f->tag(), NamesOfTags::XIPH);
+        xiphComment = new AudioTag(this, f->tag(), TagFormats::XIPH);
 
     }
 
@@ -297,21 +297,21 @@ AudioFile::AudioFormat AudioFile::getFormat() {
 
 /*
  * Returns a pointer to the tag specified by the parameter "name",
- * which must be one of the values in the NamesOfTags namespace
+ * which must be one of the values in the TagFormats namespace
  * (returns NULL if it isn't)
 */
-AudioTag *AudioFile::getTagByName(QString name) {
-    if(name.compare(QString::fromStdString(NamesOfTags::APE)) == 0)
+AudioTag *AudioFile::getTagByName(TagFormat name) {
+    if(name == TagFormats::APE)
         return apeTag;
-    else if(name.compare(QString::fromStdString(NamesOfTags::ASF)) == 0)
+    else if(name == TagFormats::ASF)
         return asfTag;
-    else if(name.compare(QString::fromStdString(NamesOfTags::ID3V1)) == 0)
+    else if(name == TagFormats::ID3V1)
         return id3v1;
-    else if(name.compare(QString::fromStdString(NamesOfTags::ID3V2)) == 0)
+    else if(name == TagFormats::ID3V2)
         return id3v2;
-    else if(name.compare(QString::fromStdString(NamesOfTags::INFO)) == 0)
+    else if(name == TagFormats::INFO)
         return infoTag;
-    else if(name.compare(QString::fromStdString(NamesOfTags::XIPH)) == 0)
+    else if(name == TagFormats::XIPH)
         return xiphComment;
 
         return NULL;

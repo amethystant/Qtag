@@ -30,6 +30,7 @@
 #include <QImage>
 #include <tag.h>
 #include "core/picturefile.h"
+#include "core/main.h"
 
 class AudioFile;
 
@@ -38,7 +39,7 @@ class AudioTag : public QObject {
     Q_OBJECT
 
 public:
-    explicit AudioTag(QObject *parent, TagLib::Tag* tag, std::string nameOfTag);
+    explicit AudioTag(QObject *parent, TagLib::Tag* tag, TagFormat nameOfTag);
     void setTitle(QString title);
     void setTrack(int track);
     void setAlbum(QString album);

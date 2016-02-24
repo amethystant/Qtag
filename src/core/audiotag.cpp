@@ -28,7 +28,7 @@
 #include "core/main.h"
 #include <QFile>
 
-AudioTag::AudioTag(QObject *parent, TagLib::Tag *tag, std::string nameOfTag) :
+AudioTag::AudioTag(QObject *parent, TagLib::Tag *tag, TagFormat nameOfTag) :
     QObject(parent) {
 
     this->tag = tag;
@@ -73,7 +73,7 @@ void AudioTag::setYear(int year) {
 
 void AudioTag::setCoverArt(QString picturePath) {
 
-    if(type == NamesOfTags::ID3V2) {
+    if(type == TagFormats::ID3V2) {
 
         TagLib::ID3v2::Tag* id3v2Tag = (TagLib::ID3v2::Tag*) tag;
         if(picturePath.isEmpty()) {
@@ -132,7 +132,7 @@ int AudioTag::getYear() {
 
 QImage* AudioTag::getCoverArt() {
 
-    if(type == NamesOfTags::ID3V2) {
+    if(type == TagFormats::ID3V2) {
 
         QImage* image = new QImage();
         TagLib::ID3v2::Tag* id3v2Tag = (TagLib::ID3v2::Tag*) tag;

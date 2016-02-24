@@ -119,17 +119,17 @@ void CopyTagsDialog::updateComboBoxes() {
         sourceTagSelection->clear();
 
         if(file->hasApeTag())
-            sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::APE));
+            sourceTagSelection->addItem(QString::fromStdString(TagFormats::APE));
         if(file->hasAsfTag())
-            sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::ASF));
+            sourceTagSelection->addItem(QString::fromStdString(TagFormats::ASF));
         if(file->hasId3v1())
-            sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::ID3V1));
+            sourceTagSelection->addItem(QString::fromStdString(TagFormats::ID3V1));
         if(file->hasId3v2())
-            sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::ID3V2));
+            sourceTagSelection->addItem(QString::fromStdString(TagFormats::ID3V2));
         if(file->hasInfoTag())
-            sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::INFO));
+            sourceTagSelection->addItem(QString::fromStdString(TagFormats::INFO));
         if(file->hasXiphComment())
-            sourceTagSelection->addItem(QString::fromStdString(NamesOfTags::XIPH));
+            sourceTagSelection->addItem(QString::fromStdString(TagFormats::XIPH));
 
         sourceTagSelection->setEnabled(true);
         sourceFile = file;
@@ -150,17 +150,17 @@ void CopyTagsDialog::updateComboBoxes() {
         targetTagSelection->clear();
 
         if(file->hasApeTag())
-            targetTagSelection->addItem(QString::fromStdString(NamesOfTags::APE));
+            targetTagSelection->addItem(QString::fromStdString(TagFormats::APE));
         if(file->hasAsfTag())
-            targetTagSelection->addItem(QString::fromStdString(NamesOfTags::ASF));
+            targetTagSelection->addItem(QString::fromStdString(TagFormats::ASF));
         if(file->hasId3v1())
-            targetTagSelection->addItem(QString::fromStdString(NamesOfTags::ID3V1));
+            targetTagSelection->addItem(QString::fromStdString(TagFormats::ID3V1));
         if(file->hasId3v2())
-            targetTagSelection->addItem(QString::fromStdString(NamesOfTags::ID3V2));
+            targetTagSelection->addItem(QString::fromStdString(TagFormats::ID3V2));
         if(file->hasInfoTag())
-            targetTagSelection->addItem(QString::fromStdString(NamesOfTags::INFO));
+            targetTagSelection->addItem(QString::fromStdString(TagFormats::INFO));
         if(file->hasXiphComment())
-            targetTagSelection->addItem(QString::fromStdString(NamesOfTags::XIPH));
+            targetTagSelection->addItem(QString::fromStdString(TagFormats::XIPH));
 
         targetTagSelection->setEnabled(true);
         targetFile = file;
@@ -194,8 +194,8 @@ void CopyTagsDialog::startCopying() {
     message->setWindowTitle("Copying...");
     message->show();
 
-    copyTags(sourceFile->getTagByName(sourceTagSelection->currentText()),
-             targetFile->getTagByName(targetTagSelection->currentText()));
+    copyTags(sourceFile->getTagByName(sourceTagSelection->currentText().toStdString()),
+             targetFile->getTagByName(targetTagSelection->currentText().toStdString()));
 
     targetFile->save();
 

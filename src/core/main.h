@@ -44,7 +44,7 @@ QString capitalized(QString s);
 const std::string NAME_FILTER = "Audio files (*.mp3 *.wav *.wave *.flac *.ogg *.wma *.asf *.wv)";
 const std::string VERSION = "0.1.2";
 
-namespace NamesOfTags {
+namespace TagFormats {
 
     const std::string APE = "APE tag";
     const std::string ID3V1= "ID3v1 tag";
@@ -54,6 +54,8 @@ namespace NamesOfTags {
     const std::string INFO= "RIFF Info tag";
 
 }
+
+typedef std::string TagFormat;
 
 QStyle* getStyleFromSettings();
 

@@ -81,7 +81,7 @@ public:
     AudioTag* getAsfTag();
     AudioTag* getApeTag();
     AudioFormat getFormat();
-    AudioTag* getTagByName(QString name);
+    AudioTag* getTagByName(TagFormat name);
     QString getType();
     int getBitrate();
     int getChannels();
