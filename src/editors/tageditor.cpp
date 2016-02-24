@@ -25,7 +25,6 @@
 
 
 #include "editors/tageditor.h"
-#include <tstring.h>
 
 TagEditor::TagEditor(AudioTag *tag, QString nameOfTag, QWidget *parent) : QGroupBox(nameOfTag, parent) {
 

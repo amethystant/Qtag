@@ -25,7 +25,6 @@
 
 
 #include "editors/commontageditor.h"
-#include <tstring.h>
 
 CommonTagEditor::CommonTagEditor(AudioTag *tag, QString nameOfTag, QWidget *parent) :
     TagEditor(tag, nameOfTag, parent) {

@@ -27,12 +27,6 @@
 #define TAGEDITORLAYOUT_H
 
 #include <QtWidgets>
-#include <asftag.h>
-#include <id3v1tag.h>
-#include <id3v2tag.h>
-#include <apetag.h>
-#include <infotag.h>
-#include <xiphcomment.h>
 #include <sstream>
 #include "core/main.h"
 
