@@ -75,7 +75,7 @@ private:
 
     void createLayout();
     void tagFormatError();
-    void saveTagsTo(AudioFile* f, std::string nameOfTag,
+    void saveTagsTo(AudioFile* f, TagFormat nameOfTag,
                     QString title, QString track, QString album, QString artist);
 
 private slots:

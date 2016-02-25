@@ -196,7 +196,7 @@ void CreateAlbumDialog::tagFormatError() {
 
 }
 
-void CreateAlbumDialog::saveTagsTo(AudioFile* f, std::string nameOfTag,
+void CreateAlbumDialog::saveTagsTo(AudioFile* f, TagFormat nameOfTag,
                                    QString title, QString track, QString album, QString artist) {
 
     AudioTag* t = f->getTagByName(nameOfTag);
