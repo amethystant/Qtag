@@ -45,8 +45,9 @@ SOURCES += core/main.cpp                                        \
     core/filelist.cpp                                           \
     dialogs/configdialog.cpp                                    \
     editors/assistant_classes/coverartactions.cpp               \
-    core/qtagapp.cpp \
-    core/audiotag.cpp
+    core/qtagapp.cpp                                            \
+    core/audiotag.cpp                                           \
+    actions/actions.cpp
 
 HEADERS += core/picturefile.h                                   \
     editors/id3v2editor.h                                       \
@@ -66,7 +67,8 @@ HEADERS += core/picturefile.h                                   \
     dialogs/configdialog.h                                      \
     editors/assistant_classes/coverartactions.h                 \
     core/qtagapp.h                                              \
-    core/audiotag.h
+    core/audiotag.h                                             \
+    actions/actions.h
 
 FORMS += ui/mainwindow.ui
 
