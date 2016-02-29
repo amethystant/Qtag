@@ -34,10 +34,17 @@ void Actions::duplicateTags(QList<AudioFile*> *files, TagFormat sourceTag,
 
         AudioFile* file = files->at(i);
         AudioTag* source = file->getTagByName(sourceTag);
+        if(source == NULL) {
+            continue;
+        }
 
         for(int j = 0; j < targetTags.length(); j++) {
 
             AudioTag* currentTarget = file->getTagByName(targetTags.at(j));
+            if(currentTarget == NULL) {
+                continue;
+            }
+
             if(options.title) {
                 currentTarget->setTitle(source->getTitle());
             }
@@ -74,6 +81,10 @@ void Actions::writeTagsTo(AudioFile *file, MultipleTaggingPattern pattern,
                           TagFormat format, MultipleTaggingOptions options) {
 
     AudioTag* tag = file->getTagByName(format);
+    if(tag == NULL) {
+        return;
+    }
+
     if(options.title) {
         tag->setTitle(pattern.title);
     }
@@ -124,10 +135,10 @@ void Actions::tagMultipleFiles(QList<AudioFile*> *files, MultipleTaggingPattern 
  * Returns a list of these files, or NULL if the format is invalid.
  */
 QList<AudioFile*>* Actions::createAlbumFromDirectory(FileList* fileList, QString rootDir,
-                                      QList<TagFormat> tagFormats, QString format) {
+                                      QList<TagFormat> tagFormats, QString tagFormat) {
 
     QStringList nameFilters;
-    QString filter = format;
+    QString filter = tagFormat;
 
     if(filter.count('%') == 0) {
         return NULL;
@@ -147,7 +158,7 @@ QList<AudioFile*>* Actions::createAlbumFromDirectory(FileList* fileList, QString
         }
     }
 
-    while(filter.indexOf('%') != -1) {
+   while(filter.indexOf('%') != -1) {
         int i = filter.indexOf('%');
         if(filter.length() - (i+1) == 1) {
             filter.replace(i, 2, '*');
@@ -243,6 +254,7 @@ QList<AudioFile*>* Actions::createAlbumFromDirectory(FileList* fileList, QString
                 track,
                 album,
                 artist;
+        QString format = tagFormat;
         int loop = format.count('%') + format.count('*') + format.count('?');
         for(int i1 = 0; i1 < loop; i1++) {
 
@@ -338,6 +350,9 @@ void Actions::capitalizeTags(AudioFile *file, QList<TagFormat> formats, Multiple
 
     for(int i = 0; i < formats.length(); i++) {
         AudioTag* tag = file->getTagByName(formats.at(i));
+        if(tag == NULL) {
+            continue;
+        }
 
         if(options.title) {
             tag->setTitle(capitalized(tag->getTitle()));
@@ -365,6 +380,10 @@ void Actions::replaceStringsInTags(AudioFile *file, QList<TagFormat> formats,
     for(int i = 0; i < formats.length(); i++) {
 
         AudioTag* tag = file->getTagByName(formats.at(i));
+        if(tag == NULL) {
+            continue;
+        }
+
         if(options.title) {
             QString title = tag->getTitle();
             title.replace(replace, replaceWith);

@@ -63,7 +63,7 @@ namespace Actions {
                        QList<TagFormat> targetTags, MultipleTaggingOptions options);
 
     QList<AudioFile*>* createAlbumFromDirectory(FileList* fileList, QString rootDir,
-                                 QList<TagFormat> tagFormats, QString format);
+                                 QList<TagFormat> tagFormats, QString tagFormat);
 
     void writeTagsTo(AudioFile* file, MultipleTaggingPattern pattern,
                      TagFormat format, MultipleTaggingOptions options);

@@ -26,6 +26,7 @@
 
 #include "dialogs/createalbumdialog.h"
 #include "core/main.h"
+#include "actions/actions.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QGridLayout>
@@ -240,98 +241,30 @@ void CreateAlbumDialog::startTagging() {
         return;
     }
 
-    QStringList nameFilters;
-    QString filter = tagFormatEdit->text();
+    QList<TagFormat> formats;
+    if(apeCheck->isChecked())
+        formats.append(TagFormats::APE);
+    if(asfCheck->isChecked())
+        formats.append(TagFormats::ASF);
+    if(id3v1Check->isChecked())
+        formats.append(TagFormats::ID3V1);
+    if(id3v2Check->isChecked())
+        formats.append(TagFormats::ID3V2);
+    if(xiphCommentCheck->isChecked())
+        formats.append(TagFormats::XIPH);
+    if(infoTagCheck->isChecked())
+        formats.append(TagFormats::INFO);
 
-    if(filter.count('%') == 0) {
+    QList<AudioFile*>* taggedFiles;
+    QString tagFormat = tagFormatEdit->text();
+    taggedFiles = Actions::createAlbumFromDirectory(fileList, directoryEdit->text(),
+                                                    formats, tagFormat);
+
+    if(taggedFiles == NULL) {
         tagFormatError();
         message->done(1);
         return;
-    }
-
-    while(filter.indexOf('*') != -1 && filter.length() != filter.indexOf('*')+1) {
-        int i = filter.indexOf('*');
-        if(filter.at(i+1) == '%' || filter.at(i+1) == '?'|| filter.at(i+1) == '*') {
-            message->done(1);
-            tagFormatError();
-            return;
-        }
-    }
-
-    while(filter.indexOf('?') != -1 && filter.length() != filter.indexOf('?')+1) {
-        int i = filter.indexOf('?');
-        if(filter.at(i+1) == '*' || filter.at(i+1) == '%' || filter.at(i+1) == '*') {
-            message->done(1);
-            tagFormatError();
-            return;
-        }
-    }
-
-    while(filter.indexOf('%') != -1) {
-        int i = filter.indexOf('%');
-        if(filter.length() - (i+1) == 1) {
-            filter.replace(i, 2, '*');
-        } else if(filter.endsWith('%') ||
-              ( filter.at(i+1) != 'a' &&
-                filter.at(i+1) != 'l' &&
-                filter.at(i+1) != 'r' &&
-                filter.at(i+1) != 't'    ) ||
-                filter.at(i+2) == '*' ||
-                filter.at(i+2) == '?' ||
-                filter.at(i+2) == '%') {
-
-            message->done(1);
-            tagFormatError();
-            return;
-
-        } else {
-            filter.replace(i, 2, "*");
-        }
-    }
-
-    QString nameFilter = filter;
-    int i = nameFilter.lastIndexOf('/');
-    nameFilter.remove(0, i+1);
-
-    nameFilters.append(nameFilter + ".mp3");
-    nameFilters.append(nameFilter + ".asf");
-    nameFilters.append(nameFilter + ".ogg");
-    nameFilters.append(nameFilter + ".wma");
-    nameFilters.append(nameFilter + ".flac");
-    nameFilters.append(nameFilter + ".wv");
-    nameFilters.append(nameFilter + ".wav");
-    nameFilters.append(nameFilter + ".wave");
-
-    QDirIterator dirIterator(directoryEdit->text(), nameFilters, QDir::Files,
-                               QDirIterator::Subdirectories);
-
-    QStringList* files = new QStringList();
-    while(dirIterator.hasNext()) {
-        files->append(dirIterator.next());
-    }
-
-    for(i = 0; i < files->length();) {
-        QString s = files->at(i);
-        s.remove(directoryEdit->text() + "/");
-        if(s.count('/') != filter.count('/')) {
-            files->removeAt(i);
-        } else {
-            i++;
-        }
-    }
-
-    for(i = 0; i < files->length();) {
-
-        QRegExp r(directoryEdit->text() + "/" + filter + ".*", Qt::CaseSensitive, QRegExp::Wildcard);
-        if(!r.exactMatch(files->at(i))) {
-            files->removeAt(i);
-        } else {
-            i++;
-        }
-
-    }
-
-    if(files->isEmpty()) {
+    } else if(taggedFiles->length() == 0) {
         QMessageBox* msg = new QMessageBox(this);
         msg->setWindowTitle("Error");
         msg->setText("No file matches the tag format.");
@@ -341,127 +274,37 @@ void CreateAlbumDialog::startTagging() {
         return;
     }
 
-    for(i = 0; i < files->length(); i++) {
+    Actions::MultipleTaggingOptions options;
 
-        QString path = files->at(i);
+    options.album = false;
+    options.artist = false;
+    options.title = false;
+    options.comment = false;
+    options.genre = false;
 
-        AudioFile* file = fileList->getFileByPath(path);
-        if(file == NULL) {
-            for(int i = 0; i < fileList->closed_length(); i++) {
-                AudioFile* f = fileList->closed_at(i);
-                if(f->getPath() == path) {
-                    file = f;
-                    i = fileList->closed_length();
-                }
-            }
-        }
-        if(file == NULL) {
-            fileList->addFileToList(path);
-            file = fileList->getFileByPath(path);
-        }
-
-        QString currentFile = files->at(i);
-        currentFile.remove(0, directoryEdit->text().length() + 1);
-        currentFile.remove(currentFile.lastIndexOf('.'),
-                           currentFile.length() - currentFile.lastIndexOf('.'));
-        QString format = tagFormatEdit->text();
-        QString title,
-                track,
-                album,
-                artist;
-        int loop = format.count('%') + format.count('*') + format.count('?');
-        for(int i1 = 0; i1 < loop; i1++) {
-
-            int index = format.indexOf('%');
-            int index1 = format.indexOf('*');
-            int index2 = format.indexOf('?');
-            if((index < index1 || index1 == -1)&&
-                    (index < index2 || index2 == -1) && index != -1) {
-
-                QString s = format.section('%', 1, 1);
-                QChar symbol  = s.at(0);
-                s.remove(0, 1);
-                int in;
-                if(!s.isEmpty())
-                    in = currentFile.indexOf(s, index);
-                else
-                    in = currentFile.length();
-                QString extractedString = currentFile.mid(index, in-index);
-                format.replace(format.indexOf('%'), 2, extractedString);
-                if(symbol == 'a') {
-                    artist = extractedString;
-                } else if(symbol == 'l') {
-                    album = extractedString;
-                } else if(symbol == 'r') {
-                    track = extractedString;
-                } else if(symbol == 't') {
-                    title = extractedString;
-                }
-
-            } else if((index1 < index || index == -1) &&
-                      (index1 < index2 || index2 == -1) && index1 != -1) {
-
-                QString s = format.section('*', 1, 1);
-                int in;
-                if(!s.isEmpty())
-                    in = currentFile.indexOf(s, index1);
-                else
-                    in = currentFile.length();
-                QString extractedString = currentFile.mid(index1, in-index1);
-                format.replace(format.indexOf('*'), 1, extractedString);
-
-
-            } else if((index2 < index || index == -1) &&
-                      (index2 < index1 || index1 == -1) && index2 != -1) {
-
-
-                QString extractedChar = currentFile.mid(index1, 1);
-                format.replace(format.indexOf('?'), 1, extractedChar);
-
-            }
-
-        }
-
-        if(!replaceStringEdit->text().isEmpty()) {
-            if(!title.isEmpty()) {
-                title.replace(replaceStringEdit->text(), replaceByEdit->text());
-            }
-            if(!album.isEmpty()) {
-                album.replace(replaceStringEdit->text(), replaceByEdit->text());
-            }
-            if(!artist.isEmpty()) {
-                artist.replace(replaceStringEdit->text(), replaceByEdit->text());
-            }
-        }
-
-        if(makeCapitalLettersCheck->isChecked()) {
-            if(!artist.isEmpty()) {
-                artist = capitalized(artist);
-            }
-            if(!album.isEmpty()) {
-                album = capitalized(album);
-            }
-            if(!title.isEmpty()) {
-                title = capitalized(title);
-            }
-        }
-
-        if(apeCheck->isChecked())
-            saveTagsTo(file, TagFormats::APE, title, track, album, artist);
-        if(asfCheck->isChecked())
-            saveTagsTo(file, TagFormats::ASF, title, track, album, artist);
-        if(xiphCommentCheck->isChecked())
-            saveTagsTo(file, TagFormats::XIPH, title, track, album, artist);
-        if(id3v1Check->isChecked())
-            saveTagsTo(file, TagFormats::ID3V1, title, track, album, artist);
-        if(id3v2Check->isChecked())
-            saveTagsTo(file, TagFormats::ID3V2, title, track, album, artist);
-        if(infoTagCheck->isChecked())
-            saveTagsTo(file, TagFormats::INFO, title, track, album, artist);
-
+    if(tagFormat.count("%t")) {
+        options.title = true;
+    }
+    if(tagFormat.count("%a")) {
+        options.artist = true;
+    }
+    if(tagFormat.count("%l")) {
+        options.album = true;
     }
 
-    delete files;
+    if(!replaceStringEdit->text().isEmpty()) {
+        for(int i = 0; i < taggedFiles->length(); i++) {
+            Actions::replaceStringsInTags(taggedFiles->at(i), formats, options,
+                                          replaceStringEdit->text(), replaceByEdit->text());
+        }
+    }
+
+    if(makeCapitalLettersCheck->isChecked()) {
+        for(int i = 0; i < taggedFiles->length(); i++) {
+            Actions::capitalizeTags(taggedFiles->at(i), formats, options);
+        }
+    }
+
     message->close();
     delete message;
     close();
