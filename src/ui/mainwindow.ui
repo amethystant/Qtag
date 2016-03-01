@@ -81,7 +81,6 @@
      <string>Tools</string>
     </property>
     <addaction name="actionMultipleTagging"/>
-    <addaction name="actionCopy_tags"/>
     <addaction name="actionCreateAlbumFromDirectory"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
@@ -117,7 +116,6 @@
    <addaction name="actionSaveAll"/>
    <addaction name="separator"/>
    <addaction name="actionMultipleTagging"/>
-   <addaction name="actionCopy_tags"/>
    <addaction name="actionCreateAlbumFromDirectory"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -321,14 +319,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+M</string>
-   </property>
-  </action>
-  <action name="actionCopy_tags">
-   <property name="text">
-    <string>Copy tags...</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+C</string>
    </property>
   </action>
   <action name="actionCreateAlbumFromDirectory">

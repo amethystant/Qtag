@@ -39,7 +39,6 @@ SOURCES += core/main.cpp                                        \
     editors/assistant_classes/pictureselectionbutton.cpp        \
     core/picturefile.cpp                                        \
     editors/commontageditor.cpp                                 \
-    dialogs/copytagsdialog.cpp                                  \
     dialogs/multipletaggingdialog.cpp                           \
     dialogs/createalbumdialog.cpp                               \
     core/filelist.cpp                                           \
@@ -60,7 +59,6 @@ HEADERS += core/picturefile.h                                   \
     editors/assistant_classes/id3genreselection.h               \
     editors/assistant_classes/pictureselectionbutton.h          \
     editors/commontageditor.h                                   \
-    dialogs/copytagsdialog.h                                    \
     dialogs/multipletaggingdialog.h                             \
     dialogs/createalbumdialog.h                                 \
     core/filelist.h                                             \

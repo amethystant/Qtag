@@ -26,7 +26,6 @@
 
 #include "core/mainwindow.h"
 #include "ui_mainwindow.h"
-#include "dialogs/copytagsdialog.h"
 #include "dialogs/multipletaggingdialog.h"
 #include "core/main.h"
 #include "dialogs/createalbumdialog.h"
@@ -57,7 +56,6 @@ MainWindow::MainWindow(QtagApp *app) : QMainWindow(), ui(new Ui::MainWindow) {
                      this, SLOT(openInEditor(QTreeWidgetItem*)));
     QObject::connect(ui->actionSaveAll, SIGNAL(triggered()), this, SLOT(saveAll()));
     QObject::connect(ui->actionClose_all, SIGNAL(triggered()), this, SLOT(closeAll()));
-    QObject::connect(ui->actionCopy_tags, SIGNAL(triggered()), this, SLOT(openCopyTagsDialog()));
     QObject::connect(ui->actionMultipleTagging, SIGNAL(triggered()), this,
                      SLOT(openMultipleTaggingDialog()));
     QObject::connect(ui->actionCreateAlbumFromDirectory, SIGNAL(triggered()),
@@ -93,7 +91,6 @@ void MainWindow::setIcons() {
     if(iconTheme == "native") {
 
         ui->actionQuit->setIcon(QIcon::fromTheme("application-exit", QIcon(":/images/application-exit.png")));
-        ui->actionCopy_tags->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/images/copytags.png")));
         ui->actionCreateAlbumFromDirectory->setIcon(QIcon::fromTheme("media-optical", QIcon(":/images/createalbum.png")));
         ui->actionAbout->setIcon(QIcon::fromTheme("help-about", QIcon(":/images/info.png")));
         ui->actionOpenDirectory->setIcon(QIcon::fromTheme("folder-open", QIcon(":/images/opendirectory.png")));
@@ -107,7 +104,6 @@ void MainWindow::setIcons() {
     } else {
 
         ui->actionQuit->setIcon(QIcon(":/images/application-exit.png"));
-        ui->actionCopy_tags->setIcon(QIcon(":/images/copytags.png"));
         ui->actionCreateAlbumFromDirectory->setIcon(QIcon(":/images/createalbum.png"));
         ui->actionAbout->setIcon(QIcon(":/images/info.png"));
         ui->actionOpenDirectory->setIcon(QIcon(":/images/opendirectory.png"));
@@ -461,16 +457,6 @@ void MainWindow::saveAll() {
     message->close();
     delete message;
     updateWindowTitle();
-
-}
-
-void MainWindow::openCopyTagsDialog() {
-
-    closeEditor();
-    listOfLayouts.clear();
-    CopyTagsDialog* dialog = new CopyTagsDialog(this, listOfFiles);
-    dialog->exec();
-    updateViews();
 
 }
 
