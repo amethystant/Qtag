@@ -441,7 +441,7 @@ Ui::MainWindow* MainWindow::getUI() {
 */
 void MainWindow::saveAll() {
 
-    if(listOfLayouts.length() == 0) {
+    if(listOfFiles->length() == 0) {
         return;
     }
     QMessageBox* message = new QMessageBox(this);
@@ -451,9 +451,9 @@ void MainWindow::saveAll() {
     message->show();
 
     int i;
-    for( i = 0; i < listOfLayouts.length(); i++ ) {
-        TagEditorLayout* l = listOfLayouts.at(i);
-        l->getFile()->save();
+    for( i = 0; i < listOfFiles->length(); i++ ) {
+        AudioFile* file = listOfFiles->at(i);
+        file->save();
     }
 
     updateViews();
