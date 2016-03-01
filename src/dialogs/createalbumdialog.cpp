@@ -138,7 +138,6 @@ void CreateAlbumDialog::openDirectorySelection() {
 
     QFileDialog d(this);
     d.setFileMode(QFileDialog::DirectoryOnly);
-    d.setOption(QFileDialog::DontUseNativeDialog);
     d.setViewMode(QFileDialog::Detail);
     d.show();
     if(d.exec()) {

@@ -180,7 +180,6 @@ void MultipleTaggingDialog::openFiles() {
 
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setOption(QFileDialog::DontUseNativeDialog);
     dialog.setNameFilter(
                 tr(NAME_FILTER.c_str()));
     dialog.setViewMode(QFileDialog::Detail);
