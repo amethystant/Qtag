@@ -28,6 +28,7 @@
 #include "core/main.h"
 #include "core/picturefile.h"
 #include "core/audiotag.h"
+#include "actions/actions.h"
 #include <QPushButton>
 #include <QFileDialog>
 #include <QGridLayout>
@@ -194,64 +195,7 @@ void MultipleTaggingDialog::openFiles() {
 
 }
 
-void MultipleTaggingDialog::saveTagsTo(TagFormat nameOfTag, QString path) {
-
-    AudioFile* file = fileList->getFileByPath(path);
-    if(file == NULL) {
-        fileList->addFileToList(path);
-        file = fileList->getFileByPath(path);
-    }
-
-    AudioTag* tag = file->getTagByName(nameOfTag);
-    if(tag == NULL)
-        return;
-
-    if(titleCheck->isChecked()) {
-        tag->setTitle(title);
-    }
-    if(trackCheck->isChecked()) {
-        tag->setTrack(track);
-    }
-    if(albumCheck->isChecked()) {
-        tag->setAlbum(album);
-    }
-    if(artistCheck->isChecked()) {
-        tag->setArtist(artist);
-    }
-    if(commentCheck->isChecked()) {
-        tag->setComment(comment);
-    }
-    if(genreCheck->isChecked()) {
-        tag->setGenre(genre);
-    }
-    if(yearCheck->isChecked()) {
-        tag->setYear(year);
-    }
-
-    if(coverCheck->isChecked() && nameOfTag == TagFormats::ID3V2) {
-
-        tag->setCoverArt("");
-
-        if(cover != coverEditDefaultText) {
-            tag->setCoverArt(cover);
-        }
-
-    }
-
-    file->save();
-
-}
-
 void MultipleTaggingDialog::startTagging() {
-
-    title = titleEdit->text();
-    track = trackEdit->text().toInt();
-    album = albumEdit->text();
-    artist = artistEdit->text();
-    year = yearEdit->text().toInt();
-    comment = commentEdit->text();
-    genre = genreEdit->currentText();
-    cover = coverEdit->text();
 
     QMessageBox* message = new QMessageBox(this);
     message->setWindowTitle(windowTitle());
@@ -259,23 +203,73 @@ void MultipleTaggingDialog::startTagging() {
     message->setStandardButtons(QMessageBox::NoButton);
     message->show();
 
+    Actions::MultipleTaggingPattern pattern;
+    pattern.title = titleEdit->text();
+    pattern.track = trackEdit->text().toInt();
+    pattern.album = albumEdit->text();
+    pattern.artist = artistEdit->text();
+    pattern.year = yearEdit->text().toInt();
+    pattern.comment = commentEdit->text();
+    pattern.genre = genreEdit->currentText();
+    pattern.coverArt = coverEdit->text();
+
+    Actions::MultipleTaggingOptions options;
+    options.title = false;
+    options.album = false;
+    options.track = false;
+    options.artist = false;
+    options.genre = false;
+    options.year = false;
+    options.comment = false;
+    options.coverArt = false;
+
+    if(titleCheck->isChecked())
+        options.title = true;
+    if(trackCheck->isChecked())
+        options.track = true;
+    if(albumCheck->isChecked())
+        options.album = true;
+    if(artistCheck->isChecked())
+        options.artist = true;
+    if(yearCheck->isChecked())
+        options.year = true;
+    if(genreCheck->isChecked())
+        options.genre = true;
+    if(commentCheck->isChecked())
+        options.comment = true;
+    if(coverCheck->isChecked())
+        options.coverArt = true;
+
+    QList<AudioFile*>* list = new QList<AudioFile*>();
+
     for(int i = 0; i < listOfFiles.length(); i++) {
 
         QString path = listOfFiles.at(i);
-        if(apeCheck->isChecked())
-            saveTagsTo(TagFormats::APE, path);
-        if(asfCheck->isChecked())
-            saveTagsTo(TagFormats::ASF, path);
-        if(id3v1Check->isChecked())
-            saveTagsTo(TagFormats::ID3V1, path);
-        if(id3v2Check->isChecked())
-            saveTagsTo(TagFormats::ID3V2, path);
-        if(infoTagCheck->isChecked())
-            saveTagsTo(TagFormats::INFO, path);
-        if(xiphCommentCheck->isChecked())
-            saveTagsTo(TagFormats::XIPH, path);
+        AudioFile* file = fileList->getFileByPath(path);
+        if(file == NULL) {
+            fileList->addFileToList(path);
+            file = fileList->getFileByPath(path);
+        }
+
+        list->append(file);
 
     }
+
+    QList<TagFormat> formats;
+    if(id3v1Check->isChecked())
+        formats.append(TagFormats::ID3V1);
+    if(id3v2Check->isChecked())
+        formats.append(TagFormats::ID3V2);
+    if(apeCheck->isChecked())
+        formats.append(TagFormats::APE);
+    if(asfCheck->isChecked())
+        formats.append(TagFormats::ASF);
+    if(xiphCommentCheck->isChecked())
+        formats.append(TagFormats::XIPH);
+    if(infoTagCheck->isChecked())
+        formats.append(TagFormats::INFO);
+
+    Actions::tagMultipleFiles(list, pattern, formats, options);
 
     message->close();
     delete message;
