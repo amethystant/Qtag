@@ -199,19 +199,9 @@ void MultipleTaggingDialog::saveTagsTo(TagFormat nameOfTag, QString path) {
 
     AudioFile* file = fileList->getFileByPath(path);
     if(file == NULL) {
-        for(int i = 0; i < fileList->closed_length(); i++) {
-            AudioFile* f = fileList->closed_at(i);
-            if(f->getPath() == path) {
-                file = f;
-                i = fileList->closed_length();
-            }
-        }
-    }
-    if(file == NULL) {
         fileList->addFileToList(path);
         file = fileList->getFileByPath(path);
     }
-
 
     AudioTag* tag = file->getTagByName(nameOfTag);
     if(tag == NULL)

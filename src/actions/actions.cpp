@@ -232,15 +232,6 @@ QList<AudioFile*>* Actions::createAlbumFromDirectory(FileList* fileList, QString
 
         AudioFile* file = fileList->getFileByPath(path);
         if(file == NULL) {
-            for(int i = 0; i < fileList->closed_length(); i++) {
-                AudioFile* f = fileList->closed_at(i);
-                if(f->getPath() == path) {
-                    file = f;
-                    i = fileList->closed_length();
-                }
-            }
-        }
-        if(file == NULL) {
             fileList->addFileToList(path);
             file = fileList->getFileByPath(path);
         }
