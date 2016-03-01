@@ -280,7 +280,6 @@ void MultipleTaggingDialog::startTagging() {
 void MultipleTaggingDialog::selectCover() {
 
     QFileDialog dialog(this);
-    dialog.setOption(QFileDialog::DontUseNativeDialog);
 #ifdef WIN32
     dialog.setDirectory("C:/");
 #else
