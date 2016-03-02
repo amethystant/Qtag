@@ -153,6 +153,10 @@ QImage* AudioTag::getCoverArt() {
 
 }
 
+TagFormat AudioTag::getFormat() {
+    return type;
+}
+
 bool AudioTag::isEmpty() {
     return tag->isEmpty();
 }

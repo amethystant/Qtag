@@ -57,12 +57,13 @@ public:
     QString getComment();
     int getYear();
     QImage* getCoverArt();
+    TagFormat getFormat();
 
     bool isEmpty();
 
 private:
     TagLib::Tag* tag;
-    std::string type;
+    TagFormat type;
 
 signals:
     void edited();
