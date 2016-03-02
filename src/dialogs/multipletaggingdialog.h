@@ -31,6 +31,7 @@
 #include <QLineEdit>
 #include <QGroupBox>
 #include <QCheckBox>
+#include <QRadioButton>
 #include "core/audiofile.h"
 #include "editors/assistant_classes/id3genreselection.h"
 #include "core/filelist.h"
@@ -47,6 +48,14 @@ private:
     QLineEdit* filesEdit;
     QPushButton* selectFilesButton;
     QGroupBox* filesGroup;
+
+    QRadioButton* multipleTaggingButton;
+    QRadioButton* duplicateTagsButton;
+    QGroupBox* operationGroup;
+
+    QLabel* sourceTagLabel;
+    QComboBox* sourceTagBox;
+    QGroupBox* duplicateTagsGroup;
 
     QCheckBox* apeCheck;
     QCheckBox* asfCheck;
@@ -98,6 +107,7 @@ private slots:
     void startTagging();
     void openFiles();
     void selectCover();
+    void selectOperation();
 
 };
 

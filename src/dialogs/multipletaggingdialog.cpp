@@ -47,6 +47,20 @@ MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, FileList *list) :
     selectFilesButton  = new QPushButton("Select files", this);
     filesGroup = new QGroupBox("Files", this);
 
+    multipleTaggingButton = new QRadioButton("Multiple tagging", this);
+    duplicateTagsButton = new QRadioButton("Duplicate tags", this);
+    operationGroup = new QGroupBox("Operation:", this);
+
+    sourceTagLabel = new QLabel("Source tag:", this);
+    sourceTagBox = new QComboBox(this);
+    sourceTagBox->addItem(QString(TagFormats::ID3V1.c_str()));
+    sourceTagBox->addItem(QString(TagFormats::ID3V2.c_str()));
+    sourceTagBox->addItem(QString(TagFormats::APE.c_str()));
+    sourceTagBox->addItem(QString(TagFormats::ASF.c_str()));
+    sourceTagBox->addItem(QString(TagFormats::XIPH.c_str()));
+    sourceTagBox->addItem(QString(TagFormats::INFO.c_str()));
+    duplicateTagsGroup = new QGroupBox("Duplicate tags", this);
+
     apeCheck = new QCheckBox("APE tags", this);
     apeCheck->setChecked(true);
     asfCheck = new QCheckBox("ASF tags", this);
@@ -61,21 +75,21 @@ MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, FileList *list) :
     xiphCommentCheck->setChecked(true);
     tagsGroup = new QGroupBox("Include:", this);
 
-    titleCheck = new QCheckBox("Title:", this);
+    titleCheck = new QCheckBox("Title", this);
     titleCheck->setChecked(true);
-    trackCheck = new QCheckBox("Track:", this);
+    trackCheck = new QCheckBox("Track", this);
     trackCheck->setChecked(true);
-    albumCheck = new QCheckBox("Album:", this);
+    albumCheck = new QCheckBox("Album", this);
     albumCheck->setChecked(true);
-    artistCheck = new QCheckBox("Artist:", this);
+    artistCheck = new QCheckBox("Artist", this);
     artistCheck->setChecked(true);
-    genreCheck = new QCheckBox("Genre:", this);
+    genreCheck = new QCheckBox("Genre", this);
     genreCheck->setChecked(true);
-    yearCheck = new QCheckBox("Year:", this);
+    yearCheck = new QCheckBox("Year", this);
     yearCheck->setChecked(true);
-    commentCheck = new QCheckBox("Comment:", this);
+    commentCheck = new QCheckBox("Comment", this);
     commentCheck->setChecked(true);
-    coverCheck = new QCheckBox("Cover art:", this);
+    coverCheck = new QCheckBox("Cover art", this);
     coverCheck->setChecked(true);
     titleEdit = new QLineEdit(this);
     trackEdit = new QLineEdit(this);
@@ -95,6 +109,10 @@ MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, FileList *list) :
     okButton = new QPushButton("OK", this);
     cancelButton = new QPushButton("Cancel", this);
 
+
+    multipleTaggingButton->setChecked(true);
+    selectOperation();
+
     QObject::connect(titleCheck, SIGNAL(clicked(bool)), titleEdit, SLOT(setEnabled(bool)));
     QObject::connect(trackCheck, SIGNAL(clicked(bool)), trackEdit, SLOT(setEnabled(bool)));
     QObject::connect(albumCheck, SIGNAL(clicked(bool)), albumEdit, SLOT(setEnabled(bool)));
@@ -104,6 +122,8 @@ MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, FileList *list) :
     QObject::connect(commentCheck, SIGNAL(clicked(bool)), commentEdit, SLOT(setEnabled(bool)));
     QObject::connect(coverCheck, SIGNAL(clicked(bool)), selectCoverButton, SLOT(setEnabled(bool)));
 
+    QObject::connect(multipleTaggingButton, SIGNAL(toggled(bool)), this, SLOT(selectOperation()));
+    QObject::connect(duplicateTagsButton, SIGNAL(toggled(bool)), this, SLOT(selectOperation()));
     QObject::connect(selectCoverButton, SIGNAL(clicked()), this, SLOT(selectCover()));
     QObject::connect(selectFilesButton, SIGNAL(clicked()), this, SLOT(openFiles()));
     QObject::connect(okButton, SIGNAL(clicked()), this, SLOT(startTagging()));
@@ -124,56 +144,70 @@ void MultipleTaggingDialog::createLayout() {
     layout1->addWidget(selectFilesButton, 0, 2);
     filesGroup->setLayout(layout1);
 
-    QGridLayout* layout2 = new QGridLayout();
-    layout2->addWidget(apeCheck, 0, 0);
-    layout2->addWidget(asfCheck, 0, 1);
-    layout2->addWidget(id3v1Check, 1, 0);
-    layout2->addWidget(id3v2Check, 1, 1);
-    layout2->addWidget(xiphCommentCheck, 2, 0);
-    layout2->addWidget(infoTagCheck, 2, 1);
-    tagsGroup->setLayout(layout2);
+    QHBoxLayout* layout2 = new QHBoxLayout();
+    layout2->addWidget(multipleTaggingButton);
+    layout2->addWidget(duplicateTagsButton);
+    operationGroup->setLayout(layout2);
 
-    QGridLayout* layout3 = new QGridLayout();
+    QHBoxLayout* layout3 = new QHBoxLayout();
+    layout3->addWidget(sourceTagLabel);
+    layout3->addWidget(sourceTagBox);
+    duplicateTagsGroup->setLayout(layout3);
+
+    QGridLayout* layout4 = new QGridLayout();
+    layout4->addWidget(apeCheck, 0, 0);
+    layout4->addWidget(asfCheck, 0, 1);
+    layout4->addWidget(id3v1Check, 1, 0);
+    layout4->addWidget(id3v2Check, 1, 1);
+    layout4->addWidget(xiphCommentCheck, 2, 0);
+    layout4->addWidget(infoTagCheck, 2, 1);
+    tagsGroup->setLayout(layout4);
+
+    QGridLayout* layout5 = new QGridLayout();
     i = 0;
-    layout3->addWidget(titleCheck, i, 0);
-    layout3->addWidget(titleEdit, i, 1);
+    layout5->addWidget(titleCheck, i, 0);
+    layout5->addWidget(titleEdit, i, 1);
     i++;
-    layout3->addWidget(trackCheck, i, 0);
-    layout3->addWidget(trackEdit, i, 1);
+    layout5->addWidget(trackCheck, i, 0);
+    layout5->addWidget(trackEdit, i, 1);
     i++;
-    layout3->addWidget(albumCheck, i, 0);
-    layout3->addWidget(albumEdit, i, 1);
+    layout5->addWidget(albumCheck, i, 0);
+    layout5->addWidget(albumEdit, i, 1);
     i++;
-    layout3->addWidget(artistCheck, i, 0);
-    layout3->addWidget(artistEdit, i, 1);
+    layout5->addWidget(artistCheck, i, 0);
+    layout5->addWidget(artistEdit, i, 1);
     i++;
-    layout3->addWidget(genreCheck, i, 0);
-    layout3->addWidget(genreEdit, i, 1);
+    layout5->addWidget(genreCheck, i, 0);
+    layout5->addWidget(genreEdit, i, 1);
     i++;
-    layout3->addWidget(yearCheck, i, 0);
-    layout3->addWidget(yearEdit, i, 1);
+    layout5->addWidget(yearCheck, i, 0);
+    layout5->addWidget(yearEdit, i, 1);
     i++;
-    layout3->addWidget(commentCheck, i, 0);
-    layout3->addWidget(commentEdit, i, 1);
+    layout5->addWidget(commentCheck, i, 0);
+    layout5->addWidget(commentEdit, i, 1);
     i++;
-    layout3->addWidget(coverCheck, i, 0);
-    layout3->addWidget(coverEdit, i, 1);
+    layout5->addWidget(coverCheck, i, 0);
+    layout5->addWidget(coverEdit, i, 1);
     i++;
-    layout3->addWidget(selectCoverButton, i, 0);
-    editorGroup->setLayout(layout3);
+    layout5->addWidget(selectCoverButton, i, 0);
+    editorGroup->setLayout(layout5);
 
-    QHBoxLayout* layout4 = new QHBoxLayout();
-    layout4->addWidget(okButton);
-    layout4->addWidget(cancelButton);
+    QHBoxLayout* layout6 = new QHBoxLayout();
+    layout6->addWidget(okButton);
+    layout6->addWidget(cancelButton);
 
     i = layout->rowCount();
     layout->addWidget(filesGroup, i, 0);
+    i++;
+    layout->addWidget(operationGroup, i, 0);
+    i++;
+    layout->addWidget(duplicateTagsGroup, i, 0);
     i++;
     layout->addWidget(tagsGroup, i, 0);
     i++;
     layout->addWidget(editorGroup, i, 0);
     i++;
-    layout->addLayout(layout4, i, 0);
+    layout->addLayout(layout6, i, 0);
 
 }
 
@@ -269,7 +303,24 @@ void MultipleTaggingDialog::startTagging() {
     if(infoTagCheck->isChecked())
         formats.append(TagFormats::INFO);
 
-    Actions::tagMultipleFiles(list, pattern, formats, options);
+    if(multipleTaggingButton->isChecked()) {
+        Actions::tagMultipleFiles(list, pattern, formats, options);
+    } else {
+        TagFormat sourceFormat;
+        if(sourceTagBox->currentText() == QString(TagFormats::ID3V1.c_str()))
+            sourceFormat = TagFormats::ID3V1;
+        if(sourceTagBox->currentText() == QString(TagFormats::ID3V2.c_str()))
+            sourceFormat = TagFormats::ID3V2;
+        if(sourceTagBox->currentText() == QString(TagFormats::APE.c_str()))
+            sourceFormat = TagFormats::APE;
+        if(sourceTagBox->currentText() == QString(TagFormats::ASF.c_str()))
+            sourceFormat = TagFormats::ASF;
+        if(sourceTagBox->currentText() == QString(TagFormats::XIPH.c_str()))
+            sourceFormat = TagFormats::XIPH;
+        if(sourceTagBox->currentText() == QString(TagFormats::INFO.c_str()))
+            sourceFormat = TagFormats::INFO;
+        Actions::duplicateTags(list, sourceFormat, formats, options);
+    }
 
     message->close();
     delete message;
@@ -293,6 +344,40 @@ void MultipleTaggingDialog::selectCover() {
         QStringList nameList = dialog.selectedFiles();
         QString name = nameList.join("");
         coverEdit->setText(name);
+    }
+
+}
+
+void MultipleTaggingDialog::selectOperation() {
+
+    if(multipleTaggingButton->isChecked()) {
+
+        duplicateTagsGroup->setVisible(false);
+
+        titleEdit->setVisible(true);
+        trackEdit->setVisible(true);
+        albumEdit->setVisible(true);
+        artistEdit->setVisible(true);
+        genreEdit->setVisible(true);
+        commentEdit->setVisible(true);
+        yearEdit->setVisible(true);
+        coverEdit->setVisible(true);
+        selectCoverButton->setVisible(true);
+
+    } else {
+
+        duplicateTagsGroup->setVisible(true);
+
+        titleEdit->setVisible(false);
+        trackEdit->setVisible(false);
+        albumEdit->setVisible(false);
+        artistEdit->setVisible(false);
+        genreEdit->setVisible(false);
+        commentEdit->setVisible(false);
+        yearEdit->setVisible(false);
+        coverEdit->setVisible(false);
+        selectCoverButton->setVisible(false);
+
     }
 
 }
