@@ -66,8 +66,10 @@ void Actions::duplicateTags(QList<AudioFile*> *files, TagFormat sourceTag,
             if(options.year) {
                 currentTarget->setYear(source->getYear());
             }
-            if(options.coverArt) {
-                source->getCoverArt()->save("cover.png", "PNG");
+            if(options.coverArt && source->getFormat() == TagFormats::ID3V2) {
+                QImage* cover = source->getCoverArt();
+                if(cover != NULL)
+                    cover->save("cover.png", "PNG");
                 currentTarget->setCoverArt("cover.png");
                 QFile::remove("cover.png");
             }
