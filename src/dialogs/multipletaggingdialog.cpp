@@ -163,8 +163,8 @@ void MultipleTaggingDialog::createLayout() {
     editorGroup->setLayout(layout3);
 
     QHBoxLayout* layout4 = new QHBoxLayout();
-    layout4->addWidget(cancelButton);
     layout4->addWidget(okButton);
+    layout4->addWidget(cancelButton);
 
     i = layout->rowCount();
     layout->addWidget(filesGroup, i, 0);
