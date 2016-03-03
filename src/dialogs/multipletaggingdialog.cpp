@@ -197,17 +197,19 @@ void MultipleTaggingDialog::createLayout() {
     layout6->addWidget(cancelButton);
 
     i = layout->rowCount();
-    layout->addWidget(filesGroup, i, 0);
+    int j = 0;
+    layout->addWidget(filesGroup, i, j);
     i++;
-    layout->addWidget(operationGroup, i, 0);
+    layout->addWidget(operationGroup, i, j);
     i++;
-    layout->addWidget(duplicateTagsGroup, i, 0);
+    layout->addWidget(duplicateTagsGroup, i, j);
     i++;
-    layout->addWidget(tagsGroup, i, 0);
-    i++;
-    layout->addWidget(editorGroup, i, 0);
-    i++;
-    layout->addLayout(layout6, i, 0);
+    layout->addWidget(tagsGroup, i, j);
+    i = 0;
+    j++;
+    layout->addWidget(editorGroup, i, j, 5, 1);
+    i = layout->rowCount();
+    layout->addLayout(layout6, i, j);
 
 }
 
