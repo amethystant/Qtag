@@ -26,7 +26,7 @@
 #include "editors/id3v1editor.h"
 
 Id3v1Editor::Id3v1Editor(AudioTag *tag, QWidget *parent) :
-    TagEditor(tag, "ID3v1 tag", parent) {
+    TagEditor(tag, QString(TagFormats::ID3V1.c_str()), parent) {
 
     genreEdit = new Id3GenreSelection(this);
     int i = genreEdit->findText(tag->getGenre());
