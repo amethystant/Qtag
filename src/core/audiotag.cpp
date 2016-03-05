@@ -98,6 +98,21 @@ void AudioTag::setCoverArt(QString picturePath) {
 
         emit edited();
 
+    } else if(type == TagFormats::APE) {
+
+        TagLib::APE::Tag* apeTag = (TagLib::APE::Tag*) tag;
+        apeTag->removeItem("Cover Art (Front)");
+        if(picturePath.isEmpty())
+            return;
+        QFile f(picturePath);
+        if(!f.exists())
+            return;
+        PictureFile picture(picturePath.toStdString().c_str());
+        TagLib::APE::Item item("Cover Art (Front)", picture.getData(), true);
+        apeTag->setItem("Cover Art (Front)", item);
+
+        emit edited();
+
     }
 
 }
@@ -145,6 +160,15 @@ QImage* AudioTag::getCoverArt() {
             static_cast<TagLib::ID3v2::AttachedPictureFrame *>(frameList.front());
         image->loadFromData((const uchar *) pictureFrame->picture().data(), pictureFrame->picture().size());
 
+        return image;
+
+    } else if(type == TagFormats::APE) {
+
+        QImage* image = new QImage();
+        TagLib::APE::Tag* apeTag = (TagLib::APE::Tag*) tag;
+        TagLib::APE::ItemListMap map = apeTag->itemListMap();
+        TagLib::APE::Item item = map["Cover Art (Front)"];
+        image->loadFromData((const uchar*) item.binaryData().data(), item.binaryData().size());
         return image;
 
     } else {
