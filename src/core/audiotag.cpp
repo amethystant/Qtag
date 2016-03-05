@@ -181,6 +181,14 @@ TagFormat AudioTag::getFormat() {
     return type;
 }
 
+bool AudioTag::supportsCoverArt() {
+    if(type == TagFormats::ID3V2 || type == TagFormats::APE) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 bool AudioTag::isEmpty() {
     return tag->isEmpty();
 }

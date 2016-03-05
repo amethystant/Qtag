@@ -59,6 +59,7 @@ public:
     QImage* getCoverArt();
     TagFormat getFormat();
 
+    bool supportsCoverArt();
     bool isEmpty();
 
 private:
