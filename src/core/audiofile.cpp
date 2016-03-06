@@ -166,24 +166,24 @@ void AudioFile::open(QString path) {
 
     delete f;
 #else
-    TagLib::Tag *tag;
-     if(id3v1 && !id3v1->isEmpty())
-         tag = id3v1;
-     else if(id3v2 && !id3v2->isEmpty())
-         tag = id3v2;
-     else if(apeTag && !apeTag->isEmpty())
-         tag = apeTag;
-     else if(asfTag && !asfTag->isEmpty())
-         tag = asfTag;
-     else if(xiphComment && !xiphComment->isEmpty())
-         tag = xiphComment;
-     else if(infoTag && !infoTag->isEmpty())
-         tag = infoTag;
+    AudioTag *tag;
+    if(id3v1 && !id3v1->isEmpty())
+        tag = id3v1;
+    else if(id3v2 && !id3v2->isEmpty())
+        tag = id3v2;
+    else if(apeTag && !apeTag->isEmpty())
+        tag = apeTag;
+    else if(asfTag && !asfTag->isEmpty())
+        tag = asfTag;
+    else if(xiphComment && !xiphComment->isEmpty())
+        tag = xiphComment;
+    else if(infoTag && !infoTag->isEmpty())
+        tag = infoTag;
 
-     name = QString::fromStdString(tag->title().to8Bit(true));
-     track = tag->track();
-     album = QString::fromStdString(tag->album().to8Bit(true));
-     artist = QString::fromStdString(tag->artist().to8Bit(true));
+    name = tag->getTitle();
+    track = tag->getTrack();
+    album = tag->getAlbum();
+    artist = tag->getArtist();
 #endif
 
     bitrate = properties->bitrate();
