@@ -27,6 +27,8 @@
 #define COMMONTAGEDITOR_H
 
 #include "editors/tageditor.h"
+#include "editors/assistant_classes/pictureselectionbutton.h"
+#include "editors/assistant_classes/coverartactions.h"
 #include "core/audiotag.h"
 
 /*
@@ -43,12 +45,27 @@ public:
 private:
     QLabel* genreLabel;
     QLineEdit* genreEdit;
+    QString* picturePath;
+    PictureSelectionButton* pictureSelection;
+    QPushButton* removeCoverButton;
+    QPushButton* extractPictureButton;
+    QPushButton* pictureFullSizeButton;
+    QLabel* picturePreview;
+    QLabel* pictureLabel;
+    QImage *getPictureFromTag();
+    CoverArtActions* coverArtActions;
+
 
 protected:
     virtual void createLayout();
 
 protected slots:
     virtual void updateTags();
+
+private slots:
+    void removeCover();
+    void showPictureFullSize();
+    void savePictureAsFile();
 
 };
 

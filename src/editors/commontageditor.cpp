@@ -33,9 +33,33 @@ CommonTagEditor::CommonTagEditor(AudioTag *tag, QString nameOfTag, QWidget *pare
     genreEdit->setText(tag->getGenre());
     genreLabel = new QLabel("Genre:", this);
 
-    createLayout();
-    QObject::connect(genreEdit, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
+    pictureLabel = new QLabel("Cover:", this);
+    picturePath = new QString();
+    picturePreview = new QLabel(this);
+    picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
+    pictureSelection = new PictureSelectionButton(this, picturePath, picturePreview);
+    extractPictureButton = new QPushButton("Save as a file...", this);
+    removeCoverButton = new QPushButton("Remove cover", this);
+    pictureFullSizeButton = new QPushButton("Show full size");
+    coverArtActions = new CoverArtActions(this, picturePreview);
+    coverArtActions->showPicturePreview(getPictureFromTag());
 
+    if(!tag->supportsCoverArt()) {
+        pictureLabel->setVisible(false);
+        picturePreview->setVisible(false);
+        pictureSelection->setVisible(false);
+        extractPictureButton->setVisible(false);
+        removeCoverButton->setVisible(false);
+        pictureFullSizeButton->setVisible(false);
+    }
+
+    QObject::connect(genreEdit, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
+    QObject::connect(pictureSelection, SIGNAL(pictureChanged()), this, SLOT(updateTags()));
+    QObject::connect(extractPictureButton, SIGNAL(clicked(bool)), this, SLOT(savePictureAsFile()));
+    QObject::connect(pictureFullSizeButton, SIGNAL(clicked()), this, SLOT(showPictureFullSize()));
+    QObject::connect(removeCoverButton, SIGNAL(clicked()), this, SLOT(removeCover()));
+
+    createLayout();
 }
 
 /*
@@ -46,6 +70,9 @@ void CommonTagEditor::updateTags() {
     TagEditor::updateTags();
     tag->setGenre(genreEdit->text());
 
+    if(!picturePath->isEmpty()) {
+        tag->setCoverArt(*picturePath);
+    }
 }
 
 /*
@@ -54,9 +81,45 @@ void CommonTagEditor::updateTags() {
 */
 void CommonTagEditor::createLayout() {
 
-    TagEditor::createLayout();
     int i = layout->rowCount();
+    layout->addWidget(pictureLabel, i, 0);
+    layout->addWidget(picturePreview, i, 1);
+    i++;
+
+    QHBoxLayout* l = new QHBoxLayout();
+    l->addWidget(pictureSelection);
+    l->addWidget(removeCoverButton);
+    layout->addLayout(l, i, 0, 2, 0);
+    i+=2;
+    layout->addWidget(extractPictureButton, i, 0);
+    layout->addWidget(pictureFullSizeButton, i, 1);
+
+    TagEditor::createLayout();
+    i = layout->rowCount();
     layout->addWidget(genreLabel, i, 0);
     layout->addWidget(genreEdit, i, 1);
 
 }
+
+void CommonTagEditor::savePictureAsFile() {
+    coverArtActions->savePictureAsFile(getPictureFromTag());
+}
+
+void CommonTagEditor::showPictureFullSize() {
+    coverArtActions->showPictureFullSize(getPictureFromTag());
+}
+
+QImage* CommonTagEditor::getPictureFromTag() {
+
+    return tag->getCoverArt();
+
+}
+
+void CommonTagEditor::removeCover() {
+
+    picturePath->clear();
+    picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
+    tag->setCoverArt("");
+
+}
+
