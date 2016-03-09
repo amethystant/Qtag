@@ -64,8 +64,6 @@ private:
     void setIcons();
     void closeEditor();
     bool unsavedChanges();
-    void saveSession();
-    void openLastSession();
     void updateViews();
     void updateEditor();
     int askBeforeClosing();
