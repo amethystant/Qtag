@@ -39,7 +39,6 @@ MainWindow::MainWindow(QtagApp *app) : QMainWindow(), ui(new Ui::MainWindow) {
 
     listOfFiles = app->getFileList();
     this->app = app;
-    openedFile = NULL;
     ui->setupUi(this);
     ui->lineEdit_path->setReadOnly(true);
     setIcons();
@@ -313,7 +312,7 @@ void MainWindow::openInEditor(QTreeWidgetItem *file) {
     while(i < listOfFiles->length()) {
 
         if(file->text(1).compare(listOfFiles->at(i)->getPath()) == 0) {
-            openedFile = listOfFiles->at(i);
+            openedFile = listOfFiles->at(i)->getPath();
             i = listOfFiles->length();
         } else {
             i++;
@@ -331,7 +330,7 @@ as the layout of the widget.
 */
 void MainWindow::updateEditor() {
 
-    if(openedFile == NULL) {
+    if(openedFile.isEmpty()) {
         ui->lineEdit_path->clear();
         ui->label_type_value->clear();
         ui->label_bitrate_value->clear();
@@ -342,21 +341,23 @@ void MainWindow::updateEditor() {
         ui->dockWidget_tags->setWidget(w);
         return;
     }
-    ui->lineEdit_path->setText(openedFile->getPath());
+    ui->lineEdit_path->setText(openedFile);
 
-    QString type = openedFile->getType();
-    QString bitrate = intToString(openedFile->getBitrate());
+    AudioFile* file = listOfFiles->getFileByPath(openedFile);
+
+    QString type = file->getType();
+    QString bitrate = intToString(file->getBitrate());
     bitrate.append(" kb/s");
-    QString channels = intToString(openedFile->getChannels());
-    QString length = intToString(openedFile->getLength()/60);
+    QString channels = intToString(file->getChannels());
+    QString length = intToString(file->getLength()/60);
     length.append(":");
-    QString seconds = intToString(openedFile->getLength()%60);
+    QString seconds = intToString(file->getLength()%60);
     if(seconds.length() == 1) {
         seconds.insert(0, '0');
     }
     length.append(seconds);
     length.append(" min");
-    QString sampleRate = intToString(openedFile->getSampleRate());
+    QString sampleRate = intToString(file->getSampleRate());
     sampleRate.append(" Hz");
     ui->label_type_value->setText(type);
     ui->label_bitrate_value->setText(bitrate);
@@ -364,9 +365,9 @@ void MainWindow::updateEditor() {
     ui->label_length_value->setText(length);
     ui->label_sampleRate_value->setText(sampleRate);
 
-    QObject::connect(openedFile, SIGNAL(editedOrSaved()), this, SLOT(updateWindowTitle()));
+    QObject::connect(file, SIGNAL(editedOrSaved()), this, SLOT(updateWindowTitle()));
 
-    TagEditorLayout* editorLayout = findLayout(openedFile);
+    TagEditorLayout* editorLayout = findLayout(file);
     QWidget* w = new QWidget(ui->dockWidget_tags);
     w->setLayout(editorLayout);
     QScrollArea* scrollArea = new QScrollArea(ui->dockWidget_tags);
@@ -385,8 +386,8 @@ void MainWindow::updateEditor() {
  */
 void MainWindow::fileListChangeUpdate() {
 
-    if(openedFile && !listOfFiles->isFileOpened(openedFile->getPath())) {
-        openedFile = NULL;
+    if(!openedFile.isEmpty() && !listOfFiles->isFileOpened(openedFile)) {
+        openedFile.clear();
     }
 
     int i = 0;
@@ -461,8 +462,8 @@ void MainWindow::saveAll() {
 }
 
 void MainWindow::closeCurrentFile() {
-    if(openedFile)
-        app->closeFile(listOfFiles->indexOf(openedFile));
+    if(!openedFile.isEmpty())
+        app->closeFile(listOfFiles->indexOf(listOfFiles->getFileByPath(openedFile)));
 }
 
 void MainWindow::closeAll() {
@@ -511,7 +512,7 @@ int MainWindow::askBeforeClosing() {
 
 void MainWindow::saveCurrentFile() {
 
-    if(openedFile == NULL) {
+    if(openedFile.isEmpty()) {
         return;
     }
     QDialog* dialog = new QDialog(this);
@@ -523,7 +524,7 @@ void MainWindow::saveCurrentFile() {
     dialog->setWindowTitle("Saving...");
     dialog->show();
 
-    openedFile->save();
+    listOfFiles->getFileByPath(openedFile)->save();
     updateViews();
 
     dialog->close();
@@ -554,13 +555,13 @@ void MainWindow::openCreateAlbumDialog() {
 
 void MainWindow::updateWindowTitle() {
 
-    if(!openedFile) {
+    if(openedFile.isEmpty()) {
         setWindowTitle("Qtag");
     } else {
         int i = ui->lineEdit_path->text().lastIndexOf('/');
-        QString fileName = openedFile->getPath();
+        QString fileName = openedFile;
         fileName.remove(0, i + 1);
-        AudioFile* file = listOfFiles->at(listOfFiles->indexOf(openedFile));
+        AudioFile* file = listOfFiles->getFileByPath(openedFile);
         if(file->isEdited()) {
             fileName.append('*');
         }
@@ -570,7 +571,7 @@ void MainWindow::updateWindowTitle() {
 }
 
 void MainWindow::closeEditor() {
-    openedFile = NULL;
+    openedFile.clear();
     updateEditor();
 }
 
