@@ -64,13 +64,11 @@ private:
     void setIcons();
     void closeEditor();
     bool unsavedChanges();
-    void saveSession();
-    void openLastSession();
     void updateViews();
     void updateEditor();
     int askBeforeClosing();
     void closeEvent(QCloseEvent *event);
-    AudioFile* openedFile; //the file that is viewed in the tag editor
+    QString openedFile; //the file that is viewed in the tag editor
     QSpacerItem* spacer;
 
 public slots:
