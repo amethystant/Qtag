@@ -50,6 +50,9 @@ public:
 private:
     QList<AudioFile*> listOfOpenedFiles;
 
+signals:
+    void fileListChanged();
+
 };
 
 #endif // FILELIST_H

@@ -37,6 +37,8 @@ QtagApp::QtagApp(QApplication *app) : QObject(app) {
     files.removeFirst();
     fileList = new FileList(this, &files);
 
+    QObject::connect(fileList, SIGNAL(fileListChanged()), this, SIGNAL(fileListChanged()));
+
     QSettings settings;
     if(settings.value("openfiles", QVariant(false)).toBool()) {
         openLastSession();

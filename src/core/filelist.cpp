@@ -75,12 +75,18 @@ void FileList::addFileToList(QString path) {
             listOfOpenedFiles.append(newFile);
         }
     }
+
+    emit fileListChanged();
+
 }
 
 void FileList::closeFile(int i) {
     AudioFile* f = listOfOpenedFiles.at(i);
     listOfOpenedFiles.removeOne(f);
     delete f;
+
+    emit fileListChanged();
+
 }
 
 void FileList::closeFile(QString path) {
