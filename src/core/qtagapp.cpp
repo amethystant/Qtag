@@ -27,7 +27,6 @@
 
 QtagApp::QtagApp(QApplication *app) : QObject(app) {
 
-    qtApp = app;
     app->setWindowIcon(QIcon(":/images/Qtag.png"));
     QCoreApplication::setApplicationName("Qtag");
     QCoreApplication::setOrganizationName("Qtag");
@@ -47,12 +46,11 @@ QtagApp::QtagApp(QApplication *app) : QObject(app) {
     QObject::connect(this, SIGNAL(fileListChanged()), this, SLOT(saveSession()));
 
     window = new MainWindow(this);
-    window->show();
 
 }
 
-QtagApp::~QtagApp() {
-    saveSession();
+void QtagApp::start() {
+    window->show();
 }
 
 QStyle* QtagApp::getStyleFromSettings() {

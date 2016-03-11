@@ -36,6 +36,7 @@ int main(int argc, char *argv[]) {
 
     QApplication* qtApp = new QApplication(argc, argv);
     QtagApp *app = new QtagApp(qtApp);
+    app->start();
     return qtApp->exec();
 
 }

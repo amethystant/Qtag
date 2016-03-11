@@ -44,8 +44,7 @@ class QtagApp : public QObject {
 
 public:
     QtagApp(QApplication* app);
-    ~QtagApp();
-    QApplication* qtApp;
+    void start();
     void openFile(QString path, bool update = true);
     void closeFile(QString path, bool update = true);
     void closeFile(int i, bool update = true);
