@@ -78,6 +78,7 @@ void AudioTag::setCoverArt(QString picturePath) {
         TagLib::ID3v2::Tag* id3v2Tag = (TagLib::ID3v2::Tag*) tag;
         if(picturePath.isEmpty()) {
             id3v2Tag->removeFrames("APIC");
+            emit edited();
             return;
         }
         TagLib::ID3v2::AttachedPictureFrame* frame = new TagLib::ID3v2::AttachedPictureFrame();
@@ -88,10 +89,10 @@ void AudioTag::setCoverArt(QString picturePath) {
             frame->setMimeType("image/png");
         else
             return;
-        id3v2Tag->removeFrames("APIC");
         QFile f(picturePath);
         if(!f.exists())
             return;
+        id3v2Tag->removeFrames("APIC");
         PictureFile picture(picturePath.toStdString().c_str());
         frame->setPicture(picture.getData());
         id3v2Tag->addFrame(frame);
@@ -101,21 +102,24 @@ void AudioTag::setCoverArt(QString picturePath) {
     } else if(type == TagFormats::APE) {
 
         TagLib::APE::Tag* apeTag = (TagLib::APE::Tag*) tag;
-        apeTag->removeItem("COVER ART (FRONT)");
-        if(picturePath.isEmpty())
+        if(picturePath.isEmpty()) {
+            apeTag->removeItem("COVER ART (FRONT)");
+            emit edited();
             return;
+        }
         QFile f(picturePath);
         if(!f.exists())
             return;
-        PictureFile picture(picturePath.toStdString().c_str());
 
+        apeTag->removeItem("COVER ART (FRONT)");
+
+        PictureFile picture(picturePath.toStdString().c_str());
         TagLib::ByteVector pic = picture.getData();
 
         TagLib::ByteVector dataToSave("Cover Art (Front).jpg", 22);
         dataToSave.append(pic);
 
         apeTag->setData("Cover Art (Front)", dataToSave);
-
         emit edited();
 
     }
