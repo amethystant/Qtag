@@ -233,8 +233,8 @@ void AudioFile::updateBasicInfo() {
 }
 
 void AudioFile::updateEdited() {
-    emit editedOrSaved();
     edited = true;
+    emit editedOrSaved();
 }
 
 QString AudioFile::getPath() {
