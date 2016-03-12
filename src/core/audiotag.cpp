@@ -191,9 +191,9 @@ QImage* AudioTag::getCoverArt() {
             return image;
         }
 
-    } else {
-        return NULL;
     }
+
+    return NULL;
 
 }
 
