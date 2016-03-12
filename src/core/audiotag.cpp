@@ -101,15 +101,20 @@ void AudioTag::setCoverArt(QString picturePath) {
     } else if(type == TagFormats::APE) {
 
         TagLib::APE::Tag* apeTag = (TagLib::APE::Tag*) tag;
-        apeTag->removeItem("Cover Art (Front)");
+        apeTag->removeItem("COVER ART (FRONT)");
         if(picturePath.isEmpty())
             return;
         QFile f(picturePath);
         if(!f.exists())
             return;
         PictureFile picture(picturePath.toStdString().c_str());
-        TagLib::APE::Item item("Cover Art (Front)", picture.getData(), true);
-        apeTag->setItem("Cover Art (Front)", item);
+
+        TagLib::ByteVector pic = picture.getData();
+
+        TagLib::ByteVector dataToSave("Cover Art (Front).jpg", 22);
+        dataToSave.append(pic);
+
+        apeTag->setData("Cover Art (Front)", dataToSave);
 
         emit edited();
 
@@ -167,9 +172,20 @@ QImage* AudioTag::getCoverArt() {
         QImage* image = new QImage();
         TagLib::APE::Tag* apeTag = (TagLib::APE::Tag*) tag;
         TagLib::APE::ItemListMap map = apeTag->itemListMap();
-        TagLib::APE::Item item = map["Cover Art (Front)"];
-        image->loadFromData((const uchar*) item.binaryData().data(), item.binaryData().size());
-        return image;
+        if(!map.contains("COVER ART (FRONT)")) {
+            return NULL;
+        }
+        TagLib::APE::Item item = map["COVER ART (FRONT)"];
+        TagLib::ByteVector byteVector = item.binaryData();
+
+        TagLib::ByteVector stringTerminator('\0');
+
+        int pos = byteVector.find(stringTerminator);
+        if(++pos > 0) {
+            TagLib::ByteVector pic = byteVector.mid(pos);
+            image->loadFromData((const uchar*) pic.data(), pic.size());
+            return image;
+        }
 
     } else {
         return NULL;
