@@ -247,7 +247,10 @@ void MultipleTaggingDialog::startTagging() {
     pattern.year = yearEdit->text().toInt();
     pattern.comment = commentEdit->text();
     pattern.genre = genreEdit->currentText();
-    pattern.coverArt = coverEdit->text();
+    if(coverEdit->text() == coverEditDefaultText)
+        pattern.coverArt = "";
+    else
+        pattern.coverArt = coverEdit->text();
 
     Actions::MultipleTaggingOptions options;
     options.title = false;
