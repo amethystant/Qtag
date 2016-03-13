@@ -37,7 +37,6 @@ PictureSelectionButton::PictureSelectionButton(QWidget* parent, QString* path, Q
 void PictureSelectionButton::selectPicture() {
 
     QFileDialog dialog(this);
-    dialog.setOption(QFileDialog::DontUseNativeDialog);
 #ifdef WIN32
     dialog.setDirectory("C:/");
 #else
