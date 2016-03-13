@@ -23,7 +23,7 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-
+#include <QSettings>
 #include "editors/assistant_classes/pictureselectionbutton.h"
 
 PictureSelectionButton::PictureSelectionButton(QWidget* parent, QString* path, QLabel* preview) : QPushButton("Select a picture...", parent) {
@@ -50,7 +50,9 @@ void PictureSelectionButton::selectPicture() {
         QStringList nameList = dialog.selectedFiles();
         QString name = nameList.join("");
         QImage image(name);
-        image = image.scaled(100, 100);
+        QSettings settings;
+        int size = settings.value("previewsize", 150).toInt();
+        image = image.scaled(size, size);
         picturePath->clear();
         picturePath->append(name);
         picturePreview->setPixmap(QPixmap::fromImage(image));
