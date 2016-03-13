@@ -92,15 +92,6 @@ private:
 
     QString coverEditDefaultText;
 
-    QString title;
-    int track;
-    QString album;
-    QString artist;
-    QString genre;
-    int year;
-    QString comment;
-    QString cover;
-
     void createLayout();
 
 private slots:
