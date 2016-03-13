@@ -51,7 +51,7 @@ public:
 
 private:
     MainWindow* window;
-    AudioFile* file;
+    QPointer<AudioFile> file;
     QWidget* parent; //this widget is the parent of all the widgets in this layout
     void loadTagEditors();
     void loadAsfTags();

@@ -392,7 +392,7 @@ void MainWindow::fileListChangeUpdate() {
 
     int i = 0;
     while(i < listOfLayouts.length()) {
-        if(!listOfFiles->isFileOpened(listOfLayouts.at(i)->getFile()->getPath())) {
+        if(listOfLayouts.at(i)->getFile() == NULL) {
             listOfLayouts.removeAt(i);
         } else {
             i++;
