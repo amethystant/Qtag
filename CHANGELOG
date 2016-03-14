@@ -1,3 +1,14 @@
+03/14/16 *Qtag 0.2
+        - Removed the ampersands that were appearing on some systems in the tag editor
+        - Added a dialog that asks the users to confirm closing unsaved files
+        - Added an option to the configuration dialog to turn off the warnings about closing unsaved files
+        - Fixed several memory issues
+        - Removed the dialog for copying tags
+        - Added an option to duplicate tags to Multiple Tagging dialog
+        - Improved some file dialogs to use the native look
+        - Changed the layout of widgets in Multiple Tagging dialog
+        - Added support for reading and writing the cover art in APE tags
+
 2/17/16 *Qtag 0.1.2
         - Changed license back to GPL
         - Removed the annoying dialogs that were appearing after some operations were completed
