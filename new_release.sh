@@ -6,7 +6,7 @@ if [ $# -lt 3 ]; then
 fi
 
 sed -i s/android:versionName=\"[^\"]*\"/android:versionName=\"$1\"/ src/android/AndroidManifest.xml
-sed -i s/std::string\ VERSION\ =\ \"[^\"]*\"/std::string\ VERSION\ =\ \"$1\"/ src/main.h
+sed -i s/std::string\ VERSION\ =\ \"[^\"]*\"/std::string\ VERSION\ =\ \"$1\"/ src/core/main.h
 
 touch file
 
