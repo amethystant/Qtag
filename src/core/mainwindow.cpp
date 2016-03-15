@@ -537,7 +537,14 @@ void MainWindow::openMultipleTaggingDialog() {
 
     closeEditor();
     listOfLayouts.clear();
-    MultipleTaggingDialog* dialog = new MultipleTaggingDialog(this, listOfFiles);
+    QList<AudioFile*>* selectedFiles = new QList<AudioFile*>();
+    QList<QTreeWidgetItem*> listOfItems = ui->treeWidget->selectedItems();
+    for(int i = 0; i < listOfItems.length(); i++) {
+        AudioFile* file = listOfFiles->getFileByPath(listOfItems.at(i)->text(1));
+        if(file != NULL)
+            selectedFiles->append(file);
+    }
+    MultipleTaggingDialog* dialog = new MultipleTaggingDialog(this, listOfFiles, selectedFiles);
     dialog->exec();
     updateViews();
 

@@ -26,6 +26,12 @@
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <widget class="QTreeWidget" name="treeWidget">
+      <property name="dragEnabled">
+       <bool>false</bool>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::ExtendedSelection</enum>
+      </property>
       <attribute name="headerDefaultSectionSize">
        <number>200</number>
       </attribute>

@@ -41,11 +41,13 @@ class MultipleTaggingDialog : public QDialog {
     Q_OBJECT
 
 public:
-    MultipleTaggingDialog(QWidget* parent, FileList *list);
+    MultipleTaggingDialog(QWidget* parent, FileList *list, QList<AudioFile*>* selectedFiles);
 
 private:
     QLabel* filesLabel;
     QLineEdit* filesEdit;
+    QRadioButton* useNewFilesButton;
+    QRadioButton* useSelectedFilesButton;
     QPushButton* selectFilesButton;
     QGroupBox* filesGroup;
 
@@ -87,6 +89,7 @@ private:
     QPushButton* okButton;
     QPushButton* cancelButton;
 
+    QList<AudioFile*>* selectedFiles;
     FileList* fileList;
     QStringList listOfFiles;
 

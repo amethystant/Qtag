@@ -34,14 +34,17 @@
 #include <QGridLayout>
 #include <QMessageBox>
 
-MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, FileList *list) :
+MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, FileList *list, QList<AudioFile*>* selectedFiles) :
     QDialog(parent) {
 
     setWindowTitle("Multiple tagging");
 
+    this->selectedFiles = selectedFiles;
     fileList = list;
 
     filesLabel = new QLabel("Files:", this);
+    useNewFilesButton = new QRadioButton("Open files", this);
+    useSelectedFilesButton = new QRadioButton("Use selected files", this);
     filesEdit = new QLineEdit(this);
     filesEdit->setReadOnly(true);
     selectFilesButton  = new QPushButton("Select files", this);
@@ -109,7 +112,6 @@ MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, FileList *list) :
     okButton = new QPushButton("OK", this);
     cancelButton = new QPushButton("Cancel", this);
 
-
     multipleTaggingButton->setChecked(true);
     selectOperation();
 
@@ -128,8 +130,16 @@ MultipleTaggingDialog::MultipleTaggingDialog(QWidget *parent, FileList *list) :
     QObject::connect(selectFilesButton, SIGNAL(clicked()), this, SLOT(openFiles()));
     QObject::connect(okButton, SIGNAL(clicked()), this, SLOT(startTagging()));
     QObject::connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
+    QObject::connect(useNewFilesButton, SIGNAL(toggled(bool)), filesEdit, SLOT(setEnabled(bool)));
+    QObject::connect(useNewFilesButton, SIGNAL(toggled(bool)), selectFilesButton, SLOT(setEnabled(bool)));
+    QObject::connect(useNewFilesButton, SIGNAL(toggled(bool)), filesLabel, SLOT(setEnabled(bool)));
 
     createLayout();
+
+    useSelectedFilesButton->toggle();
+    filesEdit->setEnabled(false);
+    selectFilesButton->setEnabled(false);
+    filesLabel->setEnabled(false);
 
 }
 
@@ -139,9 +149,11 @@ void MultipleTaggingDialog::createLayout() {
     int i = 0;
 
     QGridLayout* layout1 = new QGridLayout();
-    layout1->addWidget(filesLabel, 0, 0);
-    layout1->addWidget(filesEdit, 0, 1);
-    layout1->addWidget(selectFilesButton, 0, 2);
+    layout1->addWidget(useNewFilesButton, 0, 0);
+    layout1->addWidget(useSelectedFilesButton, 0, 1);
+    layout1->addWidget(filesLabel, 1, 0);
+    layout1->addWidget(filesEdit, 1, 1);
+    layout1->addWidget(selectFilesButton, 1, 2);
     filesGroup->setLayout(layout1);
 
     QHBoxLayout* layout2 = new QHBoxLayout();
@@ -279,19 +291,26 @@ void MultipleTaggingDialog::startTagging() {
     if(coverCheck->isChecked())
         options.coverArt = true;
 
-    QList<AudioFile*>* list = new QList<AudioFile*>();
+    QList<AudioFile*>* list;
 
-    for(int i = 0; i < listOfFiles.length(); i++) {
+    if(useNewFilesButton->isChecked()) {
 
-        QString path = listOfFiles.at(i);
-        AudioFile* file = fileList->getFileByPath(path);
-        if(file == NULL) {
-            fileList->addFileToList(path);
-            file = fileList->getFileByPath(path);
+        list = new QList<AudioFile*>();
+        for(int i = 0; i < listOfFiles.length(); i++) {
+
+            QString path = listOfFiles.at(i);
+            AudioFile* file = fileList->getFileByPath(path);
+            if(file == NULL) {
+                fileList->addFileToList(path);
+                file = fileList->getFileByPath(path);
+            }
+
+            list->append(file);
+
         }
 
-        list->append(file);
-
+    } else {
+        list = selectedFiles;
     }
 
     QList<TagFormat> formats;
