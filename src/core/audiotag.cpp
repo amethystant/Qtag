@@ -122,6 +122,37 @@ void AudioTag::setCoverArt(QString picturePath) {
         apeTag->setData("Cover Art (Front)", dataToSave);
         emit edited();
 
+    } else if(type == TagFormats::ASF) {
+
+        TagLib::ASF::Tag* asfTag = (TagLib::ASF::Tag*) tag;
+        if(picturePath.isEmpty()) {
+            asfTag->removeItem("WM/Picture");
+            emit edited();
+            return;
+        }
+        QFile f(picturePath);
+        if(!f.exists())
+            return;
+
+        PictureFile picture(picturePath.toStdString().c_str());
+        TagLib::ByteVector pic = picture.getData();
+        char* data = pic.data();
+        int len = pic.size();
+        TagLib::ASF::Picture asfPic;
+        if(picturePath.endsWith(".jpeg", Qt::CaseInsensitive) ||
+                picturePath.endsWith(".jpg", Qt::CaseInsensitive))
+            asfPic.setMimeType("image/jpeg");
+        else if(picturePath.endsWith(".png", Qt::CaseInsensitive))
+            asfPic.setMimeType("image/png");
+        else
+            return;
+        asfPic.setPicture(pic);
+        asfPic.setType(TagLib::ASF::Picture::FrontCover);
+        TagLib::ASF::Attribute attr(asfPic);
+        asfTag->removeItem("WM/Picture");
+        asfTag->addAttribute("WM/Picture", attr);
+        emit edited();
+
     }
 
 }
@@ -191,6 +222,22 @@ QImage* AudioTag::getCoverArt() {
             return image;
         }
 
+    } else if(type == TagFormats::ASF) {
+
+        QImage* image = new QImage();
+        TagLib::ASF::Tag* asfTag = (TagLib::ASF::Tag*) tag;
+        TagLib::ASF::AttributeList attributeList = asfTag->attribute("WM/Picture");
+        if(attributeList.size() == 0) {
+            return image;
+        }
+        TagLib::ASF::Attribute attribute = attributeList[0];
+        TagLib::ASF::Picture pic = attribute.toPicture();
+        TagLib::ByteVector byteVector = pic.picture();
+        char* data = byteVector.data();
+        int len = byteVector.size();
+        image->loadFromData((const uchar*) byteVector.data(), byteVector.size());
+        return image;
+
     }
 
     return NULL;
@@ -202,7 +249,7 @@ TagFormat AudioTag::getFormat() {
 }
 
 bool AudioTag::supportsCoverArt() {
-    if(type == TagFormats::ID3V2 || type == TagFormats::APE) {
+    if(type == TagFormats::ID3V2 || type == TagFormats::APE || type == TagFormats::ASF) {
         return true;
     } else {
         return false;
