@@ -136,8 +136,6 @@ void AudioTag::setCoverArt(QString picturePath) {
 
         PictureFile picture(picturePath.toStdString().c_str());
         TagLib::ByteVector pic = picture.getData();
-        char* data = pic.data();
-        int len = pic.size();
         TagLib::ASF::Picture asfPic;
         if(picturePath.endsWith(".jpeg", Qt::CaseInsensitive) ||
                 picturePath.endsWith(".jpg", Qt::CaseInsensitive))
@@ -233,8 +231,6 @@ QImage* AudioTag::getCoverArt() {
         TagLib::ASF::Attribute attribute = attributeList[0];
         TagLib::ASF::Picture pic = attribute.toPicture();
         TagLib::ByteVector byteVector = pic.picture();
-        char* data = byteVector.data();
-        int len = byteVector.size();
         image->loadFromData((const uchar*) byteVector.data(), byteVector.size());
         return image;
 
