@@ -151,6 +151,34 @@ void AudioTag::setCoverArt(QString picturePath) {
         asfTag->addAttribute("WM/Picture", attr);
         emit edited();
 
+    } else if(type == TagFormats::XIPH) {
+
+        TagLib::Ogg::XiphComment* xiphComment = (TagLib::Ogg::XiphComment*) tag;
+        if(picturePath.isEmpty()) {
+            xiphComment->removeAllPictures();
+            emit edited();
+            return;
+        }
+        QFile f(picturePath);
+        if(!f.exists())
+            return;
+
+        xiphComment->removeAllPictures();
+        PictureFile picture(picturePath.toStdString().c_str());
+        TagLib::ByteVector pic = picture.getData();
+        TagLib::FLAC::Picture* flacPic = new TagLib::FLAC::Picture();
+        if(picturePath.endsWith(".jpeg", Qt::CaseInsensitive) ||
+                picturePath.endsWith(".jpg", Qt::CaseInsensitive))
+            flacPic->setMimeType("image/jpeg");
+        else if(picturePath.endsWith(".png", Qt::CaseInsensitive))
+            flacPic->setMimeType("image/png");
+        else
+            return;
+        flacPic->setData(pic);
+        flacPic->setType(TagLib::FLAC::Picture::FrontCover);
+        xiphComment->addPicture(flacPic);
+        emit edited();
+
     }
 
 }
@@ -234,6 +262,20 @@ QImage* AudioTag::getCoverArt() {
         image->loadFromData((const uchar*) byteVector.data(), byteVector.size());
         return image;
 
+    } else if(type == TagFormats::XIPH) {
+
+        QImage* image = new QImage();
+        TagLib::Ogg::XiphComment* xiphComment = (TagLib::Ogg::XiphComment*) tag;
+        TagLib::List<TagLib::FLAC::Picture*> pictureList = xiphComment->pictureList();
+        if(pictureList.isEmpty()) {
+            return NULL;
+        }
+
+        TagLib::FLAC::Picture* flacPic = pictureList.front();
+        TagLib::ByteVector pic = flacPic->data();
+        image->loadFromData((const uchar*) pic.data(), pic.size());
+        return image;
+
     }
 
     return NULL;
@@ -245,7 +287,8 @@ TagFormat AudioTag::getFormat() {
 }
 
 bool AudioTag::supportsCoverArt() {
-    if(type == TagFormats::ID3V2 || type == TagFormats::APE || type == TagFormats::ASF) {
+    if(type == TagFormats::ID3V2 || type == TagFormats::APE
+            || type == TagFormats::ASF || type == TagFormats::XIPH) {
         return true;
     } else {
         return false;
