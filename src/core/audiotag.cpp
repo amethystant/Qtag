@@ -226,7 +226,7 @@ QImage* AudioTag::getCoverArt() {
         TagLib::ASF::Tag* asfTag = (TagLib::ASF::Tag*) tag;
         TagLib::ASF::AttributeList attributeList = asfTag->attribute("WM/Picture");
         if(attributeList.size() == 0) {
-            return image;
+            return NULL;
         }
         TagLib::ASF::Attribute attribute = attributeList[0];
         TagLib::ASF::Picture pic = attribute.toPicture();
