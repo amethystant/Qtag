@@ -1,3 +1,8 @@
+03/18/16 *Qtag 0.3
+        - Added a feature - you can select multiple files and use that selection in Multiple tagging dialog
+        - Added support for reading and writing the cover art in ASF tags
+        - Added support for reading and writing the cover art in Xiph comments
+
 03/14/16 *Qtag 0.2
         - Removed the ampersands that were appearing on some systems in the tag editor
         - Added a dialog that asks the users to confirm closing unsaved files
