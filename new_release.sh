@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -lt 3 ]; then
-	echo "An argument is missing. Specify the version number, the current date in m/d/y format, and the changes you made in the other arguments."
+	echo "An argument is missing. Specify the version number, the current date in mm/dd/yy format, and the changes you made in the other aguments."
 	exit
 fi
 
