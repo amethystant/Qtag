@@ -48,6 +48,7 @@ public:
     void setComment(QString comment);
     void setYear(int year);
     void setCoverArt(QString picturePath);
+    void setValue(TagKey key, QString value);
 
     QString getTitle();
     int getTrack();
@@ -57,8 +58,10 @@ public:
     QString getComment();
     int getYear();
     QImage* getCoverArt();
+    QString getValue(TagKey key);
     TagFormat getFormat();
 
+    bool supportsKey(TagKey key);
     bool supportsCoverArt();
     bool isEmpty();
 

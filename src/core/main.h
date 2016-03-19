@@ -55,7 +55,21 @@ namespace TagFormats {
 
 }
 
+namespace TagKeys {
+
+    const std::string TITLE = "Title";
+    const std::string TRACK = "Track";
+    const std::string ALBUM = "Album";
+    const std::string ARTIST = "Artist";
+    const std::string GENRE = "Genre";
+    const std::string COMMENT = "Comment";
+    const std::string YEAR = "Year";
+    const std::string COVER_ART = "Cover Art";
+
+}
+
 typedef std::string TagFormat;
+typedef std::string TagKey;
 
 QStyle* getStyleFromSettings();
 

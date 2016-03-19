@@ -183,6 +183,28 @@ void AudioTag::setCoverArt(QString picturePath) {
 
 }
 
+void AudioTag::setValue(TagKey key, QString value) {
+
+    if(key == TagKeys::TITLE) {
+        tag->setTitle(value.toStdString());
+    } else if(key == TagKeys::TRACK) {
+        tag->setTrack(value.toInt());
+    } else if(key == TagKeys::ALBUM) {
+        tag->setAlbum(value.toStdString());
+    } else if(key == TagKeys::ARTIST) {
+        tag->setArtist(value.toStdString());
+    } else if(key == TagKeys::GENRE) {
+        tag->setGenre(value.toStdString());
+    } else if(key == TagKeys::COMMENT) {
+        tag->setComment(value.toStdString());
+    } else if(key == TagKeys::YEAR) {
+        tag->setYear(value.toInt());
+    } else if(key == TagKeys::COVER_ART) {
+        setCoverArt(value);
+    }
+
+}
+
 QString AudioTag::getTitle() {
     return QString(tag->title().toCString(true));
 }
@@ -282,8 +304,50 @@ QImage* AudioTag::getCoverArt() {
 
 }
 
+QString AudioTag::getValue(TagKey key) {
+
+    if(key == TagKeys::TITLE) {
+        return QString::fromUtf8(tag->title().toCString(true));
+    } else if(key == TagKeys::TRACK) {
+        QString s;
+        s.setNum(tag->track());
+        return s;
+    } else if(key == TagKeys::ALBUM) {
+        return QString::fromUtf8(tag->album().toCString(true));
+    } else if(key == TagKeys::ARTIST) {
+        return QString::fromUtf8(tag->artist().toCString(true));
+    } else if(key == TagKeys::GENRE) {
+        return QString::fromUtf8(tag->genre().toCString(true));
+    } else if(key == TagKeys::COMMENT) {
+        return QString::fromUtf8(tag->comment().toCString(true));
+    } else if(key == TagKeys::YEAR) {
+        QString s;
+        s.setNum(tag->year());
+        return s;
+    }
+
+    QString s;
+    return s;
+
+}
+
 TagFormat AudioTag::getFormat() {
     return type;
+}
+
+bool AudioTag::supportsKey(TagKey key) {
+
+    if(key == TagKeys::TITLE || key == TagKeys::TRACK || key == TagKeys::ALBUM || key == TagKeys::ARTIST
+            || key == TagKeys::GENRE || key == TagKeys::COMMENT || keys == TagKeys::YEAR) {
+
+        return true;
+
+    } else if(key == TagKeys::COVER_ART) {
+        return supportsCoverArt();
+    }
+
+    return false;
+
 }
 
 bool AudioTag::supportsCoverArt() {
