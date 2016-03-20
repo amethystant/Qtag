@@ -61,6 +61,7 @@ public:
     QString getValue(TagKey key);
     TagFormat getFormat();
 
+    QList<TagKey> getListOfSupportedKeys();
     bool supportsKey(TagKey key);
     bool supportsCoverArt();
     bool isEmpty();

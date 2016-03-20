@@ -335,6 +335,23 @@ TagFormat AudioTag::getFormat() {
     return type;
 }
 
+QList<TagKey> AudioTag::getListOfSupportedKeys() {
+
+    QList<TagKey> list;
+    list.append(TagKeys::TITLE);
+    list.append(TagKeys::TRACK);
+    list.append(TagKeys::ALBUM);
+    list.append(TagKeys::ARTIST);
+    list.append(TagKeys::GENRE);
+    list.append(TagKeys::COMMENT);
+    list.append(TagKeys::YEAR);
+    if(supportsCoverArt())
+        list.append(TagKeys::COVER_ART);
+
+    return list;
+
+}
+
 bool AudioTag::supportsKey(TagKey key) {
 
     if(key == TagKeys::TITLE || key == TagKeys::TRACK || key == TagKeys::ALBUM || key == TagKeys::ARTIST
