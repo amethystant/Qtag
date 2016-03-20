@@ -338,7 +338,7 @@ TagFormat AudioTag::getFormat() {
 bool AudioTag::supportsKey(TagKey key) {
 
     if(key == TagKeys::TITLE || key == TagKeys::TRACK || key == TagKeys::ALBUM || key == TagKeys::ARTIST
-            || key == TagKeys::GENRE || key == TagKeys::COMMENT || keys == TagKeys::YEAR) {
+            || key == TagKeys::GENRE || key == TagKeys::COMMENT || key == TagKeys::YEAR) {
 
         return true;
 
