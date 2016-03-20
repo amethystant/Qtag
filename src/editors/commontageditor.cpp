@@ -53,6 +53,9 @@ CommonTagEditor::CommonTagEditor(AudioTag *tag, QString nameOfTag, QWidget *pare
         pictureFullSizeButton->setVisible(false);
     }
 
+    listOfEditors = new QList<LabelAndEditor*>();
+    initEditors();
+
     QObject::connect(genreEdit, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
     QObject::connect(pictureSelection, SIGNAL(pictureChanged()), this, SLOT(updateTags()));
     QObject::connect(extractPictureButton, SIGNAL(clicked(bool)), this, SLOT(savePictureAsFile()));
@@ -60,6 +63,29 @@ CommonTagEditor::CommonTagEditor(AudioTag *tag, QString nameOfTag, QWidget *pare
     QObject::connect(removeCoverButton, SIGNAL(clicked()), this, SLOT(removeCover()));
 
     createLayout();
+}
+
+void CommonTagEditor::initEditors() {
+
+    QList<TagKey> listOfKeys = tag->getListOfSupportedKeys();
+    int i;
+    for (i = 0; i < listOfKeys.length(); i++) {
+
+        TagKey key = listOfKeys.at(i);
+        if(key != TagKeys::ALBUM && key != TagKeys::ARTIST && key != TagKeys::COMMENT && key != TagKeys::COVER_ART
+                && key != TagKeys::GENRE && key != TagKeys::TITLE && key != TagKeys::TRACK && key != TagKeys::YEAR) {
+
+            LabelAndEditor* labelAndEdit = new LabelAndEditor();
+            labelAndEdit->key = key;
+            labelAndEdit->editor = new QLineEdit(this);
+            labelAndEdit->label = new QLabel(QString(key.c_str()), this);
+            QObject::connect(labelAndEdit->editor, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
+            listOfEditors->append(labelAndEdit);
+
+        }
+
+    }
+
 }
 
 /*
@@ -72,6 +98,10 @@ void CommonTagEditor::updateTags() {
 
     if(!picturePath->isEmpty()) {
         tag->setCoverArt(*picturePath);
+    }
+
+    for(int i = 0; i < listOfEditors->length(); i++) {
+        tag->setValue(listOfEditors->at(i)->key, listOfEditors->at(i)->editor->text());
     }
 }
 
@@ -98,6 +128,10 @@ void CommonTagEditor::createLayout() {
     i = layout->rowCount();
     layout->addWidget(genreLabel, i, 0);
     layout->addWidget(genreEdit, i, 1);
+    for(int j = 0; j < listOfEditors->length(); j++) {
+        layout->addWidget(listOfEditors->at(j)->label, i, 0);
+        layout->addWidget(listOfEditors->at(j)->editor, i, 1);
+    }
 
 }
 

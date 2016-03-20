@@ -55,6 +55,16 @@ private:
     QImage *getPictureFromTag();
     CoverArtActions* coverArtActions;
 
+    struct LabelAndEditor {
+
+        QLabel* label;
+        QLineEdit* editor;
+        TagKey key;
+
+    };
+
+    QList<LabelAndEditor*> *listOfEditors;
+    void initEditors();
 
 protected:
     virtual void createLayout();
