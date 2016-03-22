@@ -72,7 +72,7 @@ void CommonTagEditor::initEditors() {
     for (i = 0; i < listOfKeys.length(); i++) {
 
         TagKey key = listOfKeys.at(i);
-        if(key != TagKeys::ALBUM && key != TagKeys::ARTIST && key != TagKeys::COMMENT && key != TagKeys::COVER_ART
+        if(key != TagKeys::ALBUM && key != TagKeys::ARTIST && key != TagKeys::COMMENT
                 && key != TagKeys::GENRE && key != TagKeys::TITLE && key != TagKeys::TRACK && key != TagKeys::YEAR) {
 
             LabelAndEditor* labelAndEdit = new LabelAndEditor();

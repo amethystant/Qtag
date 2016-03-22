@@ -64,7 +64,6 @@ namespace TagKeys {
     const std::string GENRE = "Genre";
     const std::string COMMENT = "Comment";
     const std::string YEAR = "Year";
-    const std::string COVER_ART = "Cover Art";
 
 }
 

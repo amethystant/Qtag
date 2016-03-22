@@ -199,8 +199,6 @@ void AudioTag::setValue(TagKey key, QString value) {
         tag->setComment(value.toStdString());
     } else if(key == TagKeys::YEAR) {
         tag->setYear(value.toInt());
-    } else if(key == TagKeys::COVER_ART) {
-        setCoverArt(value);
     }
 
 }
@@ -345,8 +343,6 @@ QList<TagKey> AudioTag::getListOfSupportedKeys() {
     list.append(TagKeys::GENRE);
     list.append(TagKeys::COMMENT);
     list.append(TagKeys::YEAR);
-    if(supportsCoverArt())
-        list.append(TagKeys::COVER_ART);
 
     return list;
 
@@ -359,8 +355,6 @@ bool AudioTag::supportsKey(TagKey key) {
 
         return true;
 
-    } else if(key == TagKeys::COVER_ART) {
-        return supportsCoverArt();
     }
 
     return false;
