@@ -27,11 +27,10 @@
 #include "editors/commontageditor.h"
 
 CommonTagEditor::CommonTagEditor(AudioTag *tag, QString nameOfTag, QWidget *parent) :
-    TagEditor(tag, nameOfTag, parent) {
+    QGroupBox(nameOfTag, parent) {
 
-    genreEdit = new QLineEdit(this);
-    genreEdit->setText(tag->getGenre());
-    genreLabel = new QLabel("Genre:", this);
+    this->tag = tag;
+    layout = new QGridLayout(this);
 
     pictureLabel = new QLabel("Cover:", this);
     picturePath = new QString();
@@ -56,7 +55,6 @@ CommonTagEditor::CommonTagEditor(AudioTag *tag, QString nameOfTag, QWidget *pare
     listOfEditors = new QList<LabelAndEditor*>();
     initEditors();
 
-    QObject::connect(genreEdit, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
     QObject::connect(pictureSelection, SIGNAL(pictureChanged()), this, SLOT(updateTags()));
     QObject::connect(extractPictureButton, SIGNAL(clicked(bool)), this, SLOT(savePictureAsFile()));
     QObject::connect(pictureFullSizeButton, SIGNAL(clicked()), this, SLOT(showPictureFullSize()));
@@ -72,17 +70,13 @@ void CommonTagEditor::initEditors() {
     for (i = 0; i < listOfKeys.length(); i++) {
 
         TagKey key = listOfKeys.at(i);
-        if(key != TagKeys::ALBUM && key != TagKeys::ARTIST && key != TagKeys::COMMENT
-                && key != TagKeys::GENRE && key != TagKeys::TITLE && key != TagKeys::TRACK && key != TagKeys::YEAR) {
 
-            LabelAndEditor* labelAndEdit = new LabelAndEditor();
-            labelAndEdit->key = key;
-            labelAndEdit->editor = new QLineEdit(this);
-            labelAndEdit->label = new QLabel(QString(key.c_str()), this);
-            QObject::connect(labelAndEdit->editor, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
-            listOfEditors->append(labelAndEdit);
-
-        }
+        LabelAndEditor* labelAndEdit = new LabelAndEditor();
+        labelAndEdit->key = key;
+        labelAndEdit->editor = new QLineEdit(tag->getValue(key), this);
+        labelAndEdit->label = new QLabel(QString(key.c_str()), this);
+        QObject::connect(labelAndEdit->editor, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
+        listOfEditors->append(labelAndEdit);
 
     }
 
@@ -92,9 +86,6 @@ void CommonTagEditor::initEditors() {
  *Overrides TagEditor::saveTags() and updates the genre tag
 */
 void CommonTagEditor::updateTags() {
-
-    TagEditor::updateTags();
-    tag->setGenre(genreEdit->text());
 
     if(!picturePath->isEmpty()) {
         tag->setCoverArt(*picturePath);
@@ -124,14 +115,14 @@ void CommonTagEditor::createLayout() {
     layout->addWidget(extractPictureButton, i, 0);
     layout->addWidget(pictureFullSizeButton, i, 1);
 
-    TagEditor::createLayout();
     i = layout->rowCount();
-    layout->addWidget(genreLabel, i, 0);
-    layout->addWidget(genreEdit, i, 1);
     for(int j = 0; j < listOfEditors->length(); j++) {
         layout->addWidget(listOfEditors->at(j)->label, i, 0);
         layout->addWidget(listOfEditors->at(j)->editor, i, 1);
+        i++;
     }
+
+    setLayout(layout);
 
 }
 

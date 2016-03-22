@@ -26,7 +26,9 @@
 #ifndef COMMONTAGEDITOR_H
 #define COMMONTAGEDITOR_H
 
-#include "editors/tageditor.h"
+#include <QGroupBox>
+#include <QLineEdit>
+#include <QGridLayout>
 #include "editors/assistant_classes/pictureselectionbutton.h"
 #include "editors/assistant_classes/coverartactions.h"
 #include "core/audiotag.h"
@@ -35,7 +37,7 @@
  * An implementation of the TagEditor class, which is common to all tags
  * that don't specify a fixed list of genres.
 */
-class CommonTagEditor : public TagEditor {
+class CommonTagEditor : public QGroupBox {
 
     Q_OBJECT
 
@@ -43,8 +45,8 @@ public:
     CommonTagEditor(AudioTag *tag, QString nameOfTag, QWidget* parent);
 
 private:
-    QLabel* genreLabel;
-    QLineEdit* genreEdit;
+    AudioTag* tag;
+    QGridLayout* layout;
     QString* picturePath;
     PictureSelectionButton* pictureSelection;
     QPushButton* removeCoverButton;
@@ -52,7 +54,7 @@ private:
     QPushButton* pictureFullSizeButton;
     QLabel* picturePreview;
     QLabel* pictureLabel;
-    QImage *getPictureFromTag();
+    QImage* getPictureFromTag();
     CoverArtActions* coverArtActions;
 
     struct LabelAndEditor {
@@ -65,14 +67,10 @@ private:
 
     QList<LabelAndEditor*> *listOfEditors;
     void initEditors();
-
-protected:
-    virtual void createLayout();
-
-protected slots:
-    virtual void updateTags();
+    void createLayout();
 
 private slots:
+    void updateTags();
     void removeCover();
     void showPictureFullSize();
     void savePictureAsFile();
