@@ -201,6 +201,8 @@ void AudioTag::setValue(TagKey key, QString value) {
         tag->setYear(value.toInt());
     }
 
+    emit edited();
+
 }
 
 QString AudioTag::getTitle() {
