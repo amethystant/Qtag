@@ -67,7 +67,7 @@ void TagEditorLayout::loadTagEditors() {
 
 void TagEditorLayout::loadAsfTags() {
     asfTag = file->getAsfTag();
-    TagEditorWidget* asfEdit = new TagEditorWidget(asfTag, "ASF tag", parent);
+    TagEditorWidget* asfEdit = new TagEditorWidget(asfTag, QString(TagFormats::ASF.c_str()), parent);
     addWidget(asfEdit);
 }
 
@@ -96,7 +96,7 @@ void TagEditorLayout::loadWavTags() {
 
     if(file->hasInfoTag()) {
         infoTag = file->getInfoTag();
-        TagEditorWidget* infoTagEdit = new TagEditorWidget(infoTag, "Info tag", parent);
+        TagEditorWidget* infoTagEdit = new TagEditorWidget(infoTag, QString(TagFormats::INFO.c_str()), parent);
         addWidget(infoTagEdit);
     }
 
@@ -123,7 +123,7 @@ void TagEditorLayout::addId3v2Editor() {
 void TagEditorLayout::addApeTagEditor() {
     if(file->hasApeTag()) {
         apeTag = file->getApeTag();
-        TagEditorWidget* apeEdit = new TagEditorWidget(apeTag, "APE tag", parent);
+        TagEditorWidget* apeEdit = new TagEditorWidget(apeTag, QString(TagFormats::APE.c_str()), parent);
         addWidget(apeEdit);
     }
 }
@@ -131,7 +131,7 @@ void TagEditorLayout::addApeTagEditor() {
 void TagEditorLayout::addXiphCommentEditor() {
     if(file->hasXiphComment()) {
         xiphComment = file->getXiphComment();
-        TagEditorWidget* xiphEdit = new TagEditorWidget(xiphComment, "Xiph comment", parent);
+        TagEditorWidget* xiphEdit = new TagEditorWidget(xiphComment, QString(TagFormats::XIPH.c_str()), parent);
         addWidget(xiphEdit);
     }
 }
