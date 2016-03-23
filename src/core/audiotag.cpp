@@ -372,6 +372,20 @@ bool AudioTag::supportsCoverArt() {
     }
 }
 
+TagValueType AudioTag::getTypeOfKey(TagKey key) {
+
+    if(key == TagKeys::YEAR || key == TagKeys::TRACK) {
+        return INT;
+    }
+
+    if (key == TagKeys::GENRE && ( type == TagFormats::ID3V1 || type == TagFormats::ID3V2 )) {
+        return GENRE_FROM_LIST;
+    }
+
+    return STRING;
+
+}
+
 bool AudioTag::isEmpty() {
     return tag->isEmpty();
 }

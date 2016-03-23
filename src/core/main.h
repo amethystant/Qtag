@@ -67,6 +67,10 @@ namespace TagKeys {
 
 }
 
+enum TagValueType {
+    INT, STRING, GENRE_FROM_LIST
+};
+
 typedef std::string TagFormat;
 typedef std::string TagKey;
 
