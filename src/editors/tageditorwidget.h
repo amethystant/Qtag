@@ -23,28 +23,26 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef ID3V2EDITOR_H
-#define ID3V2EDITOR_H
+#ifndef COMMONTAGEDITOR_H
+#define COMMONTAGEDITOR_H
 
-#include <QImage>
+#include <QGroupBox>
+#include <QLineEdit>
+#include <QGridLayout>
 #include "editors/assistant_classes/pictureselectionbutton.h"
-#include "core/picturefile.h"
-#include "core/audiotag.h"
-#include "editors/tageditor.h"
-#include "editors/assistant_classes/id3genreselection.h"
 #include "editors/assistant_classes/coverartactions.h"
+#include "core/audiotag.h"
 
-class Id3v2Editor : public TagEditor {
+class TagEditorWidget : public QGroupBox {
 
     Q_OBJECT
 
 public:
-    Id3v2Editor(AudioTag *tag, QWidget *parent);
-    ~Id3v2Editor();
+    TagEditorWidget(AudioTag *tag, QString nameOfTag, QWidget* parent);
 
 private:
-    Id3GenreSelection* genreEdit;
-    QLabel* genreLabel;
+    AudioTag* tag;
+    QGridLayout* layout;
     QString* picturePath;
     PictureSelectionButton* pictureSelection;
     QPushButton* removeCoverButton;
@@ -52,20 +50,28 @@ private:
     QPushButton* pictureFullSizeButton;
     QLabel* picturePreview;
     QLabel* pictureLabel;
-    QImage *getPictureFromTag();
+    QImage* getPictureFromTag();
     CoverArtActions* coverArtActions;
 
-protected:
-    virtual void createLayout();
+    struct LabelAndEditor {
 
-protected slots:
-    virtual void updateTags();
+        QLabel* label;
+        QWidget* editor;
+        TagKey key;
+        TagValueType type;
+
+    };
+
+    QList<LabelAndEditor*> *listOfEditors;
+    void initEditors();
+    void createLayout();
 
 private slots:
+    void updateTags();
     void removeCover();
     void showPictureFullSize();
     void savePictureAsFile();
 
 };
 
-#endif // ID3V2EDITOR_H
+#endif // COMMONTAGEDITOR_H

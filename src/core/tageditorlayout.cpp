@@ -27,9 +27,7 @@
 
 #include "core/mainwindow.h"
 #include "core/audiofile.h"
-#include "editors/id3v1editor.h"
-#include "editors/id3v2editor.h"
-#include "editors/commontageditor.h"
+#include "editors/tageditorwidget.h"
 #include "ui_mainwindow.h"
 
 TagEditorLayout::TagEditorLayout(MainWindow *window, AudioFile* file) : QVBoxLayout() {
@@ -69,7 +67,7 @@ void TagEditorLayout::loadTagEditors() {
 
 void TagEditorLayout::loadAsfTags() {
     asfTag = file->getAsfTag();
-    CommonTagEditor* asfEdit = new CommonTagEditor(asfTag, "ASF tag", parent);
+    TagEditorWidget* asfEdit = new TagEditorWidget(asfTag, "ASF tag", parent);
     addWidget(asfEdit);
 }
 
@@ -98,7 +96,7 @@ void TagEditorLayout::loadWavTags() {
 
     if(file->hasInfoTag()) {
         infoTag = file->getInfoTag();
-        CommonTagEditor* infoTagEdit = new CommonTagEditor(infoTag, "Info tag", parent);
+        TagEditorWidget* infoTagEdit = new TagEditorWidget(infoTag, "Info tag", parent);
         addWidget(infoTagEdit);
     }
 
@@ -109,7 +107,7 @@ void TagEditorLayout::loadWavTags() {
 void TagEditorLayout::addId3v1Editor() {
     if(file->hasId3v1()) {
         id3v1Tag = file->getId3v1();
-        Id3v1Editor* id3v1Edit = new Id3v1Editor(id3v1Tag, parent);
+        TagEditorWidget* id3v1Edit = new TagEditorWidget(id3v1Tag, QString(TagFormats::ID3V1.c_str()), parent);
         addWidget(id3v1Edit);
     }
 }
@@ -117,7 +115,7 @@ void TagEditorLayout::addId3v1Editor() {
 void TagEditorLayout::addId3v2Editor() {
     if(file->hasId3v2()) {
         id3v2Tag = file->getId3v2();
-        Id3v2Editor* id3v2Edit = new Id3v2Editor(id3v2Tag, parent);
+        TagEditorWidget* id3v2Edit = new TagEditorWidget(id3v2Tag, QString(TagFormats::ID3V2.c_str()), parent);
         addWidget(id3v2Edit);
     }
 }
@@ -125,7 +123,7 @@ void TagEditorLayout::addId3v2Editor() {
 void TagEditorLayout::addApeTagEditor() {
     if(file->hasApeTag()) {
         apeTag = file->getApeTag();
-        CommonTagEditor* apeEdit = new CommonTagEditor(apeTag, "APE tag", parent);
+        TagEditorWidget* apeEdit = new TagEditorWidget(apeTag, "APE tag", parent);
         addWidget(apeEdit);
     }
 }
@@ -133,7 +131,7 @@ void TagEditorLayout::addApeTagEditor() {
 void TagEditorLayout::addXiphCommentEditor() {
     if(file->hasXiphComment()) {
         xiphComment = file->getXiphComment();
-        CommonTagEditor* xiphEdit = new CommonTagEditor(xiphComment, "Xiph comment", parent);
+        TagEditorWidget* xiphEdit = new TagEditorWidget(xiphComment, "Xiph comment", parent);
         addWidget(xiphEdit);
     }
 }

@@ -34,14 +34,6 @@ class MainWindow;
 class AudioFile;
 class AudioTag;
 
-
-/*
-A class representing the layout of all tag editors for a file.
-It recognizes which tags are being in the file and generates tag
-editors (objects of classes derived from the TagEditor class).
-Once a file is selected to be edited, the dockable widget on the left is updated
-and it sets the file's TagEditorLayout as the layout.
-*/
 class TagEditorLayout : public QVBoxLayout {
     Q_OBJECT
 

@@ -24,9 +24,10 @@
  */
 
 
-#include "editors/commontageditor.h"
+#include "editors/tageditorwidget.h"
+#include "editors/assistant_classes/id3genreselection.h"
 
-CommonTagEditor::CommonTagEditor(AudioTag *tag, QString nameOfTag, QWidget *parent) :
+TagEditorWidget::TagEditorWidget(AudioTag *tag, QString nameOfTag, QWidget *parent) :
     QGroupBox(nameOfTag, parent) {
 
     this->tag = tag;
@@ -63,7 +64,7 @@ CommonTagEditor::CommonTagEditor(AudioTag *tag, QString nameOfTag, QWidget *pare
     createLayout();
 }
 
-void CommonTagEditor::initEditors() {
+void TagEditorWidget::initEditors() {
 
     QList<TagKey> listOfKeys = tag->getListOfSupportedKeys();
     int i;
@@ -73,34 +74,50 @@ void CommonTagEditor::initEditors() {
 
         LabelAndEditor* labelAndEdit = new LabelAndEditor();
         labelAndEdit->key = key;
-        labelAndEdit->editor = new QLineEdit(tag->getValue(key), this);
+        TagValueType type = tag->getTypeOfKey(key);
+        if(type == STRING) {
+            labelAndEdit->editor = new QLineEdit(tag->getValue(key), this);
+            QObject::connect( (QLineEdit*) labelAndEdit->editor, SIGNAL(textEdited(QString)),
+                              this, SLOT(updateTags()));
+        } else if(type == INT) {
+            labelAndEdit->editor = new QLineEdit(tag->getValue(key), this);
+            QLineEdit* editor = (QLineEdit*) labelAndEdit->editor;
+            editor->setValidator(new QIntValidator(0, 10000, editor));
+            QObject::connect( editor, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
+        } else if(type == GENRE_FROM_LIST) {
+            labelAndEdit->editor = new Id3GenreSelection(this);
+            Id3GenreSelection* edit = (Id3GenreSelection*) labelAndEdit->editor;
+            int index = edit->findText(tag->getValue(key).toStdString().c_str());
+            edit->setCurrentIndex(index);
+            QObject::connect(edit, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTags()));
+        }
+
         labelAndEdit->label = new QLabel(QString(key.c_str()), this);
-        QObject::connect(labelAndEdit->editor, SIGNAL(textEdited(QString)), this, SLOT(updateTags()));
         listOfEditors->append(labelAndEdit);
 
     }
 
 }
 
-/*
- *Overrides TagEditor::saveTags() and updates the genre tag
-*/
-void CommonTagEditor::updateTags() {
+void TagEditorWidget::updateTags() {
 
     if(!picturePath->isEmpty()) {
         tag->setCoverArt(*picturePath);
     }
 
     for(int i = 0; i < listOfEditors->length(); i++) {
-        tag->setValue(listOfEditors->at(i)->key, listOfEditors->at(i)->editor->text());
+
+        QString value;
+        if(listOfEditors->at(i)->type == STRING || listOfEditors->at(i)->type == INT) {
+            value = ((QLineEdit*) listOfEditors->at(i)->editor)->text();
+        } else if(listOfEditors->at(i)->type == GENRE_FROM_LIST) {
+            value = ((Id3GenreSelection*) listOfEditors->at(i)->editor)->currentText();
+        }
+        tag->setValue(listOfEditors->at(i)->key, value);
     }
 }
 
-/*
- *Overrides TagEditor::createLayout() and adds the genre editor
- *to the layout
-*/
-void CommonTagEditor::createLayout() {
+void TagEditorWidget::createLayout() {
 
     int i = layout->rowCount();
     layout->addWidget(pictureLabel, i, 0);
@@ -126,21 +143,21 @@ void CommonTagEditor::createLayout() {
 
 }
 
-void CommonTagEditor::savePictureAsFile() {
+void TagEditorWidget::savePictureAsFile() {
     coverArtActions->savePictureAsFile(getPictureFromTag());
 }
 
-void CommonTagEditor::showPictureFullSize() {
+void TagEditorWidget::showPictureFullSize() {
     coverArtActions->showPictureFullSize(getPictureFromTag());
 }
 
-QImage* CommonTagEditor::getPictureFromTag() {
+QImage* TagEditorWidget::getPictureFromTag() {
 
     return tag->getCoverArt();
 
 }
 
-void CommonTagEditor::removeCover() {
+void TagEditorWidget::removeCover() {
 
     picturePath->clear();
     picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));
