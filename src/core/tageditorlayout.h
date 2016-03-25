@@ -46,23 +46,6 @@ private:
     QPointer<AudioFile> file;
     QWidget* parent; //this widget is the parent of all the widgets in this layout
     void loadTagEditors();
-    void loadAsfTags();
-    void loadWavPackTags();
-    void loadMpegTags();
-    void loadFlacTags();
-    void loadWavTags();
-    void loadOggVorbisTags();
-    void addId3v1Editor();
-    void addId3v2Editor();
-    void addApeTagEditor();
-    void addXiphCommentEditor();
-    AudioTag *apeTag;
-    AudioTag *asfTag;
-    AudioTag *id3v1Tag;
-    AudioTag *id3v2Tag;
-    AudioTag *infoTag;
-    AudioTag *xiphComment;
-
 };
 
 #endif // TAGEDITORLAYOUT_H
