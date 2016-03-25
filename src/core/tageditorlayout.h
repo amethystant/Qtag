@@ -27,7 +27,6 @@
 #define TAGEDITORLAYOUT_H
 
 #include <QtWidgets>
-#include <sstream>
 #include "core/main.h"
 
 class MainWindow;

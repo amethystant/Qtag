@@ -29,6 +29,7 @@
 #include <QTextStream>
 #include <QStringList>
 #include <QStyle>
+#include <sstream>
 #include "core/main.h"
 #include "core/qtagapp.h"
 
