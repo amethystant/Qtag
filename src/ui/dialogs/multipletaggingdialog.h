@@ -33,7 +33,7 @@
 #include <QCheckBox>
 #include <QRadioButton>
 #include "core/audiofile.h"
-#include "editors/assistant_classes/id3genreselection.h"
+#include "ui/assistant_classes/id3genreselection.h"
 #include "core/filelist.h"
 
 class MultipleTaggingDialog : public QDialog {

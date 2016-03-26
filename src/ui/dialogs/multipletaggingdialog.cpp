@@ -24,7 +24,7 @@
  */
 
 
-#include "dialogs/multipletaggingdialog.h"
+#include "ui/dialogs/multipletaggingdialog.h"
 #include "core/main.h"
 #include "core/picturefile.h"
 #include "core/audiotag.h"

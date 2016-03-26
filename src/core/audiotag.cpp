@@ -23,7 +23,7 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "audiotag.h"
+#include "core/audiotag.h"
 #include "core/audiofile.h"
 #include "core/main.h"
 #include <QFile>

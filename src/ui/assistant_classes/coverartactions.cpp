@@ -23,7 +23,7 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "editors/assistant_classes/coverartactions.h"
+#include "ui/assistant_classes/coverartactions.h"
 #include <QSettings>
 #include <QMessageBox>
 #include <QScrollArea>

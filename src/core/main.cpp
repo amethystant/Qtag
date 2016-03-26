@@ -23,8 +23,6 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-
-#include "core/mainwindow.h"
 #include <QFile>
 #include <QTextStream>
 #include <QStringList>

@@ -24,8 +24,8 @@
  */
 
 
-#include "editors/tageditorwidget.h"
-#include "editors/assistant_classes/id3genreselection.h"
+#include "ui/tageditorwidget.h"
+#include "ui/assistant_classes/id3genreselection.h"
 
 TagEditorWidget::TagEditorWidget(AudioTag *tag, QString nameOfTag, QWidget *parent) :
     QGroupBox(nameOfTag, parent) {

@@ -25,9 +25,9 @@
 
 #include "tageditorlayout.h"
 
-#include "core/mainwindow.h"
+#include "ui/mainwindow.h"
 #include "core/audiofile.h"
-#include "editors/tageditorwidget.h"
+#include "ui/tageditorwidget.h"
 #include "ui_mainwindow.h"
 
 TagEditorLayout::TagEditorLayout(MainWindow *window, AudioFile* file) : QVBoxLayout() {

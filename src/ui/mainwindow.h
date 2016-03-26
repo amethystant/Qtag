@@ -31,7 +31,7 @@
 #include <QSpacerItem>
 
 #include "core/audiofile.h"
-#include "core/tageditorlayout.h"
+#include "ui/tageditorlayout.h"
 #include "core/filelist.h"
 
 class QtagApp;

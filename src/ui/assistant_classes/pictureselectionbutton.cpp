@@ -24,7 +24,7 @@
  */
 
 #include <QSettings>
-#include "editors/assistant_classes/pictureselectionbutton.h"
+#include "ui/assistant_classes/pictureselectionbutton.h"
 
 PictureSelectionButton::PictureSelectionButton(QWidget* parent, QString* path, QLabel* preview) : QPushButton("Select a picture...", parent) {
 

@@ -29,8 +29,8 @@
 #include <QGroupBox>
 #include <QLineEdit>
 #include <QGridLayout>
-#include "editors/assistant_classes/pictureselectionbutton.h"
-#include "editors/assistant_classes/coverartactions.h"
+#include "ui/assistant_classes/pictureselectionbutton.h"
+#include "ui/assistant_classes/coverartactions.h"
 #include "core/audiotag.h"
 
 class TagEditorWidget : public QGroupBox {

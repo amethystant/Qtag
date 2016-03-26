@@ -29,7 +29,7 @@
 #include <QApplication>
 #include <QStyle>
 #include "core/filelist.h"
-#include "core/mainwindow.h"
+#include "ui/mainwindow.h"
 
 /*
  * This class is NOT inherited from QApplication and has

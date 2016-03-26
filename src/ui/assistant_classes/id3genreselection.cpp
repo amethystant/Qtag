@@ -23,7 +23,7 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "editors/assistant_classes/id3genreselection.h"
+#include "ui/assistant_classes/id3genreselection.h"
 
 Id3GenreSelection::Id3GenreSelection(QWidget* parent) : QComboBox(parent) {
 
