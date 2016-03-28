@@ -260,32 +260,32 @@ void MultipleTaggingDialog::startTagging() {
         value.value = titleEdit->text();
         listOfValues.append(value);
     }
-    if(titleCheck->isChecked()) {
+    if(trackCheck->isChecked()) {
         value.key = TagKeys::TRACK;
         value.value = trackEdit->text();
         listOfValues.append(value);
     }
-    if(titleCheck->isChecked()) {
+    if(albumCheck->isChecked()) {
         value.key = TagKeys::ALBUM;
         value.value = albumEdit->text();
         listOfValues.append(value);
     }
-    if(titleCheck->isChecked()) {
+    if(artistCheck->isChecked()) {
         value.key = TagKeys::ARTIST;
         value.value = artistEdit->text();
         listOfValues.append(value);
     }
-    if(titleCheck->isChecked()) {
+    if(genreCheck->isChecked()) {
         value.key = TagKeys::GENRE;
         value.value = genreEdit->currentText();
         listOfValues.append(value);
     }
-    if(titleCheck->isChecked()) {
+    if(commentCheck->isChecked()) {
         value.key = TagKeys::COMMENT;
         value.value = commentEdit->text();
         listOfValues.append(value);
     }
-    if(titleCheck->isChecked()) {
+    if(yearCheck->isChecked()) {
         value.key = TagKeys::YEAR;
         value.value = yearEdit->text();
         listOfValues.append(value);
