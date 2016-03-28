@@ -75,6 +75,7 @@ void TagEditorWidget::initEditors() {
         LabelAndEditor* labelAndEdit = new LabelAndEditor();
         labelAndEdit->key = key;
         TagValueType type = tag->getTypeOfKey(key);
+        labelAndEdit->type = type;
         if(type == STRING) {
             labelAndEdit->editor = new QLineEdit(tag->getValue(key), this);
             QObject::connect( (QLineEdit*) labelAndEdit->editor, SIGNAL(textEdited(QString)),
