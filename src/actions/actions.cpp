@@ -28,7 +28,7 @@
 #include "actions/actions.h"
 
 void Actions::duplicateTags(QList<AudioFile*> *files, TagFormat sourceTag,
-                            QList<TagFormat> targetTags, MultipleTaggingOptions options) {
+                            QList<TagFormat> targetTags, QList<TagKey> listOfKeys, bool coverArt) {
 
     for(int i = 0; i < files->length(); i++) {
 
@@ -45,33 +45,18 @@ void Actions::duplicateTags(QList<AudioFile*> *files, TagFormat sourceTag,
                 continue;
             }
 
-            if(options.title) {
-                currentTarget->setTitle(source->getTitle());
+            for(int k = 0; k < listOfKeys.length(); k++) {
+                TagKey key = listOfKeys.at(k);
+                currentTarget->setValue(key, source->getValue(key));
             }
-            if(options.track) {
-                currentTarget->setTrack(source->getTrack());
-            }
-            if(options.album) {
-                currentTarget->setAlbum(source->getAlbum());
-            }
-            if(options.artist) {
-                currentTarget->setArtist(source->getArtist());
-            }
-            if(options.genre) {
-                currentTarget->setGenre(source->getGenre());
-            }
-            if(options.comment) {
-                currentTarget->setComment(source->getComment());
-            }
-            if(options.year) {
-                currentTarget->setYear(source->getYear());
-            }
-            if(options.coverArt && source->getFormat() == TagFormats::ID3V2) {
+
+            if(coverArt && source->supportsCoverArt()) {
                 QImage* cover = source->getCoverArt();
-                if(cover != NULL)
+                if(cover != NULL) {
                     cover->save("cover.png", "PNG");
-                currentTarget->setCoverArt("cover.png");
-                QFile::remove("cover.png");
+                    currentTarget->setCoverArt("cover.png");
+                    QFile::remove("cover.png");
+                }
             }
 
         }
@@ -79,50 +64,35 @@ void Actions::duplicateTags(QList<AudioFile*> *files, TagFormat sourceTag,
 
 }
 
-void Actions::writeTagsTo(AudioFile *file, MultipleTaggingPattern pattern,
-                          TagFormat format, MultipleTaggingOptions options) {
+void Actions::writeTagsTo(AudioFile *file,
+                          TagFormat format, QList<TagKeyAndValue> listOfValues,
+                          bool coverArt, QString coverArtPath) {
 
     AudioTag* tag = file->getTagByName(format);
     if(tag == NULL) {
         return;
     }
 
-    if(options.title) {
-        tag->setTitle(pattern.title);
+    for(int i = 0; i < listOfValues.length(); i++) {
+        tag->setValue(listOfValues.at(i).key, listOfValues.at(i).value);
     }
-    if(options.track) {
-        tag->setTrack(pattern.track);
-    }
-    if(options.album) {
-        tag->setAlbum(pattern.album);
-    }
-    if(options.artist) {
-        tag->setArtist(pattern.artist);
-    }
-    if(options.genre) {
-        tag->setGenre(pattern.genre);
-    }
-    if(options.comment) {
-        tag->setComment(pattern.comment);
-    }
-    if(options.year) {
-        tag->setYear(pattern.year);
-    }
-    if(options.coverArt) {
-        tag->setCoverArt(pattern.coverArt);
+
+    if(coverArt) {
+        tag->setCoverArt(coverArtPath);
     }
 
 }
 
-void Actions::tagMultipleFiles(QList<AudioFile*> *files, MultipleTaggingPattern pattern,
-                               QList<TagFormat> formats, MultipleTaggingOptions options) {
+void Actions::tagMultipleFiles(QList<AudioFile*> *files, QList<TagFormat> formats,
+                               QList<TagKeyAndValue> listOfValues,
+                               bool coverArt, QString coverArtPath) {
 
     for(int i = 0; i < files->length(); i++) {
 
         AudioFile* file = files->at(i);
         for(int j = 0; j < formats.length(); j++) {
 
-            writeTagsTo(file, pattern, formats.at(j), options);
+            writeTagsTo(file, formats.at(j), listOfValues, coverArt, coverArtPath);
 
         }
 
@@ -301,35 +271,33 @@ QList<AudioFile*>* Actions::createAlbumFromDirectory(FileList* fileList, QString
 
         }
 
-        MultipleTaggingOptions options;
-        options.comment = false;
-        options.coverArt = false;
-        options.genre = false;
-        options.year = false;
-        options.title = false;
-        options.track = false;
-        options.album = false;
-        options.artist = false;
+        QList<Actions::TagKeyAndValue> listOfValues;
 
-        if(!title.isEmpty())
-            options.title = true;
-        if(!track.isEmpty())
-            options.track = true;
-        if(!album.isEmpty())
-            options.album = true;
-        if(!artist.isEmpty())
-            options.artist = true;
+        TagKeyAndValue value;
 
-        MultipleTaggingPattern pattern;
-        pattern.title = title;
-        if(track.startsWith('0'))
-            track.remove(0, 1);
-        pattern.track = track.toInt();
-        pattern.album = album;
-        pattern.artist = artist;
+        if(!title.isEmpty()) {
+            value.key = TagKeys::TITLE;
+            value.value = title;
+            listOfValues.append(value);
+        }
+        if(!track.isEmpty()) {
+            value.key = TagKeys::TRACK;
+            value.value = track;
+            listOfValues.append(value);
+        }
+        if(!album.isEmpty()) {
+            value.key = TagKeys::ALBUM;
+            value.value = album;
+            listOfValues.append(value);
+        }
+        if(!artist.isEmpty()) {
+            value.key = TagKeys::ARTIST;
+            value.value = artist;
+            listOfValues.append(value);
+        }
 
         for(int j = 0; j < tagFormats.length(); j++) {
-            writeTagsTo(file, pattern, tagFormats.at(j), options);
+            writeTagsTo(file, tagFormats.at(j), listOfValues, false, QString());
         }
 
     }
@@ -339,7 +307,7 @@ QList<AudioFile*>* Actions::createAlbumFromDirectory(FileList* fileList, QString
 
 }
 
-void Actions::capitalizeTags(AudioFile *file, QList<TagFormat> formats, MultipleTaggingOptions options) {
+void Actions::capitalizeTags(AudioFile *file, QList<TagFormat> formats, QList<TagKey> listOfKeys) {
 
     for(int i = 0; i < formats.length(); i++) {
         AudioTag* tag = file->getTagByName(formats.at(i));
@@ -347,20 +315,9 @@ void Actions::capitalizeTags(AudioFile *file, QList<TagFormat> formats, Multiple
             continue;
         }
 
-        if(options.title) {
-            tag->setTitle(capitalized(tag->getTitle()));
-        }
-        if(options.album) {
-            tag->setAlbum(capitalized(tag->getAlbum()));
-        }
-        if(options.artist) {
-            tag->setArtist(capitalized(tag->getArtist()));
-        }
-        if(options.genre) {
-            tag->setGenre(capitalized(tag->getGenre()));
-        }
-        if(options.comment) {
-            tag->setComment(capitalized(tag->getComment()));
+        for(int j = 0; j < listOfKeys.length(); j++) {
+            TagKey key = listOfKeys.at(j);
+            tag->setValue(key, capitalized(tag->getValue(key)));
         }
 
     }
@@ -368,7 +325,7 @@ void Actions::capitalizeTags(AudioFile *file, QList<TagFormat> formats, Multiple
 }
 
 void Actions::replaceStringsInTags(AudioFile *file, QList<TagFormat> formats,
-                                   MultipleTaggingOptions options, QString replace, QString replaceWith) {
+                                   QList<TagKey> listOfKeys, QString replace, QString replaceWith) {
 
     for(int i = 0; i < formats.length(); i++) {
 
@@ -377,30 +334,11 @@ void Actions::replaceStringsInTags(AudioFile *file, QList<TagFormat> formats,
             continue;
         }
 
-        if(options.title) {
-            QString title = tag->getTitle();
-            title.replace(replace, replaceWith);
-            tag->setTitle(title);
-        }
-        if(options.album) {
-            QString album = tag->getAlbum();
-            album.replace(replace, replaceWith);
-            tag->setAlbum(album);
-        }
-        if(options.artist) {
-            QString artist = tag->getArtist();
-            artist.replace(replace, replaceWith);
-            tag->setArtist(artist);
-        }
-        if(options.genre) {
-            QString genre = tag->getGenre();
-            genre.replace(replace, replaceWith);
-            tag->setGenre(genre);
-        }
-        if(options.comment) {
-            QString comment = tag->getComment();
-            comment.replace(replace, replaceWith);
-            tag->setComment(comment);
+        for(int j = 0; j < listOfKeys.length(); j++) {
+            TagKey key = listOfKeys.at(j);
+            QString value = tag->getValue(key);
+            value.replace(replace, replaceWith);
+            tag->setValue(key, value);
         }
 
     }

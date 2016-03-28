@@ -273,34 +273,28 @@ void CreateAlbumDialog::startTagging() {
         return;
     }
 
-    Actions::MultipleTaggingOptions options;
-
-    options.album = false;
-    options.artist = false;
-    options.title = false;
-    options.comment = false;
-    options.genre = false;
+    QList<TagKey> listOfKeys;
 
     if(tagFormat.count("%t")) {
-        options.title = true;
+        listOfKeys.append(TagKeys::TITLE);
     }
     if(tagFormat.count("%a")) {
-        options.artist = true;
+        listOfKeys.append(TagKeys::ARTIST);
     }
     if(tagFormat.count("%l")) {
-        options.album = true;
+        listOfKeys.append(TagKeys::ALBUM);
     }
 
     if(!replaceStringEdit->text().isEmpty()) {
         for(int i = 0; i < taggedFiles->length(); i++) {
-            Actions::replaceStringsInTags(taggedFiles->at(i), formats, options,
+            Actions::replaceStringsInTags(taggedFiles->at(i), formats, listOfKeys,
                                           replaceStringEdit->text(), replaceByEdit->text());
         }
     }
 
     if(makeCapitalLettersCheck->isChecked()) {
         for(int i = 0; i < taggedFiles->length(); i++) {
-            Actions::capitalizeTags(taggedFiles->at(i), formats, options);
+            Actions::capitalizeTags(taggedFiles->at(i), formats, listOfKeys);
         }
     }
 

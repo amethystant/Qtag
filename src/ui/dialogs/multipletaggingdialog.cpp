@@ -251,45 +251,45 @@ void MultipleTaggingDialog::startTagging() {
     message->setStandardButtons(QMessageBox::NoButton);
     message->show();
 
-    Actions::MultipleTaggingPattern pattern;
-    pattern.title = titleEdit->text();
-    pattern.track = trackEdit->text().toInt();
-    pattern.album = albumEdit->text();
-    pattern.artist = artistEdit->text();
-    pattern.year = yearEdit->text().toInt();
-    pattern.comment = commentEdit->text();
-    pattern.genre = genreEdit->currentText();
-    if(coverEdit->text() == coverEditDefaultText)
-        pattern.coverArt = "";
-    else
-        pattern.coverArt = coverEdit->text();
+    QList<Actions::TagKeyAndValue> listOfValues;
 
-    Actions::MultipleTaggingOptions options;
-    options.title = false;
-    options.album = false;
-    options.track = false;
-    options.artist = false;
-    options.genre = false;
-    options.year = false;
-    options.comment = false;
-    options.coverArt = false;
 
-    if(titleCheck->isChecked())
-        options.title = true;
-    if(trackCheck->isChecked())
-        options.track = true;
-    if(albumCheck->isChecked())
-        options.album = true;
-    if(artistCheck->isChecked())
-        options.artist = true;
-    if(yearCheck->isChecked())
-        options.year = true;
-    if(genreCheck->isChecked())
-        options.genre = true;
-    if(commentCheck->isChecked())
-        options.comment = true;
-    if(coverCheck->isChecked())
-        options.coverArt = true;
+    Actions::TagKeyAndValue value;
+    if(titleCheck->isChecked()) {
+        value.key = TagKeys::TITLE;
+        value.value = titleEdit->text();
+        listOfValues.append(value);
+    }
+    if(titleCheck->isChecked()) {
+        value.key = TagKeys::TRACK;
+        value.value = trackEdit->text();
+        listOfValues.append(value);
+    }
+    if(titleCheck->isChecked()) {
+        value.key = TagKeys::ALBUM;
+        value.value = albumEdit->text();
+        listOfValues.append(value);
+    }
+    if(titleCheck->isChecked()) {
+        value.key = TagKeys::ARTIST;
+        value.value = artistEdit->text();
+        listOfValues.append(value);
+    }
+    if(titleCheck->isChecked()) {
+        value.key = TagKeys::GENRE;
+        value.value = genreEdit->currentText();
+        listOfValues.append(value);
+    }
+    if(titleCheck->isChecked()) {
+        value.key = TagKeys::COMMENT;
+        value.value = commentEdit->text();
+        listOfValues.append(value);
+    }
+    if(titleCheck->isChecked()) {
+        value.key = TagKeys::YEAR;
+        value.value = yearEdit->text();
+        listOfValues.append(value);
+    }
 
     QList<AudioFile*>* list;
 
@@ -327,8 +327,13 @@ void MultipleTaggingDialog::startTagging() {
     if(infoTagCheck->isChecked())
         formats.append(TagFormats::INFO);
 
+
+    bool coverArt = coverCheck->isChecked();
+    QString coverArtPath = coverEdit->text();
+    if(coverEdit->text() == coverEditDefaultText)
+        coverArtPath = "";
     if(multipleTaggingButton->isChecked()) {
-        Actions::tagMultipleFiles(list, pattern, formats, options);
+        Actions::tagMultipleFiles(list, formats, listOfValues, coverArt, coverArtPath);
     } else {
         TagFormat sourceFormat;
         if(sourceTagBox->currentText() == QString(TagFormats::ID3V1.c_str()))
@@ -343,7 +348,11 @@ void MultipleTaggingDialog::startTagging() {
             sourceFormat = TagFormats::XIPH;
         if(sourceTagBox->currentText() == QString(TagFormats::INFO.c_str()))
             sourceFormat = TagFormats::INFO;
-        Actions::duplicateTags(list, sourceFormat, formats, options);
+        QList<TagKey> listOfKeys;
+        for(int i = 0; i < listOfValues.length(); i++) {
+            listOfKeys.append(listOfValues.at(i).key);
+        }
+        Actions::duplicateTags(list, sourceFormat, formats, listOfKeys, coverArt);
     }
 
     message->close();

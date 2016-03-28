@@ -35,46 +35,27 @@ namespace Actions {
 
     typedef struct {
 
-        bool title;
-        bool track ;
-        bool album ;
-        bool artist ;
-        bool genre ;
-        bool year;
-        bool comment;
-        bool coverArt;
+        TagKey key;
+        QString value;
 
-    } MultipleTaggingOptions;
-
-    typedef struct {
-
-        QString title;
-        int track;
-        QString album;
-        QString artist;
-        QString genre;
-        QString comment;
-        int year;
-        QString coverArt;
-
-    } MultipleTaggingPattern;
+    } TagKeyAndValue;
 
     void duplicateTags(QList<AudioFile*> *files, TagFormat sourceTag,
-                       QList<TagFormat> targetTags, MultipleTaggingOptions options);
+                       QList<TagFormat> targetTags, QList<TagKey> listOfKeys, bool coverArt);
 
     QList<AudioFile*>* createAlbumFromDirectory(FileList* fileList, QString rootDir,
                                  QList<TagFormat> tagFormats, QString tagFormat);
 
-    void writeTagsTo(AudioFile* file, MultipleTaggingPattern pattern,
-                     TagFormat format, MultipleTaggingOptions options);
+    void writeTagsTo(AudioFile* file, TagFormat format, QList<TagKeyAndValue> listOfValues,
+                     bool coverArt, QString coverArtPath);
 
-    void tagMultipleFiles(QList<AudioFile*> *files, MultipleTaggingPattern pattern,
-                          QList<TagFormat> formats, MultipleTaggingOptions options);
+    void tagMultipleFiles(QList<AudioFile*> *files, QList<TagFormat> formats,
+                          QList<TagKeyAndValue> listOfValues, bool coverArt, QString coverArtPath);
 
-    void capitalizeTags(AudioFile* file, QList<TagFormat> formats, MultipleTaggingOptions options);
+    void capitalizeTags(AudioFile* file, QList<TagFormat> formats, QList<TagKey> listOfKeys);
 
     void replaceStringsInTags(AudioFile* file, QList<TagFormat> formats,
-                              MultipleTaggingOptions options, QString replace, QString replaceWith);
+                              QList<TagKey> listOfKeys, QString replace, QString replaceWith);
 
 }
 
