@@ -335,19 +335,7 @@ void MultipleTaggingDialog::startTagging() {
     if(multipleTaggingButton->isChecked()) {
         Actions::tagMultipleFiles(list, formats, listOfValues, coverArt, coverArtPath);
     } else {
-        TagFormat sourceFormat;
-        if(sourceTagBox->currentText() == QString(TagFormats::ID3V1.c_str()))
-            sourceFormat = TagFormats::ID3V1;
-        if(sourceTagBox->currentText() == QString(TagFormats::ID3V2.c_str()))
-            sourceFormat = TagFormats::ID3V2;
-        if(sourceTagBox->currentText() == QString(TagFormats::APE.c_str()))
-            sourceFormat = TagFormats::APE;
-        if(sourceTagBox->currentText() == QString(TagFormats::ASF.c_str()))
-            sourceFormat = TagFormats::ASF;
-        if(sourceTagBox->currentText() == QString(TagFormats::XIPH.c_str()))
-            sourceFormat = TagFormats::XIPH;
-        if(sourceTagBox->currentText() == QString(TagFormats::INFO.c_str()))
-            sourceFormat = TagFormats::INFO;
+        TagFormat sourceFormat = sourceTagBox->currentText().toStdString();
         QList<TagKey> listOfKeys;
         for(int i = 0; i < listOfValues.length(); i++) {
             listOfKeys.append(listOfValues.at(i).key);
