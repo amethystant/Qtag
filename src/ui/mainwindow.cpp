@@ -77,8 +77,9 @@ MainWindow::~MainWindow() {
 void MainWindow::closeEvent(QCloseEvent *event) {
 
     if(unsavedChanges() && askBeforeClosing() == QMessageBox::Cancel)
-        return;
-    QMainWindow::closeEvent(event);
+        event->ignore();
+    else
+        QMainWindow::closeEvent(event);
 
 }
 
