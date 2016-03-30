@@ -43,7 +43,8 @@ SOURCES += core/main.cpp                                        \
     ui/assistant_classes/coverartactions.cpp                    \
     core/qtagapp.cpp                                            \
     core/audiotag.cpp                                           \
-    actions/actions.cpp
+    actions/actions.cpp                                         \
+    core/settings.cpp
 
 HEADERS += core/picturefile.h                                   \
     ui/mainwindow.h                                             \
@@ -60,7 +61,8 @@ HEADERS += core/picturefile.h                                   \
     ui/assistant_classes/coverartactions.h                      \
     core/qtagapp.h                                              \
     core/audiotag.h                                             \
-    actions/actions.h
+    actions/actions.h                                           \
+    core/settings.h
 
 FORMS += ui/forms/mainwindow.ui
 

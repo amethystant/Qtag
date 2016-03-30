@@ -26,6 +26,7 @@
 #include "ui/dialogs/configdialog.h"
 #include "core/main.h"
 #include "core/qtagapp.h"
+#include "core/settings.h"
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -62,9 +63,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
     styleSelection->addItem("GTK");
     styleSelection->addItem("Fusion");
 
-    settings = new QSettings(this);
-
-    QString currentStyle = settings->value("style", "native").toString();
+    QString currentStyle = Settings::getApplicationTheme();
     styleSelection->setCurrentText(currentStyle);
 
     iconsGroup = new QGroupBox("Icon theme", appearanceSettingsWidget);
@@ -72,25 +71,22 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent) {
     nativeIconsButton = new QRadioButton("Use native icon theme (Linux only)", appearanceSettingsWidget);
     oxygenIconsButton = new QRadioButton("Use Oxygen icon theme", appearanceSettingsWidget);
 
-    QString currentIconTheme = settings->value("icons", "native").toString();
-    if(currentIconTheme == "native") {
+    Settings::IconTheme currentIconTheme = Settings::getIconTheme();
+    if(currentIconTheme == Settings::NATIVE) {
         nativeIconsButton->setChecked(true);
     } else {
         oxygenIconsButton->setChecked(true);
     }
 
-    bool openLastFiles = settings->value("openfiles", QVariant(false)).toBool();
-    if(openLastFiles) {
+    if(Settings::getOpenLastSession()) {
         openLastFilesCheck->setChecked(true);
     }
 
-    bool warnBeforeClosing = settings->value("warnbeforeclosing", QVariant(true)).toBool();
-    if(warnBeforeClosing) {
+    if(Settings::getWarnBeforeClosingUnsavedFiles()) {
         warnBeforeClosingCheck->setChecked(true);
     }
 
-    int previewSize = settings->value("previewsize", QVariant(150)).toInt();
-    coverPreviewSizeEdit->setText(intToString(previewSize));
+    coverPreviewSizeEdit->setText(intToString(Settings::getPicturePreviewSize()));
 
     iconsSelection->addButton(nativeIconsButton);
     iconsSelection->addButton(oxygenIconsButton);
@@ -190,24 +186,19 @@ void ConfigDialog::changeLayout(QListWidgetItem *item) {
 
 void ConfigDialog::applyChanges() {
 
-    if(openLastFilesCheck->isChecked()) {
-        settings->setValue("openfiles", true);
-    } else {
-        settings->setValue("openfiles", false);
-    }
-    settings->setValue("previewsize", QVariant(coverPreviewSizeEdit->text().toInt()));
+    Settings::setOpenFilesFromLastSession(openLastFilesCheck->isChecked());
+    Settings::setPicturePreviewSize(coverPreviewSizeEdit->text().toInt());
 
-    settings->setValue("style", QVariant(styleSelection->currentText()));
+    Settings::setApplicationTheme(styleSelection->currentText());
     if(nativeIconsButton->isChecked()) {
-        settings->setValue("icons", "native");
+        Settings::setIconTheme(Settings::NATIVE);
     } else {
-        settings->setValue("icons", "oxygen");
+        Settings::setIconTheme(Settings::OXYGEN);
     }
 
-    settings->setValue("warnbeforeclosing", QVariant(warnBeforeClosingCheck->isChecked()));
+    Settings::setWarnBeforeClosingUnsavedFiles(warnBeforeClosingCheck->isChecked());
 
     QApplication::setStyle(QtagApp::getStyleFromSettings());
-    settings->sync();
 
     close();
 

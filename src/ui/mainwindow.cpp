@@ -31,6 +31,7 @@
 #include "ui/dialogs/createalbumdialog.h"
 #include "ui/dialogs/configdialog.h"
 #include "core/qtagapp.h"
+#include "core/settings.h"
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QGridLayout>
@@ -85,10 +86,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 void MainWindow::setIcons() {
 
-    QSettings settings;
-    QString iconTheme = settings.value("icons", "native").toString();
-
-    if(iconTheme == "native") {
+    if(Settings::getIconTheme() == Settings::NATIVE) {
 
         ui->actionQuit->setIcon(QIcon::fromTheme("application-exit", QIcon(":/images/application-exit.png")));
         ui->actionCreateAlbumFromDirectory->setIcon(QIcon::fromTheme("media-optical", QIcon(":/images/createalbum.png")));
@@ -485,8 +483,7 @@ void MainWindow::closeAll() {
 
 int MainWindow::askBeforeClosing() {
 
-    QSettings settings;
-    if(!settings.value("warnbeforeclosing", true).toBool())
+    if(!Settings::getWarnBeforeClosingUnsavedFiles())
         return QMessageBox::Discard;
     QMessageBox *msg = new QMessageBox(this);
     msg->setText("You are going to loose all unsaved changes. \n"
@@ -503,8 +500,7 @@ int MainWindow::askBeforeClosing() {
     }
 
     if(dontAskCheck->isChecked()) {
-        settings.setValue("warnbeforeclosing", false);
-        settings.sync();
+        Settings::setWarnBeforeClosingUnsavedFiles(false);
     }
 
     return response;

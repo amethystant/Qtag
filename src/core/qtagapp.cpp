@@ -24,6 +24,7 @@
  */
 
 #include "core/qtagapp.h"
+#include "core/settings.h"
 
 QtagApp::QtagApp(QApplication *app) : QObject(app) {
 
@@ -38,8 +39,7 @@ QtagApp::QtagApp(QApplication *app) : QObject(app) {
 
     QObject::connect(fileList, SIGNAL(fileListChanged()), this, SIGNAL(fileListChanged()));
 
-    QSettings settings;
-    if(settings.value("openfiles", QVariant(false)).toBool()) {
+    if(Settings::getOpenLastSession()) {
         openLastSession();
     }
 
@@ -55,10 +55,7 @@ void QtagApp::start() {
 
 QStyle* QtagApp::getStyleFromSettings() {
 
-    QSettings settings;
-    QVariant value = settings.value("style");
-    QString style = value.toString();
-    return QStyleFactory::create(style);
+    return QStyleFactory::create(Settings::getApplicationTheme());
 
 }
 

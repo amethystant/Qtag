@@ -24,6 +24,7 @@
  */
 
 #include "ui/assistant_classes/coverartactions.h"
+#include "core/settings.h"
 #include <QSettings>
 #include <QMessageBox>
 #include <QScrollArea>
@@ -39,8 +40,7 @@ CoverArtActions::CoverArtActions(QWidget *parent, QLabel *preview) : QObject(par
 
 void CoverArtActions::showPicturePreview(QImage* image) {
 
-    QSettings settings;
-    int size = settings.value("previewsize", QVariant(150)).toInt();
+    int size = Settings::getPicturePreviewSize();
     if(!image || image->isNull()) {
         picturePreview->clear();
         picturePreview->setPixmap(QPixmap::fromImage(QImage(":images/nofile.png")));

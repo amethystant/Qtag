@@ -46,7 +46,6 @@ public:
     ConfigDialog(QWidget *parent);
 
 private:
-    QSettings* settings;
 
     QListWidget* contentsWidget;
     QStackedWidget* stackedWidget;
