@@ -86,10 +86,10 @@ unix:!android {
     binary.path = /usr/local/bin
     binary.files = qtag
 
-    desktopfile.path = ~/.local/share/applications
+    desktopfile.path = /usr/local/share/applications
     desktopfile.files = qtag.desktop
 
-    pixmap.path = ~/.local/share/pixmaps
+    pixmap.path = /usr/local/share/pixmaps
     pixmap.files = images/Qtag.png
 
     INSTALLS += binary desktopfile pixmap

@@ -8,23 +8,26 @@ Copyright (C) 2015 - 2016 Karel Patlejch <kaja.patlejch@gmail.com>
 
 **Linux:**
 
-Pick a package suitable for your system here: https://github.com/amethystAnt/Qtag/releases
+  Pick a package suitable for your system here: https://github.com/amethystAnt/Qtag/releases
 
-If you want to compile it, install Qt 5 and TagLib (and obviously GCC and Git) and open a command line:
+  If you want to compile it, install Qt 5 and TagLib (and obviously GCC and Git) and open a command line:
 
-  $git clone http://www.github.com/amethystAnt/Qtag.git
-  $git checkout stable
-  $cd Qtag/src
-  $qmake-qt5 # or just qmake could also work
-  $make
-  #make install
+    $ git clone http://www.github.com/amethystAnt/Qtag.git
+    $ git checkout stable
+    $ cd Qtag/src
+    $ qmake-qt5 # or just qmake could also work
+    $ make
+    # make install
 
-Note: it is strongly recommended that you use the latest version of TagLib (at least 1.10) to avoid some bugs.
+  If you wish to specify the installation path of the binary (the default is /usr/local/bin), use this command instead of qmake-qt5:
+    $ qmake-qt5 -after "binary.path=/desired/path"
+
+  Note: it is strongly recommended that you use the latest version of TagLib (at least 1.10) to avoid some bugs.
 
 **Windows:**
 
-Download an installer here: https://github.com/amethystAnt/Qtag-installer/releases/
+  Download an installer here: https://github.com/amethystAnt/Qtag-installer/releases/
 
 **Others:**
 
-If you'd like to compile it on *BSD or OS X, do it on your own.
+  If you'd like to compile it on *BSD or OS X, do it on your own.
