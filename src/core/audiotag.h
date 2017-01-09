@@ -64,6 +64,7 @@ public:
     QList<TagKey> getListOfSupportedKeys();
     bool supportsKey(TagKey key);
     bool supportsCoverArt();
+    bool supportsUnicode();
     TagValueType getTypeOfKey(TagKey key);
     bool isEmpty();
 

@@ -340,7 +340,7 @@ AudioTag *AudioFile::getTagByName(TagFormat name) {
     else if(name == TagFormats::XIPH)
         return xiphComment;
 
-        return NULL;
+    return NULL;
 }
 
 QString AudioFile::getType() {

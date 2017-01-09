@@ -114,7 +114,7 @@ void TagEditorWidget::updateTags() {
         } else if(listOfEditors->at(i)->type == GENRE_FROM_LIST) {
             value = ((Id3GenreSelection*) listOfEditors->at(i)->editor)->currentText();
         }
-        tag->setValue(listOfEditors->at(i)->key, value);
+        tag->setValue(listOfEditors->at(i)->key, value.toUtf8());
     }
 }
 

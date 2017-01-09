@@ -185,22 +185,40 @@ void AudioTag::setCoverArt(QString picturePath) {
 
 void AudioTag::setValue(TagKey key, QString value) {
 
+    TagLib::String *str;
+    if(supportsUnicode()) {
+        str = new TagLib::String(value.toStdString(), TagLib::String::UTF8);
+    } else {
+
+        char charArray[value.size() + 1];
+        int i;
+        for(i = 0; i < value.size(); i++) {
+            QChar qchar = value.at(i);
+            charArray[i] = qchar.toLatin1();
+        }
+        charArray[i] = '\0';
+
+        str = new TagLib::String(charArray, TagLib::String::Latin1);
+
+    }
+
     if(key == TagKeys::TITLE) {
-        tag->setTitle(value.toStdString());
+        tag->setTitle(*str);
     } else if(key == TagKeys::TRACK) {
         tag->setTrack(value.toInt());
     } else if(key == TagKeys::ALBUM) {
-        tag->setAlbum(value.toStdString());
+        tag->setAlbum(*str);
     } else if(key == TagKeys::ARTIST) {
-        tag->setArtist(value.toStdString());
+        tag->setArtist(*str);
     } else if(key == TagKeys::GENRE) {
-        tag->setGenre(value.toStdString());
+        tag->setGenre(*str);
     } else if(key == TagKeys::COMMENT) {
-        tag->setComment(value.toStdString());
+        tag->setComment(*str);
     } else if(key == TagKeys::YEAR) {
         tag->setYear(value.toInt());
     }
 
+    delete str;
     emit edited();
 
 }
@@ -370,6 +388,16 @@ bool AudioTag::supportsCoverArt() {
     } else {
         return false;
     }
+}
+
+bool AudioTag::supportsUnicode() {
+
+    if(type == TagFormats::ID3V1) {
+        return false;
+    }
+
+    return true;
+
 }
 
 TagValueType AudioTag::getTypeOfKey(TagKey key) {
