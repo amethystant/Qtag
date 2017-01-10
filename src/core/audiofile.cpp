@@ -224,6 +224,13 @@ void AudioFile::updateBasicInfo() {
         tag = xiphComment;
     else if(infoTag && !infoTag->isEmpty())
         tag = infoTag;
+    else {
+        name = "";
+        track = 0;
+        album = "";
+        artist = "";
+        return;
+    }
 
     name = tag->getTitle();
     track = tag->getTrack();
