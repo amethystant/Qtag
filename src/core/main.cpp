@@ -51,6 +51,11 @@ QString intToString(int i) {
 }
 
 QString capitalized(QString s) {
+
+    if(s.isEmpty()) {
+        return s;
+    }
+
     s.replace(0, 1, s.at(0).toUpper());
     int index = 0;
     for(int i = 0; i < s.count(' '); i++) {
@@ -58,5 +63,7 @@ QString capitalized(QString s) {
         if(s.length() > index)
             s.replace(index, 1, s.at(index).toUpper());
     }
+
     return s;
+
 }
