@@ -1,3 +1,8 @@
+01/12/16 *Qtag 0.3.1
+        - Optimalizations, refactoring, major code structure changes
+        - Bug fixed - saving unicode characters didn't work
+        - Bug fixed - creating albums was behaving strangly when using question marks as wildcards
+
 03/18/16 *Qtag 0.3
         - Added a feature - you can select multiple files and use that selection in Multiple tagging dialog
         - Added support for reading and writing the cover art in ASF tags
