@@ -123,14 +123,18 @@ QList<AudioFile*>* Actions::createAlbumFromDirectory(FileList* fileList, QString
         }
     }
 
-    while(filter.indexOf('?') != -1 && filter.length() != filter.indexOf('?') + 1) {
-        int i = filter.indexOf('?');
+    int i = filter.indexOf('?');
+    while(i != -1 && filter.length() != i + 1) {
+
         if(filter.at(i + 1) == '*' || filter.at(i + 1) == '%' || filter.at(i + 1) == '*') {
             return NULL;
         }
+
+        i = filter.indexOf('?', i + 1);
+
     }
 
-   while(filter.indexOf('%') != -1) {
+    while(filter.indexOf('%') != -1) {
         int i = filter.indexOf('%');
         if(filter.length() - (i+1) == 1) {
             filter.replace(i, 2, '*');
@@ -151,7 +155,7 @@ QList<AudioFile*>* Actions::createAlbumFromDirectory(FileList* fileList, QString
     }
 
     QString nameFilter = filter;
-    int i = nameFilter.lastIndexOf('/');
+    i = nameFilter.lastIndexOf('/');
     nameFilter.remove(0, i+1);
 
     nameFilters.append(nameFilter + ".mp3");
@@ -231,9 +235,10 @@ QList<AudioFile*>* Actions::createAlbumFromDirectory(FileList* fileList, QString
                 QChar symbol  = s.at(0);
                 s.remove(0, 1);
                 int in;
-                if(!s.isEmpty())
-                    in = currentFile.indexOf(s, index);
-                else
+                if(!s.isEmpty()) {
+                    QRegExp r(s, Qt::CaseSensitive, QRegExp::Wildcard);
+                    in = r.indexIn(currentFile, index);
+                } else
                     in = currentFile.length();
                 QString extractedString = currentFile.mid(index, in-index);
                 format.replace(format.indexOf('%'), 2, extractedString);
@@ -252,9 +257,10 @@ QList<AudioFile*>* Actions::createAlbumFromDirectory(FileList* fileList, QString
 
                 QString s = format.section('*', 1, 1);
                 int in;
-                if(!s.isEmpty())
-                    in = currentFile.indexOf(s, index1);
-                else
+                if(!s.isEmpty()) {
+                    QRegExp r(s, Qt::CaseSensitive, QRegExp::Wildcard);
+                    in = r.indexIn(currentFile, index1);
+                } else
                     in = currentFile.length();
                 QString extractedString = currentFile.mid(index1, in-index1);
                 format.replace(format.indexOf('*'), 1, extractedString);
@@ -264,7 +270,7 @@ QList<AudioFile*>* Actions::createAlbumFromDirectory(FileList* fileList, QString
                       (index2 < index1 || index1 == -1) && index2 != -1) {
 
 
-                QString extractedChar = currentFile.mid(index1, 1);
+                QString extractedChar = currentFile.mid(index2, 1);
                 format.replace(format.indexOf('?'), 1, extractedChar);
 
             }
