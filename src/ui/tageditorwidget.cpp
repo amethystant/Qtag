@@ -80,7 +80,7 @@ void TagEditorWidget::initEditors() {
             labelAndEdit->editor = new QLineEdit(tag->getValue(key), this);
             QObject::connect( (QLineEdit*) labelAndEdit->editor, SIGNAL(textEdited(QString)),
                               this, SLOT(updateTags()));
-        } else if(type == INT) {
+        } else if(type == INTEGER) {
             labelAndEdit->editor = new QLineEdit(tag->getValue(key), this);
             QLineEdit* editor = (QLineEdit*) labelAndEdit->editor;
             editor->setValidator(new QIntValidator(0, 10000, editor));
@@ -109,7 +109,7 @@ void TagEditorWidget::updateTags() {
     for(int i = 0; i < listOfEditors->length(); i++) {
 
         QString value;
-        if(listOfEditors->at(i)->type == STRING || listOfEditors->at(i)->type == INT) {
+        if(listOfEditors->at(i)->type == STRING || listOfEditors->at(i)->type == INTEGER) {
             value = ((QLineEdit*) listOfEditors->at(i)->editor)->text();
         } else if(listOfEditors->at(i)->type == GENRE_FROM_LIST) {
             value = ((Id3GenreSelection*) listOfEditors->at(i)->editor)->currentText();

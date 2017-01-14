@@ -190,7 +190,7 @@ void AudioTag::setValue(TagKey key, QString value) {
         str = new TagLib::String(value.toStdString(), TagLib::String::UTF8);
     } else {
 
-        char charArray[value.size() + 1];
+        char* charArray = new char[value.size() + 1];
         int i;
         for(i = 0; i < value.size(); i++) {
             QChar qchar = value.at(i);
@@ -403,7 +403,7 @@ bool AudioTag::supportsUnicode() {
 TagValueType AudioTag::getTypeOfKey(TagKey key) {
 
     if(key == TagKeys::YEAR || key == TagKeys::TRACK) {
-        return INT;
+        return INTEGER;
     }
 
     if (key == TagKeys::GENRE && ( type == TagFormats::ID3V1 || type == TagFormats::ID3V2 )) {
