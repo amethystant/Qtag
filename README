@@ -3,31 +3,34 @@ Supports ID3v1, ID3v2, Xiph Comments and various other tag formats.
 Includes some advanced options like multiple tagging, copying tags, tagging from path/filename...
 Licensed under GPLv2
 
-Copyright (C) 2015 - 2016 Karel Patlejch <kaja.patlejch@gmail.com>
+Copyright (C) 2015 - 2016 Karel Patlejch <patlejch.karel@gmail.com>
 
+**INSTALLATION:**
 
-**Linux:**
+  Installer binaries can be found at https://github.com/amethystAnt/Qtag-installer/releases/
+  However, you might find out that there is no installer for your system, then you might need to compile the software.
+  Some advice on that can be found in the sections below.
 
-  Pick a package suitable for your system here: https://github.com/amethystAnt/Qtag/releases
+**Unix:**
 
-  If you want to compile it, install Qt 5 and TagLib (and obviously GCC and Git) and open a command line:
+  On Unix, you probably need to compile it if there is no installer for your system.
+  Install Qt 5 and TagLib (and obviously GCC and Git) and open a command line:
 
     $ git clone http://www.github.com/amethystAnt/Qtag.git
     $ git checkout stable
     $ cd Qtag/src
-    $ qmake-qt5 # or just qmake could also work
+    $ qmake-qt5 # or just "qmake" might also work, depends on your system
     $ make
     # make install
 
   If you wish to specify the installation path of the binary (the default is /usr/local/bin), use this command instead of qmake-qt5:
     $ qmake-qt5 -after "binary.path=/desired/path"
 
+  This has been tested on some Linux systems as well as MacOS.
+  On Mac, you might face some problems when trying to run the compiled app that must be solved individually on your system.
+
   Note: it is strongly recommended that you use the latest version of TagLib (at least 1.10) to avoid some bugs.
 
 **Windows:**
 
   Download an installer here: https://github.com/amethystAnt/Qtag-installer/releases/
-
-**Others:**
-
-  If you'd like to compile it on *BSD or OS X, do it on your own.
