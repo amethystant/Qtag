@@ -5,13 +5,15 @@ Licensed under GPLv2
 
 Copyright (C) 2015 - 2016 Karel Patlejch <patlejch.karel@gmail.com>
 
-**INSTALLATION:**
+**MacOS**
 
-  Installer binaries can be found at https://github.com/amethystAnt/Qtag-installer/releases/
-  However, you might find out that there is no installer for your system, then you might need to compile the software.
-  Some advice on that can be found in the sections below.
+  Download a DMG image here: https://github.com/amethystAnt/Qtag/releases/
 
-**Unix:**
+**Windows:**
+
+  Download an installer here: https://github.com/amethystAnt/Qtag-installer/releases/
+
+**Unix (except macOS):**
 
   On Unix, you probably need to compile it if there is no installer for your system.
   Install Qt 5 and TagLib (and obviously GCC and Git) and open a command line:
@@ -26,11 +28,5 @@ Copyright (C) 2015 - 2016 Karel Patlejch <patlejch.karel@gmail.com>
   If you wish to specify the installation path of the binary (the default is /usr/local/bin), use this command instead of qmake-qt5:
     $ qmake-qt5 -after "binary.path=/desired/path"
 
-  This has been tested on some Linux systems as well as MacOS.
-  On Mac, you might face some problems when trying to run the compiled app that must be solved individually on your system.
-
+  This has been tested on some Linux systems, namely Ubuntu and Fedora.
   Note: it is strongly recommended that you use the latest version of TagLib (at least 1.10) to avoid some bugs.
-
-**Windows:**
-
-  Download an installer here: https://github.com/amethystAnt/Qtag-installer/releases/
