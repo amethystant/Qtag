@@ -92,6 +92,7 @@ unix:!android {
     pixmap.path = /usr/local/share/pixmaps
     pixmap.files = images/Qtag.png
 
+    QMAKE_INFO_PLIST = mac_os/Info.plist
     INSTALLS += binary desktopfile pixmap
 
 }
@@ -131,8 +132,6 @@ win32 {
     LIBS += -L"C:\Libraries\taglib\lib" -ltag
     INCLUDEPATH += C:/Libraries/taglib/include/taglib
     DEPENDPATH += C:/Libraries/taglib/include/taglib
-
-    CONFIG += static
 
     RC_ICONS = Qtag.ico
     target.path = "C:/Program Files/Qtag"
